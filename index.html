@@ -847,16 +847,20 @@
 
       <section class="block">
         <h3 class="sec">IFE FOLLOW-UP TRIGGERS</h3>
-        <p class="lead"><strong>IFE triggers are based on two consecutive readings taken 15 minutes apart at the same filter.</strong></p>
+        <p class="lead"><strong>The first four triggers apply when a filter is returned to service after a backwash or other interruption; the last three apply to any individual filter in normal operation.</strong></p>
         <div class="tbl-wrap"><table>
-          <thead><tr><th>Condition</th><th>Required Action</th><th>Action Due Date</th></tr></thead>
+          <thead><tr><th>Condition</th><th>Required Action</th></tr></thead>
           <tbody>
-            <tr><td>&gt; 0.5 NTU — 4 h after backwash or return to service</td><td>If cause is unknown, produce a <strong>Filter Profile</strong> within 7 days.</td><td>10th day of following month</td></tr>
-            <tr><td>&gt; 1.0 NTU — any time</td><td>If cause is unknown, produce a <strong>Filter Profile</strong> within 7 days.</td><td>10th day of following month</td></tr>
-            <tr><td>&gt; 1.0 NTU — same filter, 3 months in a row</td><td>Conduct a <strong>filter self-assessment</strong> within 14 days</td><td>10th day of following month</td></tr>
-            <tr><td>&gt; 2.0 NTU — same filter, 2 months in a row</td><td>Arrange for <strong>CPE</strong> within 30 days.</td><td>90 days from exceedance</td></tr>
+            <tr><td>2.0 NTU — any time during the first 4 h after return to service</td><td>Take the filter <strong>out of service</strong>, inspect, and do not return it until deficiencies are corrected.</td></tr>
+            <tr><td>1.0 NTU — following &ge;90% of interruption events over any 12 consecutive months</td><td>Take the filter <strong>out of service</strong>, inspect, and do not return it until deficiencies are corrected.</td></tr>
+            <tr><td>0.5 NTU — once the filter has been in operation 4 h (return to service)</td><td>Take the filter <strong>out of service</strong>, inspect, and do not return it until deficiencies are corrected.</td></tr>
+            <tr><td>0.3 NTU — after &ge;60 min of continuous operation <span class="tbl-note">(systems &ge;10,000)</span></td><td>Produce a <strong>filter profile</strong> within 7 days if cause is unknown.</td></tr>
+            <tr><td>1.0 NTU — any time</td><td>Produce a <strong>filter profile</strong> within 7 days if cause is unknown.</td></tr>
+            <tr><td>1.0 NTU — same filter, 3 consecutive months</td><td>Conduct a <strong>filter self-assessment</strong> within 14 days.</td></tr>
+            <tr><td>2.0 NTU — same filter, 2 consecutive months</td><td>Conduct a <strong>CPE</strong>.</td></tr>
           </tbody>
         </table></div>
+        <p class="tbl-note">The four profile / self-assessment / CPE triggers are based on two consecutive readings taken no more than 15 minutes apart at the same filter. The 0.3 NTU / 60-minute profile trigger applies only to systems serving &ge;10,000; systems serving &lt;10,000 apply the remaining three with the longer LT1 follow-up deadlines. California requires filtration rates to be increased <em>gradually</em> when a filter is returned to service after backwash or interruption (Title 22 §64660(b)(6)–(b)(7), Table 64660).</p>
         <div class="callout op">
           <p class="ttl">What each action is</p>
           <ul class="tight">
