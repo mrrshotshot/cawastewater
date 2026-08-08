@@ -54,6 +54,8 @@
   [S] LCR cascade reworked 2026-07-29 (content + accuracy pass). (a) Bullets renamed to Title Case; inline descriptors ("first-line fix", "parallel branch") dropped. (b) Public Outreach & Education: added Tier 1 sub-bullet. VERIFIED a lead action level exceedance requires Tier 1 public notice to all consumers within 24 hours + DDW consultation + US EPA report. Src: DDW LCR page waterboards.ca.gov/lead-copper-rule, updated 5/18/2026; consistent with the federal transition carve-in 40 CFR 141.80(a)(4)(i), which puts the July-1-2020 LCR plus the LCRR public-notification provisions (141.201(a)(3)(vi), 141.202(a)(10)) in force now. NOTE: the codified Title 22 PN list (64463.1(a), Aug-2025 compilation) does NOT yet list a lead ALE; DDW is adopting it via the single LCRI CCR rulemaking, so operative requirement governs and codified text lags. CORRECTS an earlier working assumption that CA had not adopted the Tier 1 duty. Added the quarterly water-bill PE message (141.85(b)(2)(iii)) alongside the 60-day/annual delivery. (c) WQP split into two scenarios per 64681/64682: from-scratch (baseline, no residual, informs the State's CCT choice) vs reassessing existing CCT (adds the dosed inhibitor residual); after-CCT frequencies (tap 6-mo, entry point 2-wk) retained. WQP monitoring is not the corrosion control study (64683). (d) CCT: RESTORED the 64683 three-treatment list (alkalinity/pH, calcium hardness, corrosion inhibitor) that failed to apply in the prior spec; tradeoff clauses are operational description, not 64683 text; OWQP sentence -> "corrosion control treatment requirements." (e) LSLR: kept the trimmed version per user decision (partials-count and the 45-day/72-hr/3-business-day partial-replacement outreach intentionally omitted); "mandates" -> "mandate"; GRR unquoted and hyphenated for dashboard consistency. (f) Intro: bold "this changes." Single source preserved; nested ul.tight reused (no new CSS); no new date instance.
   [S] LCR panel trimmed and re-scoped 2026-07-29. (a) Removed "Action levels & the 90th percentile" section (the 90th-pct calc walkthrough and the "not itself a violation" line); the latter folded into the Treatment technique responses intro, the former reduced to a table footnote. (b) Removed "Consumer notice & CCR" section (individual Pb-result notice within 30 days; CCR lead educational statement) as out of T5 cascade scope; not restated elsewhere on this panel. (c) Evolution table: added footnote "*Based on 90th percentile sample results" and starred the Lead/Copper action level rows to carry that reference, since the standalone 90th-pct explanation no longer exists on the page. (d) Treatment technique responses list: dropped "plus consultation with DDW and a report to US EPA" from the Tier 1 sub-bullet (unverified against current source at trim time — re-verify before restating); WQP sub-bullet labels reworded (From scratch -> No existing CCT; Reassessing existing CCT -> Existing CCT); CCT sub-bullets reordered (Alkalinity/pH, Corrosion Inhibitor, Calcium Hardness) and the Alkalinity/pH text expanded (example reagents, disinfection-efficacy wording); dropped the inline "(Title 22 §64683)" citation off the CCT lead-in; SOWT reworded "each entry point" -> "each source entry point". (e) LSLR's nested "replaced through testing ends under LCRR/LCRI" sub-bullet promoted to a standalone callout box below the list (title "Full replacement required (LCRR/LCRI)"), with added clause "regardless of whether sampling results have fallen below the AL" — single source for that fact is now this callout plus the evolution table LSLR row and the Meeting the LCRI Replacement Program bullet. (f) Intro rewritten; the "See 'How this rule evolved' / 'Meeting the LCRI'" cross-reference sentence was dropped per the replacement copy provided — the table and section still exist and are still linked from elsewhere on the panel.
   [S] Scripts page added under Study Tools 2026-08-03. New nav item {id:"scripts"} in the Study Tools group + new panel #p-scripts. Panel is descriptive UI copy only (what the scripts are / how to use them) — NO regulatory numbers, so no verification claim. Download link -> scripts/Script_1_Surface_Water_Ground_Water_Microbial_Rules.pdf (PDF committed separately; link is case-sensitive, must match committed path). Reused existing classes (panel, rhead, callout purpose, ttl, block, sec, tight); no new CSS; no flashcard/exam-card IDs touched.
+  [S] Regulatory pages restructured + Safe Drinking Water Act page added 2026-08-07 (supersedes the standalone SDWA spec drafted earlier same day; apply the consolidated spec only). (a) New nav {id:"sdwa"} + new panel #p-sdwa (foundational/statute page; NO MCLs of its own; only number is the PWS scope 15/25/60, absent elsewhere). (b) "Regulatory Horizon" nav subgroup dissolved; Manganese, PFAS, and the renamed Upcoming Regulations promoted to top-level Study Guides; list now flat + alphabetical; RH dropped from their crumbs; manganese/pfas panel comments de-tagged. (c) Rulemaking Pipeline -> Upcoming Regulations: nav label, crumb, panel id (p-pipeline -> p-upcoming), <h2>, and panel comment changed. Inbound #pipeline -> #upcoming retargeted with visible text updated on the LCR panel (California-timing bullet) and the Drinking Water Standards panel (Cr6 bullet). Flashcard deck renamed (DECKS id/name/short pipeline -> upcoming; cards 48/49/155 deck attr). Progress is keyed by CARD ID (localStorage t5_flashcards_progress_v1, results[card.id]) NOT deck/panel, so no progress lost; card IDs unchanged; card 49 (the ladder card) left in the upcoming deck. (d) "How California makes an MCL" ladder MOVED from Upcoming Regs to the SDWA page (single source now on SDWA); Upcoming Regs left with a one-line pointer to #sdwa. On the move (approved rewords) the closing sentence "generates most of the revision items below" -> "generates most of the pending MCL revisions (see the Upcoming Regulations page)" and its mid-sentence em dash -> period; NL/RL->PHG->MCL chain + HSC §116455/§116365(c)/§116365(a) preserved verbatim. Sources for SDWA content: EPA epa.gov/sdwa overview + primacy-enforcement page (federal frame; WEB currency check, not in project files); CFR §141.2 + CA22 "Supplier"/"System" (PWS threshold); waterboards.ca.gov Safe Drinking Water Plan + Transfer of DW Programs, CA22 Art. 4 §64252-64253, HSC §116330 (CA primacy structure; DWP -> State Water Board/DDW July 1 2014). Reused existing classes only; no new CSS/JS; nav flatten uses existing buildLink logic. (e) Two follow-ups approved same day: PFAS panel closing sentence had a dangling "shown in 'How California makes an MCL' below" pointing at the moved ladder -> retargeted to "on the <a href="#sdwa">Safe Drinking Water Act</a> page"; and the renamed DECKS entry was moved from its in-place slot (between PFAS and PN) to the end of the array, since DECKS is ordered alphabetically by the short field and short:"Upcoming" sorts after short:"Treatment".
+  [S] Upcoming Regulations content pass 2026-08-07 (currency + de-cite + de-dup; follows the regs restructure applied same day). Verified vs primary sources: DDW Upcoming Regs / Drinking Water Program page; 2026 Regulatory Priorities resolution (adopted 3/3/2026) — the page's MCLs-in-development and NL/RL lists match this resolution item-for-item; EPA PFAS pages + Federal Register (89 FR / 2026 proposals); CA LCRI Regulations page. Edits: (a) status callout re-dated to Aug 2026, Resolution 2026-0008 docket dropped. (b) Cr(VI) header reframed to "first compliance date arrives Oct 1 2026"; stripped Table 64431-A/64432-A, Methods 218.6/218.7, §64432(b)/(q)/(r); DETAIL RETAINED (90-day compliance plan, operations plan, initial-monitoring date, phased table). Cr(VI) 0.010 + total Cr 0.05 kept (single-sourced here). (c) NDMA folded under Disinfection byproducts (TTHM/HAA5 + NDMA sub-bullets); dropped SWRCB-DDW-24-001 / -22-006; styrene 0.1 and arsenic 0.010 restatements removed (now point to DWS / Arsenic pages); arsenic PHG-inference note removed per decision; NDMA spelling corrected -> N-nitrosodimethylamine. (d) NL/RL: "NLs" -> notification levels, HABs expanded; already single-sourced to Manganese/PFAS pages. (e) LCRI-CA de-duped to #lcr: removed "pursuing primacy" bullet (primacy list carries it), §64678(d)+lead AL 0.015 restatement (-> LCR page), and the June 11/22 2026 workshop/comment dates; "as of" -> Aug 2026; kept Ch 17.6 eff Nov 1 2027 / Ch 17.5 repeal / emergency rulemaking in progress + AB 1096 handbook. (f) Other pending: landed items (DPR, CCCPH, Onsite Reuse, Electronic Reporting) compressed into a "Recently in effect" tbl-note; DPR date CORRECTED to Oct 1 2024 (was wrongly lumped with Onsite Reuse at Apr 22 2026); dropped unverified CCCPH-deadline footnote; SB 1422 -> Senate Bill 1422. Bill numbers AB 1096 / SB 1422 KEPT (public identifiers). Status confirmed (context, not all on this page): federal PFAS = two proposed rules May 18 2026 (PFOA/PFOS kept 4 ppt + optional 2-yr extension to 2031; rescind PFHxS/PFNA/GenX/HI mixture), final action expected 2026, still proposed -> 2024 rule governs; CA PFAS initial-monitoring General Order DW-2025-0002 issued 12/12/2025 (belongs on PFAS page; resolves the prior "draft" flag). Reused existing classes; no new CSS; no flashcard/exam-card IDs touched.
   --------------------------------------------------------------------------
   B. CURRENCY CHECKS vs PRIMARY WEB SOURCES                   checked 2026-07-22
   (These post-date the Aug-2025 project files; re-verify before the exam.)
@@ -563,6 +565,70 @@
           <li><a href="https://www.waterboards.ca.gov/drinking_water/certlic/drinkingwater/Regulations.html" target="_blank" rel="noopener noreferrer">Upcoming CA Regulations</a></li>
         </ul>
       </section>
+    </div>
+
+    <!-- ========== SAFE DRINKING WATER ACT ========== -->
+    <div class="panel" id="p-sdwa">
+      <div class="rhead">
+        <h2>Safe Drinking Water Act</h2>
+      </div>
+      <div class="callout purpose">
+        <p class="ttl">Purpose</p>
+        <p>The federal law that keeps drinking water safe to drink. It sets the ground rules every public water system in the country has to meet.</p>
+      </div>
+      <p class="lead">The Safe Drinking Water Act (SDWA) is the federal law, first passed in 1974, that protects the nation's public drinking water. It lets the U.S. Environmental Protection Agency (EPA) set national, legally enforceable health standards, and it lets a state run the program itself as long as the state's rules are at least as strong. California runs its own program. The Act covers public water systems, not private household wells.</p>
+
+      <section class="block">
+        <h3 class="sec">What the Act does</h3>
+        <ul class="tight">
+          <li><strong>Sets national standards.</strong> EPA writes the National Primary Drinking Water Regulations (NPDWRs). Each one sets a maximum contaminant level (MCL) or a required treatment technique for a contaminant. The <a href="#primarystds">Drinking Water Standards</a> page explains how an MCL, its health goal (MCLG), and a treatment technique differ.</li>
+          <li><strong>Makes them enforceable.</strong> These are legal limits, not guidance. A system that violates one owes the public notice and can face citations, orders, and penalties.</li>
+          <li><strong>Lets states take the lead.</strong> A state can hold primacy, meaning primary enforcement responsibility, if its rules are at least as strict as the federal ones and it can show it will enforce them.</li>
+          <li><strong>Covers public water systems.</strong> A public water system has at least 15 service connections, or serves at least 25 people at least 60 days a year. Smaller private wells fall outside the Act.</li>
+          <li><strong>Requires the public-facing pieces.</strong> Monitoring and reporting, the annual <a href="#ccr">Consumer Confidence Report</a> to customers, and <a href="#pn">public notification</a> when something goes wrong all come from this Act.</li>
+        </ul>
+      </section>
+
+      <section class="block">
+        <h3 class="sec">Who enforces it in California</h3>
+        <p>California holds primacy, so we run our own program under both the federal Act and the state's own California Safe Drinking Water Act, which lives in the Health and Safety Code.</p>
+        <ul class="tight">
+          <li><strong>The agency.</strong> The primacy agency is the State Water Resources Control Board (State Water Board), through its Division of Drinking Water (DDW). The drinking water program moved to the State Water Board from the Department of Public Health on July 1, 2014.</li>
+          <li><strong>The rulebook.</strong> The rules DDW enforces are in Title 22 of the California Code of Regulations. Because California has primacy, Title 22 has to be at least as strict as the federal rules, and on several contaminants it is stricter. Where the two differ, Title 22 governs a California system.</li>
+          <li><strong>Small systems.</strong> Many small water systems are overseen by a county acting as a Local Primacy Agency (LPA), under authority delegated by the State Board.</li>
+        </ul>
+      </section>
+
+      <section class="block">
+        <h3 class="sec">How California makes an MCL</h3>
+        <p>California builds a primary MCL through a defined statutory ladder, not by direct EPA adoption:</p>
+        <p><strong>Contaminant identified</strong> (occurrence data / UCMR / monitoring orders) → <strong>NL/RL issued</strong> (HSC §116455) → <strong>OEHHA sets a PHG</strong> (HSC §116365(c)) → <strong>DDW sets the primary MCL</strong> as close to the PHG as technologically and economically feasible (HSC §116365(a)) → <strong>adoption into Title 22</strong>.</p>
+        <p>DDW must also review existing MCLs against current PHGs at least every <strong>five years</strong> (the <strong>quinquennial MCL review</strong>). This review generates most of the pending MCL revisions (see the <a href="#upcoming">Upcoming Regulations</a> page).</p>
+      </section>
+
+      <section class="block">
+        <h3 class="sec">How it reaches your plant floor</h3>
+        <p>On the ground, the Act is not abstract. It shows up as the specific things I answer for as chief operator:</p>
+        <ul class="tight">
+          <li><strong>My operating permit.</strong> DDW, or the county LPA, issues the permit that lets the system run, with conditions written for my sources and treatment. Operating outside it is the core violation.</li>
+          <li><strong>The numbers I have to hit.</strong> Every MCL, disinfectant limit, and treatment technique on the other pages of this guide traces back to this Act.</li>
+          <li><strong>Monitoring and reporting.</strong> I sample on a set schedule and report the results to DDW. The <a href="#smf">Standardized Monitoring Framework</a> lays out that schedule.</li>
+          <li><strong>A certified operator in charge.</strong> The Act requires qualified, certified operators to run the plant. That is the reason a T5 certificate exists at all.</li>
+          <li><strong>Inspections and sanitary surveys.</strong> DDW inspects the system on a cycle and expects complete, current <a href="#records">records</a>.</li>
+          <li><strong>Telling the public.</strong> The annual <a href="#ccr">Consumer Confidence Report</a>, plus <a href="#pn">public notification</a> at the right tier when there is a violation or a health risk.</li>
+          <li><strong>Consequences for falling short.</strong> Citations, compliance orders, and penalties. EPA can step back in if the state does not do its job.</li>
+        </ul>
+      </section>
+
+      <div class="callout op">
+        <p class="ttl">Chief Operator lens</p>
+        <ul class="tight">
+          <li>Start with the point of it: safe water and public health. The Act is why every limit and every report on my desk exists.</li>
+          <li>Name the chain plainly. EPA sets the national floor. California holds primacy and runs the program through the State Water Board's Division of Drinking Water. Title 22 is the rulebook I actually follow, and it is at least as strict as federal.</li>
+          <li>Bring it to the plant. It reaches me as my permit, my MCLs and treatment techniques, my monitoring and reporting, my operator certification, and my duty to notify customers and regulators.</li>
+          <li>Close on the rule of thumb: where California and federal differ, California governs my system.</li>
+        </ul>
+      </div>
     </div>
 
     <!-- ========== 1. DBPR ========== -->
@@ -1338,12 +1404,12 @@
           <li><strong>Tap Sampling</strong> - Sampling moves to the new first-and-fifth-liter method at lead service line sites (see the table). Identify qualifying sites, train samplers, and update procedures ahead of the date.</li>
           <li><strong>Schools &amp; Child Care Facilities</strong> - Develop or improve the expanded sampling and outreach program for schools and licensed child-care facilities.</li>
           <li><strong>Public Outreach</strong> - Start customer communication early, coordinate funding with your governing board, and plan staffing for the added workload. Be prepared to issue timely (<a href="#pn" class="pill alarm">Tier 1</a>) public notification if the lead action level is exceeded. Update revised lead language within the CCR.</li>
-          <li><strong>California timing</strong> - The State's adoption of the LCRI into Title 22 and the current California action level are tracked on the <a href="#pipeline">Rulemaking Pipeline page</a>.</li>
+          <li><strong>California timing</strong> - The State's adoption of the LCRI into Title 22 and the current California action level are tracked on the <a href="#upcoming">Upcoming Regulations page</a>.</li>
         </ul>
       </div>
     </div>
 
-    <!-- ========== 8b. REGULATORY HORIZON: MANGANESE ========== -->
+    <!-- ========== MANGANESE ========== -->
     <div class="panel" id="p-manganese">
       <div class="rhead">
         <h2>Manganese</h2>
@@ -1410,7 +1476,7 @@
       </div>
     </div>
 
-    <!-- ========== 8c. REGULATORY HORIZON: PFAS ========== -->
+    <!-- ========== PFAS ========== -->
     <div class="panel" id="p-pfas">
       <div class="rhead">
         <h2>PFAS (Per- and Polyfluoroalkyl Substances)</h2>
@@ -1459,7 +1525,7 @@
       </section>
       <div class="callout status">
         <p class="ttl">California status — PHGs and MCL development</p>
-        <p>California has <strong>not yet adopted PFAS MCLs</strong>. Until it does, the state manages PFAS through DDW monitoring orders and Notification and Response Levels, while OEHHA develops Public Health Goals (PHGs) that will drive the eventual state MCLs. That PHG-to-MCL pathway is the same one shown in "How California makes an MCL" below.</p>
+        <p>California has <strong>not yet adopted PFAS MCLs</strong>. Until it does, the state manages PFAS through DDW monitoring orders and Notification and Response Levels, while OEHHA develops Public Health Goals (PHGs) that will drive the eventual state MCLs. That PHG-to-MCL pathway is the same one shown in "How California makes an MCL" on the <a href="#sdwa">Safe Drinking Water Act</a> page.</p>
       </div>
       <section class="block">
         <h3 class="sec">Monitoring &amp; Notification Requirements</h3>
@@ -1504,29 +1570,24 @@
       </div>
     </div>
 
-    <!-- ========== 8d. REGULATORY HORIZON: RULEMAKING PIPELINE ========== -->
-    <div class="panel" id="p-pipeline">
+    <!-- ========== UPCOMING REGULATIONS ========== -->
+    <div class="panel" id="p-upcoming">
       <div class="rhead">
-        <h2>Rulemaking Pipeline</h2>
+        <h2>Upcoming Regulations</h2>
       </div>
       <div class="callout purpose">
         <p class="ttl">Purpose</p>
         <p>Track pending California and federal drinking-water regulations so the agency can anticipate compliance obligations before they land. A T5 Chief Operator is expected to know what is coming, not just what is in force.</p>
       </div>
-      <div class="callout status"><p class="ttl">Status — snapshot</p><p>Sourced from DDW's Upcoming Regulations page (updated April 2026) and the Board's annual Regulatory Priorities resolution (2026: Resolution 2026-0008, adopted March 3, 2026). This is a snapshot — verify against the DDW page before the exam.</p></div>
+      <div class="callout status"><p class="ttl">Status — snapshot</p><p>Sourced from DDW's Upcoming Regulations page and the Board's 2026 Regulatory Priorities (adopted March 2026). This is a snapshot as of August 2026. Verify against the DDW page before the exam.</p></div>
+
+      <p class="lead">How California turns an emerging contaminant into a primary MCL (the NL/RL → Public Health Goal → MCL ladder, plus the five-year quinquennial review that drives most revisions) now lives on the <a href="#sdwa">Safe Drinking Water Act</a> page. The items below are what that process currently has in motion.</p>
 
       <section class="block">
-        <h3 class="sec">How California makes an MCL</h3>
-        <p>California builds a primary MCL through a defined statutory ladder, not by direct EPA adoption:</p>
-        <p><strong>Contaminant identified</strong> (occurrence data / UCMR / monitoring orders) → <strong>NL/RL issued</strong> (HSC §116455) → <strong>OEHHA sets a PHG</strong> (HSC §116365(c)) → <strong>DDW sets the primary MCL</strong> as close to the PHG as technologically and economically feasible (HSC §116365(a)) → <strong>adoption into Title 22</strong>.</p>
-        <p>DDW must also review existing MCLs against current PHGs at least every <strong>five years</strong> (the <strong>quinquennial MCL review</strong>) — this review is what generates most of the revision items below.</p>
-      </section>
-
-      <section class="block">
-        <h3 class="sec">Hexavalent chromium — adopted, but compliance is phasing in now</h3>
+        <h3 class="sec">Hexavalent chromium — adopted; first compliance date arrives October 1, 2026</h3>
         <ul class="tight">
-          <li>Cr(VI) MCL: <span class="k">0.010 mg/L</span> (Table 64431-A); DLR <strong>0.0001 mg/L</strong> (Table 64432-A). Analysis by EPA Method 218.6 or 218.7. Rule <strong>effective October 1, 2024</strong>; the MCL itself applies on the phased compliance dates below.</li>
-          <li>CA total chromium MCL: <strong>0.05 mg/L</strong> — stricter than the federal total chromium MCL of <strong>0.1 mg/L</strong> shown on the <a href="#primarystds">Drinking Water Standards page</a> (that table shows federal values).</li>
+          <li>Cr(VI) MCL: <span class="k">0.010 mg/L</span>; DLR <strong>0.0001 mg/L</strong>. Rule <strong>effective October 1, 2024</strong>; the MCL applies on the phased compliance dates below.</li>
+          <li>CA total chromium MCL: <strong>0.05 mg/L</strong>, stricter than the federal total chromium MCL of <strong>0.1 mg/L</strong> shown on the <a href="#primarystds">Drinking Water Standards page</a>.</li>
         </ul>
         <div class="tbl-wrap"><table>
           <thead><tr><th>System size (service connections served on October 1, 2024)</th><th>Cr(VI) MCL compliance date</th></tr></thead>
@@ -1537,56 +1598,56 @@
           </tbody>
         </table></div>
         <ul class="tight">
-          <li><strong>Initial monitoring:</strong> community and NTNC systems had to begin Cr(VI) compliance monitoring by <strong>April 1, 2025</strong> — six months after the Oct. 1, 2024 effective date (§64432(b)).</li>
-          <li><strong>§64432(q):</strong> an MCL exceedance before your compliance date → submit a <strong>Hexavalent Chromium MCL Compliance Plan within 90 days</strong> (compliance method; pilot study if new/modified treatment; construction dates; Operations Plan date).</li>
-          <li><strong>§64432(r):</strong> new/modified treatment requires a State Board-approved <strong>Hexavalent Chromium Operations Plan</strong> before serving treated water (performance monitoring, maintenance program, unit process descriptions, dose-rate procedures, reliability features).</li>
+          <li><strong>Initial monitoring:</strong> community and NTNC systems began Cr(VI) compliance monitoring on <strong>April 1, 2025</strong>.</li>
+          <li><strong>Compliance plan:</strong> an MCL exceedance before your compliance date requires a <strong>Hexavalent Chromium MCL Compliance Plan within 90 days</strong> (compliance method; pilot study if new or modified treatment; construction dates; Operations Plan date).</li>
+          <li><strong>Operations plan:</strong> new or modified treatment requires a State Board-approved <strong>Hexavalent Chromium Operations Plan</strong> before serving treated water (performance monitoring, maintenance program, unit-process descriptions, dose-rate procedures, reliability features).</li>
         </ul>
       </section>
 
       <section class="block">
         <h3 class="sec">MCLs in development</h3>
         <ul class="tight">
-          <li><strong>PFAS</strong> — CA MCL rulemaking (SWRCB-DDW-24-001) underway; federal 2024 NPDWR MCLs in force with 2026 federal proposals pending. Full treatment on the <a href="#pfas">PFAS page</a>.</li>
-          <li><strong>NDMA</strong> (N-nitroso-dimethylamine) — MCL in development (SWRCB-DDW-22-006). Operator relevance: a nitrosamine DBP associated with chloramination.</li>
-          <li><strong>Disinfection byproducts</strong> — TTHM and HAA5 MCL revisions under consideration. Current Stage 1/2 framework on the <a href="#dbpr">Stage 1 &amp; 2 DBP Rules page</a>.</li>
-          <li><strong>Styrene</strong> — MCL revision in process (current CA/federal MCL 0.1 mg/L per the Drinking Water Standards page).</li>
+          <li><strong>PFAS</strong> — California MCL rulemaking underway; the federal 2024 rule is in force with 2026 federal proposals pending. See the <a href="#pfas">PFAS page</a>.</li>
+          <li><strong>Disinfection byproducts</strong> — current framework on the <a href="#dbpr">Stage 1 &amp; 2 DBP Rules page</a>.
+            <ul class="tight">
+              <li><strong>TTHM and HAA5</strong> — MCL revisions under consideration.</li>
+              <li><strong>NDMA</strong> (N-nitrosodimethylamine) — new MCL in development; a nitrosamine disinfection byproduct associated with chloramination.</li>
+            </ul>
+          </li>
+          <li><strong>Styrene</strong> — MCL revision in process (current MCL on the <a href="#primarystds">Drinking Water Standards page</a>).</li>
           <li><strong>Cadmium and mercury</strong> — MCL revisions in process (quinquennial-review outcome).</li>
-          <li><strong>1,4-Dioxane</strong> — MCL development.</li>
-          <li><strong>Arsenic</strong> — CA MCL revision in process (current 0.010 mg/L framework on the <a href="#arsenic">Arsenic Rule page</a>; the 2004 PHG of 0.004 µg/L implies downward pressure <em>— an inference, not a proposed number</em>).</li>
+          <li><strong>1,4-Dioxane</strong> — MCL in development.</li>
+          <li><strong>Arsenic</strong> — California MCL revision in process. See the <a href="#arsenic">Arsenic Rule page</a>.</li>
         </ul>
       </section>
 
       <section class="block">
         <h3 class="sec">NL/RL watch list</h3>
         <ul class="tight">
-          <li><strong>Manganese</strong> — revised June 2, 2026; full treatment on the <a href="#manganese">Manganese page</a>.</li>
-          <li><strong>Cyanotoxins</strong> — NLs under development (HABs program). Ties to the algae-bloom operations scenario in the Study Tools.</li>
-          <li><strong>PFHpA</strong> — NL/RL requested; see the <a href="#pfas">PFAS page</a> NL/RL table.</li>
+          <li><strong>Manganese</strong> — revised June 2, 2026. Full treatment on the <a href="#manganese">Manganese page</a>.</li>
+          <li><strong>Cyanotoxins</strong> — notification levels under development (harmful-algae-bloom program). Ties to the algae-bloom operations scenario in the Study Tools.</li>
+          <li><strong>PFHpA</strong> — NL/RL requested. See the <a href="#pfas">PFAS page</a> NL/RL table.</li>
         </ul>
       </section>
 
       <section class="block">
-        <h3 class="sec">Lead and Copper Rule Improvements — CA implementation</h3>
-        <p>The federal LCRI timeline and requirements live on the <a href="#lcr">Lead and Copper Rule page</a> ("How this rule evolved," the evolution table, and the "Meeting LCRI" compliance plan). This entry adds only the California layer:</p>
+        <h3 class="sec">Lead and Copper Rule Improvements — California adoption</h3>
+        <p>The federal LCRI (what it is, the evolution table, and the "Meeting LCRI" compliance plan) lives on the <a href="#lcr">Lead and Copper Rule page</a>. This entry adds only the California adoption layer:</p>
         <ul class="tight">
-          <li>DDW is pursuing primacy for the federal LCR revisions (Upcoming Regulations "Primacy Package Approvals" list) and developing California enhancements.</li>
-          <li>DDW proposes to adopt the federal LCRI as a <strong>new Title 22 Chapter 17.6</strong> ("Control of Lead and Copper"), effective <strong>Nov 1, 2027</strong>, with the existing <strong>Chapter 17.5 repealed the same day</strong> — moving as an emergency rulemaking (State Water Board LCRI Regulations page, as of July 2026). Until then, the codified CA numbers stay on the old framework (lead AL 0.015 mg/L, §64678(d)).</li>
-          <li>DDW held a public workshop on LCRI implementation <strong>June 11, 2026</strong> (comments were due June 22, 2026), covering both the Ch. 17.6 adoption and the Assembly Bill (AB) 1096 school/child-care policy handbook.</li>
+          <li>California is adopting the federal LCRI into Title 22 as a new <strong>Chapter 17.6</strong> ("Control of Lead and Copper"), effective <strong>November 1, 2027</strong>, with the existing <strong>Chapter 17.5 repealed the same day</strong>, through an emergency rulemaking in progress (as of August 2026). Until then, the codified California numbers stay on the old framework (see the <a href="#lcr">Lead and Copper Rule page</a>).</li>
+          <li>A companion policy handbook for lead testing at schools and child-care facilities (Assembly Bill 1096) is in development alongside it.</li>
         </ul>
       </section>
 
       <section class="block">
         <h3 class="sec">Other pending items</h3>
         <ul class="tight">
-          <li><strong>Cross-Connection Control Policy Handbook (CCCPH)</strong> — replaced Title 17's cross-connection provisions; revisions adopted and in effect <strong>April 21, 2026</strong>; phased implementation deadlines continue (plans, hazard assessments, specialist/tester certifications).</li>
           <li><strong>Detection Limits for Purposes of Reporting (DLRs)</strong> — updates in process for metals and organic chemicals.</li>
-          <li><strong>Electronic Reporting of Drinking Water Quality Data</strong> — emergency regulation approved and in effect <strong>July 13, 2026</strong>.</li>
-          <li><strong>Primacy package approvals in progress</strong> — <a href="#pn">Public Notification Rule</a>, <a href="#gwr">Ground Water Rule</a>, <a href="#tcr">Revised Total Coliform Rule</a>, PFAS NPDWR, LCR and revisions, <a href="#ccr">CCR Rule</a>.</li>
-          <li><strong>CCR Rule Revisions</strong> — already covered in the status callout on the <a href="#ccr">CCR page</a> (2027 changes).</li>
-          <li><strong>Recently landed</strong> (context, not pending): Direct Potable Reuse regulations; Onsite Treatment and Reuse of Nonpotable Water regulations — approved and in effect April 22, 2026.</li>
-          <li><strong>Microplastics</strong> — monitoring via policy handbook (SB 1422), not a numeric standard; awareness item only.</li>
+          <li><strong>Primacy package approvals in progress</strong> — <a href="#pn">Public Notification Rule</a>, <a href="#gwr">Ground Water Rule</a>, <a href="#tcr">Revised Total Coliform Rule</a>, PFAS NPDWR, Lead and Copper Rule and revisions, <a href="#ccr">CCR Rule</a>. These bring California's rules formally in line with the federal versions.</li>
+          <li><strong>CCR Rule revisions</strong> — 2027 changes, covered in the status callout on the <a href="#ccr">CCR page</a>.</li>
+          <li><strong>Microplastics</strong> — monitored under a policy handbook (Senate Bill 1422), not a numeric standard. Awareness item only.</li>
         </ul>
-        <p class="tbl-note">CCCPH deadline specifics beyond the April 21, 2026 effective date were not verified in this research and are intentionally omitted.</p>
+        <p class="tbl-note"><strong>Recently in effect</strong> (context, not pending): Direct Potable Reuse (October 1, 2024); Cross-Connection Control Policy Handbook revisions (April 21, 2026); Onsite Treatment and Reuse of Nonpotable Water (April 22, 2026); Electronic Reporting of Drinking Water Quality Data (July 13, 2026).</p>
       </section>
 
       <div class="callout op">
@@ -2076,7 +2137,7 @@
         <h3 class="sec">California caveats (Title 22 governs a CA system)</h3>
         <p>This page is the <strong>federal</strong> NPDWR summary. For a California system, Title 22 governs and is more stringent in several places relevant to the exam:</p>
         <ul class="tight">
-          <li><strong>Hexavalent chromium (Cr6):</strong> no separate federal MCL (federal chromium above is <em>total</em> chromium at 0.1 mg/L) — California has its own Cr6 MCL of <strong>0.010 mg/L</strong>. See the <a href="#pipeline">Rulemaking Pipeline page</a>.</li>
+          <li><strong>Hexavalent chromium (Cr6):</strong> no separate federal MCL (federal chromium above is <em>total</em> chromium at 0.1 mg/L) — California has its own Cr6 MCL of <strong>0.010 mg/L</strong>. See the <a href="#upcoming">Upcoming Regulations page</a>.</li>
           <li><strong>Manganese:</strong> federally only a <em>secondary</em> standard (0.05 mg/L, above) — not a federal primary MCL. See the <a href="#manganese">Manganese page</a> for California's status.</li>
           <li><strong>Lead action level:</strong> both federal and California currently enforce <strong>0.015 mg/L</strong>; the federal LCRI value of 0.010 mg/L begins <strong>November 1, 2027</strong>. See the <a href="#lcr">Lead and Copper Rule page</a>.</li>
           <li><strong>PFAS:</strong> California has its own Notification/Response Levels and MCL rulemaking that may differ from the federal MCLs above — do not assume the federal numbers are the CA compliance numbers. See the <a href="#pfas">PFAS page</a>.</li>
@@ -2279,18 +2340,17 @@
       {id:"primarystds", label:"Drinking Water Standards", crumb:"Study Guide — National Primary Drinking Water Regulations"},
       {id:"gwr", label:"Ground Water Rule", crumb:"Study Guide — Ground Water Rule"},
       {id:"lcr", label:"Lead and Copper Rule", crumb:"Study Guide — Lead and Copper Rule"},
+      {id:"manganese", label:"Manganese", crumb:"Study Guide — Manganese"},
+      {id:"pfas", label:"PFAS", crumb:"Study Guide — PFAS (Per- and Polyfluoroalkyl Substances)"},
       {id:"pn", label:"Public Notification Rule", crumb:"Study Guide — Public Notification Rule"},
       {id:"radio", label:"Radionuclides Rule", crumb:"Study Guide — Radionuclides Rule"},
-      {label:"Regulatory Horizon", children:[
-        {id:"manganese", label:"Manganese", crumb:"Study Guide — Regulatory Horizon — Manganese"},
-        {id:"pfas", label:"PFAS", crumb:"Study Guide — Regulatory Horizon — PFAS (Per- and Polyfluoroalkyl Substances)"},
-        {id:"pipeline", label:"Rulemaking Pipeline", crumb:"Study Guide — Regulatory Horizon — Rulemaking Pipeline"}
-      ]},
       {id:"records", label:"Record Keeping Rules", crumb:"Study Guide — Record Keeping Rules"},
+      {id:"sdwa", label:"Safe Drinking Water Act", crumb:"Study Guide — Safe Drinking Water Act"},
       {id:"dbpr", label:"Stage 1 & 2 DBP Rules", crumb:"Study Guide — Stage 1 & 2 DBPR"},
       {id:"smf", label:"Standardized Monitoring Framework", crumb:"Study Guide — Standardized Monitoring Framework"},
       {id:"swtr", label:"Surface Water Treatment Rules", crumb:"Study Guide — Surface Water Treatment Rules"},
-      {id:"tcr", label:"Total Coliform Rules", crumb:"Study Guide — Total Coliform Rules"}
+      {id:"tcr", label:"Total Coliform Rules", crumb:"Study Guide — Total Coliform Rules"},
+      {id:"upcoming", label:"Upcoming Regulations", crumb:"Study Guide — Upcoming Regulations"}
     ]},
     {label:"Study Tools", items:[
       {id:"questions", label:"Sample Exam Questions", crumb:"Study Tools — Sample Exam Questions", study:true},
@@ -2445,13 +2505,13 @@
     {id:"mgmt", name:"Management & Emergency", short:"Mgmt"},
     {id:"manganese", name:"Manganese", short:"Mn"},
     {id:"pfas", name:"PFAS", short:"PFAS"},
-    {id:"pipeline", name:"Rulemaking Pipeline", short:"Pipeline"},
     {id:"pn", name:"Public Notification", short:"PN"},
     {id:"radio", name:"Radionuclides Rule", short:"Rad"},
     {id:"records", name:"Record Keeping", short:"Records"},
     {id:"swtr", name:"Surface Water Treatment Rules", short:"SWTR"},
     {id:"tcr", name:"Total Coliform Rules", short:"TCR"},
-    {id:"treatment", name:"Treatment & Operations", short:"Treatment"}
+    {id:"treatment", name:"Treatment & Operations", short:"Treatment"},
+    {id:"upcoming", name:"Upcoming Regulations", short:"Upcoming"}
   ];
 
   var CARDS = [
@@ -2468,8 +2528,8 @@
     {id:45, deck:"manganese", q:`What are California's revised (June 2026) manganese NL and RL, and their bases?`, a:`NL 0.05 mg/L on a running annual average; RL 0.20 mg/L on a single confirmed detection.`},
     {id:46, deck:"manganese", q:`A source exceeds the manganese Response Level — what must the system tell customers?`, a:`To use an alternative water source (e.g., bottled water) when preparing infant formula; governing-body notification applies at the NL (within 30 days).`},
     {id:47, deck:"primarystds", q:`How do secondary MCLs differ in California vs. federally, and who do CA secondary MCLs apply to?`, a:`Enforceable in CA (federal secondary standards are non-enforceable guidelines); applicable only to community water systems.`},
-    {id:48, deck:"pipeline", q:`Cr(VI) MCL and compliance dates by system size?`, a:`0.010 mg/L; Oct 1, 2026 (≥10,000 SC), Oct 1, 2027 (1,000–9,999), Oct 1, 2028 (<1,000), sized as of Oct 1, 2024.`},
-    {id:49, deck:"pipeline", q:`What is the California pathway from emerging contaminant to primary MCL?`, a:`NL/RL (HSC §116455) → OEHHA PHG (HSC §116365(c)) → MCL set as close to the PHG as technologically and economically feasible (HSC §116365(a)).`},
+    {id:48, deck:"upcoming", q:`Cr(VI) MCL and compliance dates by system size?`, a:`0.010 mg/L; Oct 1, 2026 (≥10,000 SC), Oct 1, 2027 (1,000–9,999), Oct 1, 2028 (<1,000), sized as of Oct 1, 2024.`},
+    {id:49, deck:"upcoming", q:`What is the California pathway from emerging contaminant to primary MCL?`, a:`NL/RL (HSC §116455) → OEHHA PHG (HSC §116365(c)) → MCL set as close to the PHG as technologically and economically feasible (HSC §116365(a)).`},
     {id:12, deck:"treatment", q:`Discuss the components of an effective Cross-Connection Control Plan.`, a:`1. Designate a Cross-Connection Control Coordinator. This individual must be certified as a Cross-Connection Control Specialist.
 2. Provide training and resources to staff to become certified as a Cross-Connection Control Specialist. Encourage Backflow Prevention coursework/certification.
 3. Conduct hazard assessments within the distribution system to discover existing cross connections or potential industries at high risk for contamination through a cross connection (i.e., a wastewater treatment facility).
@@ -2691,7 +2751,7 @@ Thresholds are the same for systems under 10,000 — only the follow-up deadline
 
     // --- Additional operator knowledge (added) ---
     {id:154, deck:"swtr", q:`What is CT in disinfection?`, a:`Disinfectant residual concentration (C, in mg/L) times contact time (T, in minutes). It's how you credit log-inactivation of Giardia and viruses; the CT you need rises as pH goes up and as temperature drops, and it differs by disinfectant.`},
-    {id:155, deck:"pipeline", q:`California MCL for total chromium, and how it relates to Cr(VI)?`, a:`Total chromium 0.05 mg/L (50 ppb) in California — the federal MCL is higher at 0.1 mg/L (100 ppb). California also sets a separate hexavalent chromium (Cr-6) MCL of 0.010 mg/L (10 ppb).`},
+    {id:155, deck:"upcoming", q:`California MCL for total chromium, and how it relates to Cr(VI)?`, a:`Total chromium 0.05 mg/L (50 ppb) in California — the federal MCL is higher at 0.1 mg/L (100 ppb). California also sets a separate hexavalent chromium (Cr-6) MCL of 0.010 mg/L (10 ppb).`},
     {id:157, deck:"swtr", q:`What is GWUDI?`, a:`Groundwater under the direct influence of surface water — a well or spring that behaves like surface water (shows Giardia/Crypto, turbidity swings, or temperature/particle signals tied to nearby surface water). It's regulated as surface water, so it must meet the Surface Water Treatment Rule: filtration plus disinfection.`},
     {id:158, deck:"treatment", q:`What is a jar test, and what is it for?`, a:`A bench-top stand of stirred beakers that mimics coagulation, flocculation, and settling at several coagulant doses at once. It's how you dial in the best coagulant type, dose, and pH before running it at full scale.`},
     {id:159, deck:"treatment", q:`Main types of backflow prevention, highest to lowest protection?`, a:`• Air gap — physical separation; the highest protection.
