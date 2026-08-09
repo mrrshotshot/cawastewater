@@ -393,6 +393,23 @@
   .sitenav-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
   .sitenav-btn.active{background:var(--nav-active-bg);color:var(--nav-active-text);font-weight:600}
 
+  /* Nav dropdown (Water submenu) */
+  .sitenav-item{position:relative;display:flex}
+  .sitenav-btn .caret{margin-left:5px;font-size:10px;display:inline-block;transition:transform .12s}
+  .sitenav-item:hover .caret,.sitenav-item:focus-within .caret{transform:rotate(180deg)}
+  .sitenav-dropdown{
+    display:none;position:absolute;top:100%;left:0;min-width:180px;
+    padding:6px;background:var(--ink);border:1px solid var(--line-strong);
+    border-radius:8px;box-shadow:0 12px 24px rgba(0,0,0,.22);z-index:110;
+  }
+  .sitenav-item:hover .sitenav-dropdown,.sitenav-item:focus-within .sitenav-dropdown{display:block}
+  .sitenav-sublink{
+    display:block;padding:8px 12px;border-radius:6px;color:var(--text);
+    font-family:var(--sans);font-size:14px;font-weight:500;text-decoration:none;white-space:nowrap;
+  }
+  .sitenav-sublink:hover{background:var(--ink-2);color:var(--heading)}
+  .sitenav-sublink:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
   /* Router: one site page visible at a time */
   .site-page{display:none}
   .site-page.active{display:block}
@@ -448,6 +465,12 @@
     .sitebar-menu.open{display:flex}
     .sitenav{flex-direction:column;align-items:stretch;gap:4px}
     .sitenav-btn{padding:10px 12px;font-size:15px;text-align:left}
+    .sitenav-item{flex-direction:column;align-items:stretch}
+    .sitenav-dropdown{
+      display:block;position:static;margin:0;padding:0 0 0 14px;
+      background:none;border:none;box-shadow:none;
+    }
+    .sitenav-sublink{padding:8px 12px;font-size:14px}
     .sitebar-theme-toggle{margin:2px 0 0}
   }
 </style>
@@ -465,7 +488,12 @@
   <nav class="sitenav" aria-label="Site sections">
     <button type="button" class="sitenav-btn" data-site="about">About</button>
     <button type="button" class="sitenav-btn" data-site="wastewater">Wastewater</button>
-    <button type="button" class="sitenav-btn" data-site="water">Water</button>
+    <div class="sitenav-item">
+      <button type="button" class="sitenav-btn" data-site="water" aria-haspopup="true">Water<span class="caret" aria-hidden="true">&#9662;</span></button>
+      <div class="sitenav-dropdown">
+        <a href="#" class="sitenav-sublink" data-t5home="true">T5 Exam Prep</a>
+      </div>
+    </div>
     <button type="button" class="sitenav-btn" data-site="more">More</button>
   </nav>
   <button type="button" id="themeToggleBtn" class="theme-switch sitebar-theme-toggle" role="switch" aria-checked="true" aria-label="Toggle dark mode">
@@ -2363,7 +2391,7 @@
     b.setAttribute('data-label', it.label.toLowerCase());
     var lab = document.createElement('span'); lab.textContent=it.label;
     b.appendChild(lab);
-    b.addEventListener('click', function(){ show(it.id); });
+    b.addEventListener('click', function(){ show(it.id); if(window.__t5SyncUrl){ window.__t5SyncUrl(); } });
     nav.appendChild(b);
     linkById[it.id]=b;
   }
@@ -2399,7 +2427,7 @@
           b.setAttribute('data-label', ch.label.toLowerCase());
           var clab = document.createElement('span'); clab.textContent = ch.label;
           b.appendChild(clab);
-          b.addEventListener('click', function(){ show(ch.id); });
+          b.addEventListener('click', function(){ show(ch.id); if(window.__t5SyncUrl){ window.__t5SyncUrl(); } });
           subWrap.appendChild(b);
           linkById[ch.id] = b;
         });
@@ -2435,10 +2463,9 @@
     closeMenu();
   }
 
-  window.addEventListener('hashchange', function(){
-    var id = (location.hash||'').replace('#','');
-    if(document.getElementById('p-'+id)){ show(id); }
-  });
+  // Hash routing (sections + panels) is owned by the site-level router near the end of
+  // this file; it drives dashboard panels via window.__t5ShowPanel. The former panel-only
+  // hashchange handler was removed so two listeners don't both react to the same event.
 
   // Mobile menu
   var sidebar = document.getElementById('sidebar');
@@ -2449,16 +2476,17 @@
   menuBtn.addEventListener('click', openMenu);
   backdrop.addEventListener('click', closeMenu);
 
-  // Always land on the home page, regardless of any hash left in the URL
-  if(history.replaceState){ history.replaceState(null, '', location.pathname + location.search); }
+  // Initialize the dashboard to its home panel. The site-level router (near the end of
+  // this file) reads the URL immediately after this and switches to the linked panel, if any.
+  window.__t5ShowPanel = show;   // hook: lets the router drive dashboard panels by token
   show('home');
 
   // Brand title returns to the home page
   var brandHome = document.getElementById('brandHome');
   if(brandHome){
-    brandHome.addEventListener('click', function(){ show('home'); });
+    brandHome.addEventListener('click', function(){ show('home'); if(window.__t5SyncUrl){ window.__t5SyncUrl(); } });
     brandHome.addEventListener('keydown', function(e){
-      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); show('home'); }
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); show('home'); if(window.__t5SyncUrl){ window.__t5SyncUrl(); } }
     });
   }
 
@@ -3366,10 +3394,96 @@ Match the device to the degree of hazard, and test assemblies at least annually.
     closeSiteMenu();
     window.scrollTo({top:0, behavior:'auto'});
   }
+  // Top-menu buttons: navigate to the section. Water preserves the current panel
+  // (syncUrl reflects it), matching the prior behavior where the top Water button
+  // did not reset the dashboard. Home / logo produces a clean, hash-less URL.
   btns.forEach(function(b){
-    b.addEventListener('click', function(){ showSite(b.getAttribute('data-site')); });
+    b.addEventListener('click', function(){
+      var s = b.getAttribute('data-site');
+      go(s === 'home' ? '' : '#/' + s);
+    });
   });
-  showSite(DEFAULT_SITE_PAGE);
+
+  // Submenu links under Water: jump to the Water page and reset the T5 dashboard's
+  // own internal nav to its home panel (not wherever it was left).
+  document.querySelectorAll('.sitenav-sublink[data-t5home]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      if(window.__t5ShowPanel){ window.__t5ShowPanel('home'); }   // reset dashboard to home
+      go('#/water');
+      a.blur(); // drop focus so :focus-within no longer holds the dropdown open
+    });
+  });
+
+  // ---- Hash router ----------------------------------------------------------------
+  // Scheme:  (no hash) = Home  |  #/water = section  |  #/water/arsenic = panel.
+  // Every dashboard panel lives inside #site-water, so a panel token resolves to the
+  // Water section. Internal links stay bare (href="#arsenic"); the router rewrites the
+  // address bar to the canonical nested form. A panel's section is read from the DOM
+  // (which #site-* it is under) — no hand-maintained token->section table.
+  var SECTIONS = ['home','about','wastewater','water','more'];
+
+  function activeSection(){
+    var el = document.querySelector('.site-page.active');
+    return el ? el.id.replace(/^site-/, '') : 'home';
+  }
+  function currentPanel(){
+    var el = document.querySelector('.panel.active');
+    return el ? el.id.replace(/^p-/, '') : null;
+  }
+
+  // The hash the address bar SHOULD show for whatever is currently on screen.
+  function canonicalHash(){
+    var sec = activeSection();
+    if(sec === 'home') return '';
+    if(sec === 'water'){
+      var p = currentPanel();
+      return (p && p !== 'home') ? '#/water/' + p : '#/water';
+    }
+    return '#/' + sec;
+  }
+
+  function syncUrl(){
+    var want = canonicalHash();
+    if(location.hash === want) return;
+    var target = want ? want : (location.pathname + location.search);
+    if(history.replaceState){ history.replaceState(null, '', target); }
+  }
+  window.__t5SyncUrl = syncUrl;   // hook: lets the dashboard's own nav keep the URL in sync
+
+  // Apply the current URL to the view. Idempotent: safe to call from any event.
+  function route(){
+    var raw = (location.hash || '').replace(/^#\/?/, '');   // drop '#' and one leading '/'
+    var parts = raw ? raw.split('/') : [];
+    var section, panel = null;
+    if(parts.length === 0){
+      section = 'home';
+    } else if(SECTIONS.indexOf(parts[0]) !== -1){
+      section = parts[0];
+      if(section === 'water' && parts[1]){ panel = parts[1]; }
+    } else if(document.getElementById('p-' + parts[0])){
+      section = 'water';          // bare panel token (internal link or old bookmark)
+      panel = parts[0];
+    } else {
+      section = 'home';           // unknown fragment -> Home
+    }
+    showSite(section);
+    if(section === 'water' && panel && document.getElementById('p-' + panel) && window.__t5ShowPanel){
+      window.__t5ShowPanel(panel);
+    }
+    syncUrl();
+  }
+
+  // Programmatic navigation: push one history entry, then apply it.
+  function go(hash){
+    var target = hash ? hash : (location.pathname + location.search);
+    if(history.pushState){ history.pushState(null, '', target); route(); }
+    else { location.hash = hash; }   // legacy fallback fires hashchange -> route()
+  }
+
+  window.addEventListener('hashchange', route);
+  window.addEventListener('popstate', route);
+  route();   // initial load: honor the URL (empty = Home)
 })();
 </script>
 </body>
