@@ -56,6 +56,7 @@
   [S] Scripts page added under Study Tools 2026-08-03. New nav item {id:"scripts"} in the Study Tools group + new panel #p-scripts. Panel is descriptive UI copy only (what the scripts are / how to use them) — NO regulatory numbers, so no verification claim. Download link -> scripts/Script_1_Surface_Water_Ground_Water_Microbial_Rules.pdf (PDF committed separately; link is case-sensitive, must match committed path). Reused existing classes (panel, rhead, callout purpose, ttl, block, sec, tight); no new CSS; no flashcard/exam-card IDs touched.
   [S] Regulatory pages restructured + Safe Drinking Water Act page added 2026-08-07 (supersedes the standalone SDWA spec drafted earlier same day; apply the consolidated spec only). (a) New nav {id:"sdwa"} + new panel #p-sdwa (foundational/statute page; NO MCLs of its own; only number is the PWS scope 15/25/60, absent elsewhere). (b) "Regulatory Horizon" nav subgroup dissolved; Manganese, PFAS, and the renamed Upcoming Regulations promoted to top-level Study Guides; list now flat + alphabetical; RH dropped from their crumbs; manganese/pfas panel comments de-tagged. (c) Rulemaking Pipeline -> Upcoming Regulations: nav label, crumb, panel id (p-pipeline -> p-upcoming), <h2>, and panel comment changed. Inbound #pipeline -> #upcoming retargeted with visible text updated on the LCR panel (California-timing bullet) and the Drinking Water Standards panel (Cr6 bullet). Flashcard deck renamed (DECKS id/name/short pipeline -> upcoming; cards 48/49/155 deck attr). Progress is keyed by CARD ID (localStorage t5_flashcards_progress_v1, results[card.id]) NOT deck/panel, so no progress lost; card IDs unchanged; card 49 (the ladder card) left in the upcoming deck. (d) "How California makes an MCL" ladder MOVED from Upcoming Regs to the SDWA page (single source now on SDWA); Upcoming Regs left with a one-line pointer to #sdwa. On the move (approved rewords) the closing sentence "generates most of the revision items below" -> "generates most of the pending MCL revisions (see the Upcoming Regulations page)" and its mid-sentence em dash -> period; NL/RL->PHG->MCL chain + HSC §116455/§116365(c)/§116365(a) preserved verbatim. Sources for SDWA content: EPA epa.gov/sdwa overview + primacy-enforcement page (federal frame; WEB currency check, not in project files); CFR §141.2 + CA22 "Supplier"/"System" (PWS threshold); waterboards.ca.gov Safe Drinking Water Plan + Transfer of DW Programs, CA22 Art. 4 §64252-64253, HSC §116330 (CA primacy structure; DWP -> State Water Board/DDW July 1 2014). Reused existing classes only; no new CSS/JS; nav flatten uses existing buildLink logic. (e) Two follow-ups approved same day: PFAS panel closing sentence had a dangling "shown in 'How California makes an MCL' below" pointing at the moved ladder -> retargeted to "on the <a href="#sdwa">Safe Drinking Water Act</a> page"; and the renamed DECKS entry was moved from its in-place slot (between PFAS and PN) to the end of the array, since DECKS is ordered alphabetically by the short field and short:"Upcoming" sorts after short:"Treatment".
   [S] Upcoming Regulations content pass 2026-08-07 (currency + de-cite + de-dup; follows the regs restructure applied same day). Verified vs primary sources: DDW Upcoming Regs / Drinking Water Program page; 2026 Regulatory Priorities resolution (adopted 3/3/2026) — the page's MCLs-in-development and NL/RL lists match this resolution item-for-item; EPA PFAS pages + Federal Register (89 FR / 2026 proposals); CA LCRI Regulations page. Edits: (a) status callout re-dated to Aug 2026, Resolution 2026-0008 docket dropped. (b) Cr(VI) header reframed to "first compliance date arrives Oct 1 2026"; stripped Table 64431-A/64432-A, Methods 218.6/218.7, §64432(b)/(q)/(r); DETAIL RETAINED (90-day compliance plan, operations plan, initial-monitoring date, phased table). Cr(VI) 0.010 + total Cr 0.05 kept (single-sourced here). (c) NDMA folded under Disinfection byproducts (TTHM/HAA5 + NDMA sub-bullets); dropped SWRCB-DDW-24-001 / -22-006; styrene 0.1 and arsenic 0.010 restatements removed (now point to DWS / Arsenic pages); arsenic PHG-inference note removed per decision; NDMA spelling corrected -> N-nitrosodimethylamine. (d) NL/RL: "NLs" -> notification levels, HABs expanded; already single-sourced to Manganese/PFAS pages. (e) LCRI-CA de-duped to #lcr: removed "pursuing primacy" bullet (primacy list carries it), §64678(d)+lead AL 0.015 restatement (-> LCR page), and the June 11/22 2026 workshop/comment dates; "as of" -> Aug 2026; kept Ch 17.6 eff Nov 1 2027 / Ch 17.5 repeal / emergency rulemaking in progress + AB 1096 handbook. (f) Other pending: landed items (DPR, CCCPH, Onsite Reuse, Electronic Reporting) compressed into a "Recently in effect" tbl-note; DPR date CORRECTED to Oct 1 2024 (was wrongly lumped with Onsite Reuse at Apr 22 2026); dropped unverified CCCPH-deadline footnote; SB 1422 -> Senate Bill 1422. Bill numbers AB 1096 / SB 1422 KEPT (public identifiers). Status confirmed (context, not all on this page): federal PFAS = two proposed rules May 18 2026 (PFOA/PFOS kept 4 ppt + optional 2-yr extension to 2031; rescind PFHxS/PFNA/GenX/HI mixture), final action expected 2026, still proposed -> 2024 rule governs; CA PFAS initial-monitoring General Order DW-2025-0002 issued 12/12/2025 (belongs on PFAS page; resolves the prior "draft" flag). Reused existing classes; no new CSS; no flashcard/exam-card IDs touched.
+  [S] MCL-making ladder moved SDWA -> Upcoming Regs + UCMR woven in 2026-08-09. REVERSES the 2026-08-07 (d) decision that moved this ladder Upcoming -> SDWA (user-approved reversal, not silent: for narrative cohesion "how MCLs are made -> what's currently being made," and to re-align the panel with card 49, which stayed in the upcoming deck). (a) "How California establishes an MCL" removed from #p-sdwa verbatim; SDWA page keeps What the Act Does / Who enforces it / How it affects your plant / lens. (b) Re-inserted on #p-upcoming replacing the one-line SDWA pointer para, preceded by a new lead framing it as the durable standing process vs the dated snapshot below. Steps 2-5 + step 1 main line preserved verbatim; NL/RL->PHG->MCL chain intact. (c) UCMR woven into step 1 as a nested ul.tight sub-bullet: ~5-yr EPA list of unregulated contaminants, >10,000 systems + national small-system sample (EPA pays small), national occurrence DB feeds regulatory determination, PFAS example. No UCMR cycle number named (avoids dating). Src: EPA epa.gov/dwucmr "Learn About UCMR" (fetched 2026-08-09; SDWA-1996 + AWIA-2018 authority), consistent with 40 CFR 141.40 / 141.35. WEB currency, not a project file. (d) Approved reword: quinquennial closing "(see the Upcoming Regulations page)" -> "listed below". (e) Cross-refs: PFAS panel line -> #upcoming (was #sdwa); the old Upcoming -> #sdwa pointer removed with the section. No inbound #sdwa body links remain. (f) Card 49 unchanged (already deck:"upcoming"); no flashcard/exam-card IDs touched. Reused existing classes; no new CSS/JS.
   --------------------------------------------------------------------------
   B. CURRENCY CHECKS vs PRIMARY WEB SOURCES                   checked 2026-07-22
   (These post-date the Aug-2025 project files; re-verify before the exam.)
@@ -255,9 +256,10 @@
   h4.sub{font-size:14px;margin:18px 0 8px;color:var(--heading);font-weight:600}
   p{margin:0 0 11px}
   p.lead{font-size:15px;color:var(--text)}
-  ul.tight{margin:0 0 12px;padding-left:18px}
-  ul.tight li{margin:0 0 6px}
-  ul.tight li::marker{color:var(--teal)}
+  ul.tight,ol.tight{margin:0 0 12px;padding-left:18px}
+  ul.tight li,ol.tight li{margin:0 0 6px}
+  ul.tight li::marker,ol.tight li::marker{color:var(--teal)}
+  ul.tight ul.tight{margin:6px 0 0}
   .k{font-family:var(--mono);font-size:.92em;background:var(--surface-2);border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--teal-deep)}
   abbr.gloss{border-bottom:1px dotted var(--muted);text-decoration:none;cursor:help}
   .tbl-note{font-size:12px;color:var(--muted)}
@@ -572,61 +574,47 @@
       <div class="rhead">
         <h2>Safe Drinking Water Act</h2>
       </div>
-      <div class="callout purpose">
-        <p class="ttl">Purpose</p>
-        <p>The federal law that keeps drinking water safe to drink. It sets the ground rules every public water system in the country has to meet.</p>
-      </div>
-      <p class="lead">The Safe Drinking Water Act (SDWA) is the federal law, first passed in 1974, that protects the nation's public drinking water. It lets the U.S. Environmental Protection Agency (EPA) set national, legally enforceable health standards, and it lets a state run the program itself as long as the state's rules are at least as strong. California runs its own program. The Act covers public water systems, not private household wells.</p>
+      <p class="lead">The Safe Drinking Water Act (SDWA) is a federal law that protects the nation's public drinking water. It lets the U.S. Environmental Protection Agency (EPA) set national, science-based health standards for drinking water, and made those standards legally enforceable. First established in 1974, the SDWA has been amended 7 times to ensure safe drinking water for all as our communities grow and evolve.</p>
 
       <section class="block">
-        <h3 class="sec">What the Act does</h3>
+        <h3 class="sec">What the Act Does</h3>
         <ul class="tight">
-          <li><strong>Sets national standards.</strong> EPA writes the National Primary Drinking Water Regulations (NPDWRs). Each one sets a maximum contaminant level (MCL) or a required treatment technique for a contaminant. The <a href="#primarystds">Drinking Water Standards</a> page explains how an MCL, its health goal (MCLG), and a treatment technique differ.</li>
-          <li><strong>Makes them enforceable.</strong> These are legal limits, not guidance. A system that violates one owes the public notice and can face citations, orders, and penalties.</li>
-          <li><strong>Lets states take the lead.</strong> A state can hold primacy, meaning primary enforcement responsibility, if its rules are at least as strict as the federal ones and it can show it will enforce them.</li>
-          <li><strong>Covers public water systems.</strong> A public water system has at least 15 service connections, or serves at least 25 people at least 60 days a year. Smaller private wells fall outside the Act.</li>
-          <li><strong>Requires the public-facing pieces.</strong> Monitoring and reporting, the annual <a href="#ccr">Consumer Confidence Report</a> to customers, and <a href="#pn">public notification</a> when something goes wrong all come from this Act.</li>
+          <li>Established the <strong>National Primary Drinking Water Regulations (NPDWRs)</strong>. Each one sets a maximum contaminant level (MCL) or a required treatment technique for a contaminant.
+            <ul class="tight">
+              <li>The <a href="#primarystds">Drinking Water Standards</a> page explains how an MCLG, an MCL, and a treatment technique differ.</li>
+            </ul>
+          </li>
+          <li>Makes meeting the NPDWRs <strong>enforceable</strong>. These are legal limits, not guidelines.</li>
+          <li>Allows states to take the lead. A state can hold <strong>primacy</strong> if its rules are at least as strict as the federal ones, and can and will enforce them.</li>
+          <li>Requires public water systems meet the NPDWRs.</li>
+          <li>Requires public communication and transparency through monitoring and reporting schedules, the annual <a href="#ccr">Consumer Confidence Report</a>, and <a href="#pn">public notification</a> when something goes wrong.</li>
         </ul>
       </section>
 
       <section class="block">
         <h3 class="sec">Who enforces it in California</h3>
-        <p>California holds primacy, so we run our own program under both the federal Act and the state's own California Safe Drinking Water Act, which lives in the Health and Safety Code.</p>
-        <ul class="tight">
-          <li><strong>The agency.</strong> The primacy agency is the State Water Resources Control Board (State Water Board), through its Division of Drinking Water (DDW). The drinking water program moved to the State Water Board from the Department of Public Health on July 1, 2014.</li>
-          <li><strong>The rulebook.</strong> The rules DDW enforces are in Title 22 of the California Code of Regulations. Because California has primacy, Title 22 has to be at least as strict as the federal rules, and on several contaminants it is stricter. Where the two differ, Title 22 governs a California system.</li>
-          <li><strong>Small systems.</strong> Many small water systems are overseen by a county acting as a Local Primacy Agency (LPA), under authority delegated by the State Board.</li>
-        </ul>
+        <p>California holds primacy and enforces the SDWA through the State Water Resources Control Board's Division of Drinking Water. California has its own Safe Drinking Water Act, which lives in the California Health and Safety Code. The laws DDW enforces are in Title 22 of the California Code of Regulations. Because California has primacy, Title 22 is as strict as the federal rules, and on several contaminants it is stricter.</p>
       </section>
 
       <section class="block">
-        <h3 class="sec">How California makes an MCL</h3>
-        <p>California builds a primary MCL through a defined statutory ladder, not by direct EPA adoption:</p>
-        <p><strong>Contaminant identified</strong> (occurrence data / UCMR / monitoring orders) → <strong>NL/RL issued</strong> (HSC §116455) → <strong>OEHHA sets a PHG</strong> (HSC §116365(c)) → <strong>DDW sets the primary MCL</strong> as close to the PHG as technologically and economically feasible (HSC §116365(a)) → <strong>adoption into Title 22</strong>.</p>
-        <p>DDW must also review existing MCLs against current PHGs at least every <strong>five years</strong> (the <strong>quinquennial MCL review</strong>). This review generates most of the pending MCL revisions (see the <a href="#upcoming">Upcoming Regulations</a> page).</p>
-      </section>
-
-      <section class="block">
-        <h3 class="sec">How it reaches your plant floor</h3>
-        <p>On the ground, the Act is not abstract. It shows up as the specific things I answer for as chief operator:</p>
+        <h3 class="sec">How it affects your treatment plant</h3>
         <ul class="tight">
-          <li><strong>My operating permit.</strong> DDW, or the county LPA, issues the permit that lets the system run, with conditions written for my sources and treatment. Operating outside it is the core violation.</li>
-          <li><strong>The numbers I have to hit.</strong> Every MCL, disinfectant limit, and treatment technique on the other pages of this guide traces back to this Act.</li>
-          <li><strong>Monitoring and reporting.</strong> I sample on a set schedule and report the results to DDW. The <a href="#smf">Standardized Monitoring Framework</a> lays out that schedule.</li>
-          <li><strong>A certified operator in charge.</strong> The Act requires qualified, certified operators to run the plant. That is the reason a T5 certificate exists at all.</li>
-          <li><strong>Inspections and sanitary surveys.</strong> DDW inspects the system on a cycle and expects complete, current <a href="#records">records</a>.</li>
-          <li><strong>Telling the public.</strong> The annual <a href="#ccr">Consumer Confidence Report</a>, plus <a href="#pn">public notification</a> at the right tier when there is a violation or a health risk.</li>
-          <li><strong>Consequences for falling short.</strong> Citations, compliance orders, and penalties. EPA can step back in if the state does not do its job.</li>
+          <li>DDW issues a <strong>Water Supply Permit</strong> that lets your treatment plant and distribution system operate. Operating outside it is a core violation.</li>
+          <li>Every MCL, disinfectant limit, and treatment technique traces back to the SDWA.</li>
+          <li>Your monitoring and reporting requirements are established via the <a href="#smf">Standardized Monitoring Framework</a>.</li>
+          <li>DDW performs <strong>Sanitary Surveys</strong> on your system and expects complete, current <a href="#records">records</a>.</li>
+          <li>Issuance of the annual <a href="#ccr">Consumer Confidence Report</a> and <a href="#pn">public notification</a> when there is a health risk or violation.</li>
+          <li>Citations, compliance orders, and penalties for failure to maintain public health.</li>
+          <li>The SDWA requires qualified, certified operators to run the plant. The entire reason for your profession and the T5 certification you seek is rooted in this act.</li>
         </ul>
       </section>
 
       <div class="callout op">
         <p class="ttl">Chief Operator lens</p>
         <ul class="tight">
-          <li>Start with the point of it: safe water and public health. The Act is why every limit and every report on my desk exists.</li>
-          <li>Name the chain plainly. EPA sets the national floor. California holds primacy and runs the program through the State Water Board's Division of Drinking Water. Title 22 is the rulebook I actually follow, and it is at least as strict as federal.</li>
-          <li>Bring it to the plant. It reaches me as my permit, my MCLs and treatment techniques, my monitoring and reporting, my operator certification, and my duty to notify customers and regulators.</li>
-          <li>Close on the rule of thumb: where California and federal differ, California governs my system.</li>
+          <li>The SDWA is why every limit and every report on my desk exists.</li>
+          <li>EPA sets the national floor. California holds primacy and runs the program through DDW. Title 22 is the rulebook I follow, and it is at least as strict as federal.</li>
+          <li>It reaches my permit, my MCLs and treatment techniques, my monitoring and reporting, my operator certification, and my duty to notify customers and regulators.</li>
         </ul>
       </div>
     </div>
@@ -807,6 +795,7 @@
 
       <div class="callout op">
         <p class="ttl">How this rule evolved</p>
+        <p>The overarching theme of the Surface Water Treatment Rules is <strong>multi-barrier treatment</strong>. No single step is trusted to protect public health alone. Independent barriers — source protection, coagulation, flocculation, sedimentation, filtration, and disinfection — each remove or inactivate pathogens, so if one underperforms the others still carry the load.</p>
         <p>The 1989 Surface Water Treatment Rule (SWTR) set the original treatment-technique requirements:</p>
         <ul class="tight">
           <li>Combined Filter Effluent (CFE) &le; 0.5 NTU (95th percentile) &amp; 5 NTU max</li>
@@ -846,21 +835,26 @@
       </section>
 
       <section class="block">
-        <h3 class="sec">IFE FOLLOW-UP TRIGGERS</h3>
-        <p class="lead"><strong>The first four triggers apply when a filter is returned to service after a backwash or other interruption; the last three apply to any individual filter in normal operation.</strong></p>
+        <h3 class="sec">IFE FOLLOW-UP TRIGGERS — California systems serving &ge;10,000</h3>
+        <h4 class="sub">Return to Service — Post backwash or service interruption</h4>
         <div class="tbl-wrap"><table>
           <thead><tr><th>Condition</th><th>Required Action</th></tr></thead>
           <tbody>
-            <tr><td>2.0 NTU — any time during the first 4 h after return to service</td><td>Take the filter <strong>out of service</strong>, inspect, and do not return it until deficiencies are corrected.</td></tr>
-            <tr><td>1.0 NTU — following &ge;90% of interruption events over any 12 consecutive months</td><td>Take the filter <strong>out of service</strong>, inspect, and do not return it until deficiencies are corrected.</td></tr>
-            <tr><td>0.5 NTU — once the filter has been in operation 4 h (return to service)</td><td>Take the filter <strong>out of service</strong>, inspect, and do not return it until deficiencies are corrected.</td></tr>
-            <tr><td>0.3 NTU — after &ge;60 min of continuous operation <span class="tbl-note">(systems &ge;10,000)</span></td><td>Produce a <strong>filter profile</strong> within 7 days if cause is unknown.</td></tr>
-            <tr><td>1.0 NTU — any time</td><td>Produce a <strong>filter profile</strong> within 7 days if cause is unknown.</td></tr>
-            <tr><td>1.0 NTU — same filter, 3 consecutive months</td><td>Conduct a <strong>filter self-assessment</strong> within 14 days.</td></tr>
-            <tr><td>2.0 NTU — same filter, 2 consecutive months</td><td>Conduct a <strong>CPE</strong>.</td></tr>
+            <tr><td>&gt;0.3 NTU — after &ge;60 min of continuous operation<br><span class="tbl-note">two consecutive readings 15 min apart</span></td><td>Produce a <strong>filter profile</strong> within 7 days if cause is unknown.</td></tr>
+            <tr><td>&gt;0.5 NTU — once the filter has been in operation 4 h (return to service)</td><td>Take the filter <strong>out of service</strong>, inspect, and do not return it until deficiencies are corrected.</td></tr>
+            <tr><td>&gt;2.0 NTU — any time during the first 4 h after return to service</td><td>Take the filter <strong>out of service</strong>, inspect, and do not return it until deficiencies are corrected.</td></tr>
           </tbody>
         </table></div>
-        <p class="tbl-note">The four profile / self-assessment / CPE triggers are based on two consecutive readings taken no more than 15 minutes apart at the same filter. The 0.3 NTU / 60-minute profile trigger applies only to systems serving &ge;10,000; systems serving &lt;10,000 apply the remaining three with the longer LT1 follow-up deadlines. California requires filtration rates to be increased <em>gradually</em> when a filter is returned to service after backwash or interruption (Title 22 §64660(b)(6)–(b)(7), Table 64660).</p>
+        <p class="tbl-note">California requires filtration rates to be increased <em>gradually</em> when a filter is returned to service after a backwash or interruption. A filter that reaches &gt;1.0 NTU following at least 90% of its interruption events over any 12 consecutive months must also be taken out of service, inspected, and not returned until deficiencies are corrected.</p>
+        <h4 class="sub">Routine Operation — two consecutive 15-minute readings</h4>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>Condition</th><th>Required Action</th></tr></thead>
+          <tbody>
+            <tr><td>&gt;1.0 NTU — any time</td><td>Produce a <strong>filter profile</strong> within 7 days if cause is unknown.</td></tr>
+            <tr><td>&gt;1.0 NTU — same filter, 3 consecutive months</td><td>Conduct a <strong>filter self-assessment</strong> within 14 days.</td></tr>
+            <tr><td>&gt;2.0 NTU — same filter, 2 consecutive months</td><td>Conduct a <strong>CPE</strong>.</td></tr>
+          </tbody>
+        </table></div>
         <div class="callout op">
           <p class="ttl">What each action is</p>
           <ul class="tight">
@@ -907,7 +901,7 @@
 
       <section class="block">
         <h3 class="sec">LT2 — <em>Cryptosporidium</em> bin classification</h3>
-        <p>Bin concentration = average of individual sample results over the monitoring round. Large systems (≥10,000) sample <em>Cryptosporidium</em>, <em>E. coli</em> &amp; turbidity monthly for 2 years; small systems (&lt;10,000) sample <em>E. coli</em> every 2 weeks for 1 year (<em>Cryptosporidium</em> only if <em>E. coli</em> triggers). Second round begins 6 years after initial bin classification.</p>
+        <p>LT2 established a bin classification through an initial study. Systems sampled <em>Cryptosporidium</em>, <em>E. coli</em> &amp; turbidity monthly for 2 years and were then placed in a bin based on the average oocysts concentration. A follow-up study occurred 6 years after the initial bin classification and systems were recategorized where the average concentration changed.</p>
         <div class="tbl-wrap"><table>
           <thead><tr><th>Bin</th><th class="num">Bin concentration (oocysts/L)</th><th>Conventional</th><th>Direct</th></tr></thead>
           <tbody>
@@ -930,7 +924,7 @@
 
       <section class="block">
         <h3 class="sec">Cryptosporidium Action Plan</h3>
-        <p class="lead">The CAP is a DDW technical guidance document that clarifies how a surface water system in California optimizes its treatment process to meet existing regulatory requirements. It does not impose additional requirements beyond those outlined above.</p>
+        <p class="lead">The CAP is a DDW technical guidance document that clarifies how a surface water system in California optimizes its treatment process to meet existing regulatory requirements. <em>Cryptosporidium</em> can break through filters when operated improperly, and resist chlorine.</p>
         <p>The CAP's authority is derived from the California Health and Safety Code (&sect;116360) and includes:</p>
         <ul class="tight">
           <li><strong>Watershed Sanitary Surveys</strong> — a comprehensive survey of a watershed's contamination sources.</li>
@@ -948,10 +942,6 @@
           <li><strong>Public Communication</strong> — <em>Cryptosporidium</em> language for the <a href="#ccr">Consumer Confidence Report (CCR)</a> and Fact Sheet.</li>
         </ul>
         <p class="tbl-note">Figures above are design/operational guidelines/goals, not explicitly SWTR requirements - verify against your plant's permit.</p>
-        <div class="callout op">
-          <p class="ttl">Why operate tighter than the standard</p>
-          <p><em>Cryptosporidium</em> oocysts can break through filters at turbidity levels the rules still allow, they resist chlorine so filtration is the barrier that counts, and the health goal for them is zero. The standard defines a violation. It does not define safe.</p>
-        </div>
       </section>
 
       <section class="block">
@@ -965,16 +955,6 @@
           </tbody>
         </table></div>
         <p class="tbl-note">Systems must also meet <a href="#dbpr">Stage 1 &amp; 2 DBPR</a> MRDLs and MCLs.</p>
-        <div class="callout op">
-          <p class="ttl">Multi-barrier treatment</p>
-          <p>No single step is trusted to protect public health alone. Independent barriers — source protection, coagulation/sedimentation, filtration, and disinfection — each remove or inactivate pathogens, so if one underperforms the others still carry the load. Each barrier earns separate credit toward the treatment-technique targets:</p>
-          <ul class="tight">
-            <li><strong>2-log (99%) <em>Cryptosporidium</em></strong>*</li>
-            <li><strong>3-log (99.9%) <em>Giardia lamblia</em></strong></li>
-            <li><strong>4-log (99.99%) virus</strong></li>
-          </ul>
-          <p class="tbl-note">*baseline removal; more may be required by LT2 bin classification</p>
-        </div>
       </section>
 
       <section class="block">
@@ -1529,7 +1509,7 @@
       </section>
       <div class="callout status">
         <p class="ttl">California status — PHGs and MCL development</p>
-        <p>California has <strong>not yet adopted PFAS MCLs</strong>. Until it does, the state manages PFAS through DDW monitoring orders and Notification and Response Levels, while OEHHA develops Public Health Goals (PHGs) that will drive the eventual state MCLs. That PHG-to-MCL pathway is the same one shown in "How California makes an MCL" on the <a href="#sdwa">Safe Drinking Water Act</a> page.</p>
+        <p>California has <strong>not yet adopted PFAS MCLs</strong>. Until it does, the state manages PFAS through DDW monitoring orders and Notification and Response Levels, while OEHHA develops Public Health Goals (PHGs) that will drive the eventual state MCLs. That PHG-to-MCL pathway is the same one shown in "How California establishes an MCL" on the <a href="#upcoming">Upcoming Regulations</a> page.</p>
       </div>
       <section class="block">
         <h3 class="sec">Monitoring &amp; Notification Requirements</h3>
@@ -1585,7 +1565,24 @@
       </div>
       <div class="callout status"><p class="ttl">Status — snapshot</p><p>Sourced from DDW's Upcoming Regulations page and the Board's 2026 Regulatory Priorities (adopted March 2026). This is a snapshot as of August 2026. Verify against the DDW page before the exam.</p></div>
 
-      <p class="lead">How California turns an emerging contaminant into a primary MCL (the NL/RL → Public Health Goal → MCL ladder, plus the five-year quinquennial review that drives most revisions) now lives on the <a href="#sdwa">Safe Drinking Water Act</a> page. The items below are what that process currently has in motion.</p>
+      <p class="lead">First, the standing process: how California turns an emerging contaminant into an enforceable MCL. This part does not change from year to year. Everything after it is a dated snapshot of the specific rules that process currently has in motion.</p>
+
+      <section class="block">
+        <h3 class="sec">How California establishes an MCL</h3>
+        <p>California builds a primary MCL through a defined statutory ladder, not by direct EPA adoption:</p>
+        <ol class="tight">
+          <li>Contaminant identified via occurrence data, the Unregulated Contaminant Monitoring Rule (UCMR), or monitoring orders.
+            <ul class="tight">
+              <li>The UCMR is the heart of regulatory change. Roughly every five years the U.S. Environmental Protection Agency (EPA) names a set of contaminants that have no drinking-water standard yet and has water systems test for them. The results go into a national occurrence database EPA uses to decide whether a contaminant needs a federal rule.</li>
+            </ul>
+          </li>
+          <li>Notification and Response Levels (NL &amp; RL) are issued.</li>
+          <li>The Office of Environmental Health Hazard Assessment (OEHHA) sets a Public Health Goal (PHG).</li>
+          <li>DDW sets the MCL as close to the PHG as technologically and economically feasible.</li>
+          <li>The MCL is adopted into Title 22.</li>
+        </ol>
+        <p>DDW must also review existing MCLs against current PHGs at least every <strong>five years</strong> (the <strong>quinquennial MCL review</strong>). This review generates most of the pending MCL revisions listed below.</p>
+      </section>
 
       <section class="block">
         <h3 class="sec">Hexavalent chromium — adopted; first compliance date arrives October 1, 2026</h3>
@@ -1797,20 +1794,11 @@
           <tbody>
             <tr><td>Report frequency (systems ≥ 10,000)</td><td>Annual, by July 1 (§64480)</td><td>Twice per year: first by July 1, second by Dec 31. Second report adds a 6-month update if the system had violations, action-level exceedances, or UCMR results. Systems &lt; 10,000 stay annual.</td></tr>
             <tr><td>Delivery method</td><td>Mail or direct delivery (§64483(a))</td><td>Mail <em>or</em> electronic; paper copy on request</td></tr>
-            <tr><td>Good-faith efforts (non-bill-payers)</td><td>Internet, postal patrons, news media, public places, bulk copies, community orgs (§64483(b))</td><td>Adds postcards linking to the report, opt-in email/text alerts, social media, public meetings</td></tr>
-            <tr><td>Wholesaler delivery</td><td>By April 1, or a mutually agreed date in contract (§64480(c))</td><td>April 1 <em>and</em> Oct 1 if reporting twice per year</td></tr>
             <tr><td>Certification to primacy agency</td><td>Report by distribution date; certification within 3 months (§64483(c))</td><td>Report + certification within 10 days of required distribution</td></tr>
             <tr><td>Website posting</td><td>Systems ≥ 100,000 post current report; retain reports ≥ 3 years (§64483(f),(g))</td><td>Systems ≥ 50,000 post; any posted report kept available ≥ 3 years</td></tr>
-            <tr><td>Contaminant data format</td><td>One or more tables (§64481(d))</td><td>Clear, understandable format (may include tables)</td></tr>
-            <tr><td>Definitions</td><td>MCL, MCLG, action level, TT, MRDL/MRDLG, Level 1/2 (§64481(b))</td><td>Adds contaminant, pesticide, herbicide</td></tr>
             <tr><td>Summary section</td><td>Not required</td><td>Required at the start — contact info, brief description of any violations, note if public notices are included</td></tr>
             <tr><td>Translation access</td><td>Spanish required; other languages if group &gt; 1,000 residents or &gt; 10% of the community (§64481(l))</td><td>Where to get a translated copy/assistance; systems &gt; 100,000 develop language access plans</td></tr>
-            <tr><td>Accessibility</td><td>Available on request (§64483(e))</td><td>Reasonable effort to provide an accessible format on accommodation request</td></tr>
-            <tr><td>Arsenic / nitrate health language</td><td>Health-effects language on violation (§64481(g))</td><td>Revised language when detected above half the MCL but not in violation</td></tr>
-            <tr><td>RTCR language</td><td>Level 1 / Level 2 language per Table 64481-A (§64481(n))</td><td>Updated standard language</td></tr>
-            <tr><td>UCMR explanation</td><td>Follows 40 CFR 141.40 (§64481(c)(2))</td><td>Must include the reason for unregulated-contaminant monitoring (was optional)</td></tr>
             <tr><td>Lead action-level exceedance</td><td>Lead/copper action language per appendix 64465-D on violation (§64481(g)(3))</td><td>Must identify the exceedance in the data section and explain it, consumer steps to reduce exposure, and corrective actions</td></tr>
-            <tr><td>Corrosion control</td><td>Not separately required</td><td>Template language on corrosion control efforts required</td></tr>
           </tbody>
         </table></div>
         <p class="tbl-note">CA column: Title 22 as compiled Aug 2025 (project file) plus DDW's 2025 CCR-cycle instructions. EPA column: 2024 CCR Rule Revisions (89 FR 45980, May 24, 2024). CA adoption timing unconfirmed — verify before exam.</p>
@@ -2643,12 +2631,15 @@ Chlorine Dioxide: 0.8 ppm`},
     {id:71, deck:"swtr", q:`Combined filter effluent (CFE) turbidity standard for conventional/direct filtration?`, a:`≤0.3 NTU in at least 95% of monthly readings, and never exceeding 1 NTU at any time.`},
     {id:72, deck:"swtr", q:`CFE turbidity standard for slow sand filtration?`, a:`≤1.0 NTU in 95% of monthly readings, never above 5.0 NTU.`},
     {id:73, deck:"swtr", q:`CFE turbidity standard for diatomaceous earth (DE) filtration?`, a:`≤0.5 NTU in 95% of monthly readings, never above 5.0 NTU (Title 22 table 64653). Federal SWTR allows 1.0 NTU; California is stricter.`},
-    {id:74, deck:"swtr", q:`Individual filter effluent (IFE) turbidity trigger values?`, a:`All are two consecutive readings 15 minutes apart:
-- >0.5 NTU at the end of the first 4 hours of a filter run → produce a filter profile
-- >1.0 NTU at any time → produce a filter profile
-- >1.0 NTU for 3 straight months → filter self-assessment
-- >2.0 NTU for 2 straight months → Comprehensive Performance Evaluation (CPE)
-Thresholds are the same for systems under 10,000 — only the follow-up deadlines are longer.`},
+    {id:74, deck:"swtr", q:`Individual filter effluent (IFE) turbidity triggers and follow-up actions? (California, systems serving 10,000+)`, a:`Returning a filter to service (after backwash or interruption):
+- 0.3 NTU after 60+ min of continuous operation → filter profile within 7 days if cause is unknown
+- 0.5 NTU once it has been running 4 hours → take the filter out of service, inspect, don't return until fixed
+- 2.0 NTU any time in the first 4 hours → take the filter out of service, inspect, don't return until fixed
+
+Any filter in normal operation:
+- 1.0 NTU any time → filter profile within 7 days if cause is unknown
+- 1.0 NTU on the same filter for 3 straight months → filter self-assessment within 14 days
+- 2.0 NTU on the same filter for 2 straight months → CPE`},
     {id:75, deck:"swtr", q:`How often must conventional/direct plants serving >10,000 record IFE and CFE turbidity?`, a:`Continuously, recorded at least every 15 minutes.`},
     {id:76, deck:"swtr", q:`Water quality parameters needed to calculate Giardia inactivation with free chlorine?`, a:`Chlorine residual, pH, and temperature.`},
     {id:77, deck:"swtr", q:`Where is the CT (contact time) compliance sample taken?`, a:`At the end of the treatment segment, before the first customer.`},
