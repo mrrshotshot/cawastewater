@@ -158,12 +158,14 @@
   .shell{display:grid;grid-template-columns:340px 1fr 340px;min-height:100vh}
   /* ---------- Sidebar ---------- */
   .sidebar{
-    background:var(--ink);color:var(--text);position:sticky;top:0;height:100vh;overflow-y:auto;
+    background:var(--ink);color:var(--text);position:sticky;top:0;height:100vh;height:100dvh;overflow-y:auto;
+    overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
     border-right:1px solid var(--line-strong);
   }
   /* ---------- Right rail ---------- */
   .rail{
-    background:var(--ink);color:var(--text);position:sticky;top:0;height:100vh;overflow-y:auto;
+    background:var(--ink);color:var(--text);position:sticky;top:0;height:100vh;height:100dvh;overflow-y:auto;
+    overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
     border-left:1px solid var(--line-strong);
   }
   .rail-head{padding:20px 20px 16px;border-bottom:1px solid var(--line-strong)}
@@ -436,15 +438,15 @@
   .page-wrap{padding:30px 34px 80px;max-width:1280px;margin:0 auto}
 
   /* Dashboard chrome sits inside the Water page and is offset below the top menu */
-  #site-water .shell{min-height:calc(100vh - var(--sitebar-h))}
-  #site-water .sidebar{top:var(--sitebar-h);height:calc(100vh - var(--sitebar-h))}
-  #site-water .rail{top:var(--sitebar-h);height:calc(100vh - var(--sitebar-h))}
+  #site-water .shell{min-height:calc(100vh - var(--sitebar-h));min-height:calc(100dvh - var(--sitebar-h))}
+  #site-water .sidebar{top:var(--sitebar-h);height:calc(100vh - var(--sitebar-h));height:calc(100dvh - var(--sitebar-h))}
+  #site-water .rail{top:var(--sitebar-h);height:calc(100vh - var(--sitebar-h));height:calc(100dvh - var(--sitebar-h))}
   #site-water .topbar{top:var(--sitebar-h)}
   @media(max-width:860px){
     /* Shorter bar with vertically centred contents — the desktop bar is tall and
        bottom-aligned, which at this width left a dead band above the logo. */
     :root{--sitebar-h:62px}
-    #site-water .sidebar{top:var(--sitebar-h);height:calc(100vh - var(--sitebar-h))}
+    #site-water .sidebar{top:var(--sitebar-h);height:calc(100vh - var(--sitebar-h));height:calc(100dvh - var(--sitebar-h))}
     .page-wrap{padding:22px 18px 60px}
     .sitebar{gap:14px;padding:0 14px;align-items:center}
     .sitebar-brand{height:44px}
@@ -1407,7 +1409,7 @@
           <li><strong>Stopping</strong> - Discontinue public outreach and LSLR once the 90th percentile stays at or below the lead AL for 2 consecutive 6-month periods. Resume if it is exceeded again.</li>
         </ul>
       </section>
-      <div class="callout op"><p class="ttl">Full replacement required (LCRR/LCRI)</p><p>The LCRR and LCRI remove the "replaced through testing" approach and mandate full replacement of any lead or galvanized-requiring-replacement service lines regardless of whether sampling results have fallen below the AL.</p></div>
+      <div class="callout op"><p class="ttl">Full replacement required (LCRI)</p><p>The LCRI removes the "replaced through testing" approach and mandates full replacement of any lead or galvanized-requiring-replacement service lines regardless of whether sampling results have fallen below the AL.</p></div>
       <div class="callout op">
         <p class="ttl">Chief Operator lens</p>
         <p>The LCRI is a multi-year program. What changes is in the table above. Here is how a system gets ready, with public health first throughout.</p>
