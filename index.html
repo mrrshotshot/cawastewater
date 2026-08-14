@@ -59,6 +59,7 @@
   [S] MCL-making ladder moved SDWA -> Upcoming Regs + UCMR woven in 2026-08-09. REVERSES the 2026-08-07 (d) decision that moved this ladder Upcoming -> SDWA (user-approved reversal, not silent: for narrative cohesion "how MCLs are made -> what's currently being made," and to re-align the panel with card 49, which stayed in the upcoming deck). (a) "How California establishes an MCL" removed from #p-sdwa verbatim; SDWA page keeps What the Act Does / Who enforces it / How it affects your plant / lens. (b) Re-inserted on #p-upcoming replacing the one-line SDWA pointer para, preceded by a new lead framing it as the durable standing process vs the dated snapshot below. Steps 2-5 + step 1 main line preserved verbatim; NL/RL->PHG->MCL chain intact. (c) UCMR woven into step 1 as a nested ul.tight sub-bullet: ~5-yr EPA list of unregulated contaminants, >10,000 systems + national small-system sample (EPA pays small), national occurrence DB feeds regulatory determination, PFAS example. No UCMR cycle number named (avoids dating). Src: EPA epa.gov/dwucmr "Learn About UCMR" (fetched 2026-08-09; SDWA-1996 + AWIA-2018 authority), consistent with 40 CFR 141.40 / 141.35. WEB currency, not a project file. (d) Approved reword: quinquennial closing "(see the Upcoming Regulations page)" -> "listed below". (e) Cross-refs: PFAS panel line -> #upcoming (was #sdwa); the old Upcoming -> #sdwa pointer removed with the section. No inbound #sdwa body links remain. (f) Card 49 unchanged (already deck:"upcoming"); no flashcard/exam-card IDs touched. Reused existing classes; no new CSS/JS.
   [S] Script 1 audio (MP3) download added 2026-08-10. Added a computer-read (text-to-speech) recording of Script 1 to #p-scripts, using the download attribute so it saves rather than streams. Link -> scripts/Script_1_Surface_Water_Ground_Water_Microbial_Rules.mp3 (MP3 committed separately; link is case-sensitive, must match committed path). Written and audio downloads are deliberately NOT one list: the single "Available scripts" section was split into two sibling section.block groups, "Written scripts" (PDF link + the existing "More scripts will be added" line) and "Computer-read audio" (MP3 link), so the two formats read as separate offerings and each can grow independently as Scripts 2-3 land. Existing PDF link left verbatim (still target=_blank). MP3 link text is "(MP3)" only — the "computer-read audio" descriptor lives in the header now, not repeated in the link. "How to use them" list gained one bullet: recording yourself works best, but a computer-read version can be downloaded instead. Descriptive UI copy only, NO regulatory numbers, no verification claim. Reused existing classes (block, sec, tight); no new CSS; no flashcard/exam-card IDs touched.
   [S] GWR/RTCR fecal-indicator flashcards corrected 2026-08-10. Retired card id:96 ("What fecal indicator does California require for GWR source-water sampling? / E. coli"), which overstated the rule. 40 CFR §141.402(c) (adopted by CA §64430 without narrowing, per Addendum A) allows E. coli, enterococci, or coliphage. E. coli is mandated only where a small system reuses an RTCR repeat sample as its source sample (dual-purpose, §141.402(a)(1)(iii)/(iv)). Replaced in the GWR deck by id:191 (three approved fecal indicators); added id:192 to the TCR deck (any total coliform-positive sample must be analyzed for E. coli). id:96 not reused. Deck counts render from the array, so no manual count edit. Src: 40_CFR_Part_141.md §141.402(c); California_Regulations...Aug-2025 §64430 + Addendum A.
+  [S] DBP panel: added tbl-note footer under "Regulated disinfectants" table clarifying that the chlorine/chloramine MRDL RAA is built from monthly averages of coliform-site residual samples, then averaged over four quarters (computed quarterly); chlorine dioxide is daily-sample-based, not averaged. Clarifies the "RAA" compliance-basis cells, which the RAA/LRAA explainer section below describes only in TTHM/HAA5 terms. No numbers restated (single-source preserved). Src: California_Regulations...Aug-2025 §64535.4(b)(1) (RAA of monthly averages), §64534.4(a) (coliform-site sampling), §64534.4(b)/§64535.4(c) (chlorine dioxide daily basis); 40 CFR §141.65 definition.
   --------------------------------------------------------------------------
   B. CURRENCY CHECKS vs PRIMARY WEB SOURCES                   checked 2026-07-22
   (These post-date the Aug-2025 project files; re-verify before the exam.)
@@ -695,7 +696,6 @@
           </tbody>
         </table></div>
         <p class="tbl-note">*Routine TTHM/HAA5 monitoring frequency and number of locations are dictated by system type (<abbr class="gloss" title="Federal subpart covering surface water and GWUDI systems">Subpart H</abbr> / surface water vs. ground water) and population served. Subpart H systems monitor more frequently and at more locations than ground water systems of the same size; the smallest systems monitor annually, larger systems quarterly.</p>
-        <div class="callout op"><p class="ttl">DBP precursors (TOC set)</p><p>Not independently limited, but tracked to support the enhanced-coagulation TOC-removal requirements above: source-water alkalinity, source-water TOC, and treated TOC, sampled monthly (1 per source) at conventional-filtration plants, with results refreshed every 30 days.</p></div>
       </section>
 
       <section class="block">
@@ -708,38 +708,28 @@
             <tr><td>Chlorine dioxide</td><td class="num">0.8 mg/L</td><td>Daily / follow-up monitoring</td><td>Daily · 1 at entry point</td><td>Plants using chlorine dioxide</td></tr>
           </tbody>
         </table></div>
+        <p class="tbl-note">Chlorine and chloramine RAA has two steps: the residual readings taken at each coliform site are first averaged by month, then those monthly averages feed the running annual average, computed quarterly. Chlorine dioxide is not averaged — it is judged on daily entry-point samples.</p>
       </section>
 
       <section class="block">
         <h3 class="sec">Running Annual Average (RAA) &amp; Locational Running Annual Average (LRAA)</h3>
-        <div class="callout op">
-          <p class="ttl">Same formula, applied differently</p>
-          <p><strong>Purpose:</strong> both are the compliance-averaging method for TTHM/HAA5. The <strong>RAA</strong> is the general method used system-wide under Stage 1 (and for many other contaminants); the <strong>LRAA</strong> is the Stage 2 measure that pins the average to each site so a single hot spot can't hide in a system-wide number.</p>
-          <p style="font-family:var(--mono);font-size:15px;color:var(--teal-deep);margin:4px 0 8px">RAA / LRAA = (Q₋₃ + Q₋₂ + Q₋₁ + Q₀) ÷ 4</p>
-          <p>Identical arithmetic — four consecutive quarters, equal weight, computed quarterly (as each new quarter comes in, the oldest falls off). The only difference is <strong>what you average over</strong>:</p>
-          <ul class="tight">
-            <li><strong>RAA</strong> — averaged <strong>system-wide</strong> across all monitoring sites (Stage 1 DBPs), or as the specific rule directs.</li>
-            <li><strong>LRAA</strong> — averaged <strong>per location</strong>, calculated for TTHM and HAA5 at each monitoring site. This is the actual Stage 2 compliance measure for TTHM/HAA5.</li>
-            <li><strong>Violation trigger</strong> — a violation occurs when the running annual average exceeds the TTHM or HAA5 MCL (LRAA: at any single location; RAA: system-wide). A single quarter's result high enough to pull the average over the limit is itself a violation.</li>
-          </ul>
-        </div>
+        <ul class="tight">
+          <li><strong>RAA</strong> — averaged system-wide across all monitoring sites.</li>
+          <li><strong>LRAA</strong> — averaged per location.</li>
+        </ul>
+        <p style="font-family:var(--mono);font-size:15px;color:var(--teal-deep);margin:4px 0 8px">RAA / LRAA = (Q₋₃ + Q₋₂ + Q₋₁ + Q₀) ÷ 4</p>
+        <p>Averaged over four consecutive quarters. As each new quarter comes in, the oldest falls off.</p>
+        <p>A violation occurs when the RAA/LRAA exceeds the MCL/MRDL. A single quarter's result high enough to pull the average over the limit is itself a violation.</p>
       </section>
 
       <section class="block">
-        <h3 class="sec">Operational Evaluation Levels (OEL)</h3>
-        <div class="callout op">
-          <p class="ttl">OEL formula</p>
-          <p><strong>Purpose:</strong> To reduce peaks in DBP levels by catching a rising DBP trend before the LRAA would.</p>
-          <p style="font-family:var(--mono);font-size:15px;color:var(--teal-deep);margin:4px 0 8px">OEL = ((Q₋₂ + Q₋₁) + (Q₀ × 2)) ÷ 4</p>
-          <ul class="tight">
-            <li>Calculated for TTHM and HAA5 at each monitoring location, every quarter.</li>
-            <li>Three quarters of data; the current quarter is double-weighted so a rising trend trips the OEL early.</li>
-            <li>Exceeded if the value is greater than the TTHM or HAA5 MCL. This is an operational trigger, not an MCL violation — an exceedance means you conduct an operational evaluation.</li>
-          </ul>
-        </div>
-        <p>If an OEL is exceeded, the system must:</p>
+        <h3 class="sec">Operational Evaluation Level (OEL)</h3>
+        <p>The purpose of the OEL is to detect a rising TTHM or HAA5 level before an MCL violation occurs.</p>
+        <p style="font-family:var(--mono);font-size:15px;color:var(--teal-deep);margin:4px 0 8px">OEL = ((Q₋₂ + Q₋₁) + (Q₀ × 2)) ÷ 4</p>
+        <p>The OEL is calculated at the same time as the LRAA but only includes the three most recent quarters of data. The current quarter is double-weighted so a rising trend trips the OEL early.</p>
+        <p>The OEL is exceeded if its value is greater than the TTHM or HAA5 MCL. This is an operational trigger, not an MCL violation. If an OEL is exceeded, the system must:</p>
         <ul class="tight">
-          <li>Conduct an <strong>operational evaluation</strong> (examine treatment &amp; distribution practices contributing to TTHM/HAA5 formation, and identify steps to minimize future exceedances).</li>
+          <li>Conduct an <strong>operational evaluation</strong> by examining the treatment &amp; distribution practices contributing to TTHM/HAA5 formation, and identifying steps to minimize future exceedances.</li>
           <li>Submit a written report to the state <strong>no later than 90 days</strong> after being notified of the results that caused the exceedance.</li>
           <li>Keep a copy of the report and make it publicly available on request.</li>
         </ul>
@@ -747,7 +737,8 @@
 
       <section class="block">
         <h3 class="sec">Enhanced coagulation — required TOC removal (%)</h3>
-        <p>Subpart H systems using conventional filtration must remove specified percentages of TOC (treatment technique) unless they meet alternative criteria. Softening systems must meet removal for source alkalinity &gt; 120 mg/L as CaCO₃.</p>
+        <p>Systems using conventional filtration must remove the specified percentages of TOC as outlined in the table below, unless they meet alternative criteria. Softening systems must meet the removal requirements for source alkalinity &gt; 120 mg/L.</p>
+        <p>Alkalinity drives how much TOC removal the rule requires because it controls how easily a system can reach the pH where coagulants perform best. Common coagulants like ferric and alum work most effectively at lower pH. Alkalinity buffers pH, so low-alkalinity water reaches that effective range readily and higher TOC removal is both achievable and required. High-alkalinity water resists the pH drop and would need far more coagulant to get there, so the rule allows lower removal. High-alkalinity, hard-water systems often use enhanced softening instead, which removes TOC by co-precipitation at higher pH.</p>
         <div class="tbl-wrap"><table>
           <thead><tr><th>Source TOC (mg/L)</th><th class="num">Alk 0–60</th><th class="num">Alk &gt;60–120</th><th class="num">Alk &gt;120</th></tr></thead>
           <tbody>
@@ -757,12 +748,11 @@
           </tbody>
         </table></div>
         <p class="tbl-note">Alkalinity in mg/L as CaCO₃.</p>
-        <p class="tbl-note"><strong>Why the requirement scales with alkalinity:</strong> coagulation removes TOC best when the coagulant drives pH down (roughly 5.5–6.5). Alkalinity is the water's pH buffer, so high-alkalinity water resists that drop and needs far more coagulant to reach the effective range. That is why the table requires <em>more</em> removal at low alkalinity (deep removal is achievable) and <em>less</em> at high alkalinity (impractical to push further); higher source TOC also means more precursor, so more removal. High-alkalinity, hard-water systems often use enhanced softening instead, which removes TOC by co-precipitation at high pH. Study rationale — refine before relying on it.</p>
       </section>
 
       <section class="block">
         <h3 class="sec">Controlling TTHM &amp; HAA5 — treatment techniques</h3>
-        <p>DBPs form when chlorine reacts with natural organic matter (measured as <abbr class="gloss" title="Total Organic Carbon">TOC</abbr>). Control works three ways — remove the organic precursors, manage the disinfectant, or cut contact time in the system. Most techniques lower <strong>both</strong> TTHM and HAA5; only pH control and aeration act on one type selectively.</p>
+        <p>DBPs form when chlorine reacts with natural organic matter (<abbr class="gloss" title="Total Organic Carbon">TOC</abbr>). Controlling DBP formation can be achieved via the methods described in the table below.</p>
         <div class="tbl-wrap"><table>
           <thead><tr><th>Strategy</th><th>How it's done</th><th>Where</th><th>Targets</th></tr></thead>
           <tbody>
@@ -785,22 +775,19 @@
               <td>Both</td>
             </tr>
             <tr>
-              <td>pH control &nbsp;<span class="pill warn">DBP-type selective</span></td>
-              <td>Higher pH → more TTHM; lower pH → more HAA5; neutral (~7.0) gives moderate amounts of each. Set pH toward whichever byproduct is limiting. Corrosion control that raises finished-water pH can push TTHM up.</td>
-              <td>Plant</td>
-              <td>TTHM ↔ HAA5 (opposite directions)</td>
-            </tr>
-            <tr>
-              <td>Aeration / air stripping &nbsp;<span class="pill warn">DBP-type selective</span></td>
+              <td>Aeration / air stripping</td>
               <td>Spray or packed-tower aeration strips formed TTHMs after they develop. Little effect on HAA5 (non-volatile).</td>
               <td>Both</td>
               <td>TTHM only</td>
             </tr>
           </tbody>
         </table></div>
-        <p class="tbl-note">Best Available Technologies per Title 22 Table 64533–B: enhanced coagulation, enhanced softening, GAC, and nanofiltration (paired with chlorine as primary + residual disinfectant), plus improved distribution &amp; storage-tank management for consecutive systems. Dose/point optimization, tank turnover, flushing, pH control, and aeration are standard operating practice, not enumerated BAT. See the MCL table above for the TTHM/HAA5 limits.</p>
-        <p class="tbl-note"><strong>How pH acts on TTHM/HAA5:</strong> this is a formation-time effect, not a reversible one — pH steers which byproduct <em>forms</em> as chlorine reacts with organics; it does not turn already-formed TTHM into HAA5 (they are different, stable end-products). Because corrosion control often raises finished-water pH to hold back lead and copper (see the pH-control row above and the <a href="#lcr">Lead &amp; Copper Rule</a> panel), the two goals can clash. If TTHM is the problem, decouple them by moving corrosion control onto an orthophosphate inhibitor, which protects the pipe independent of a high pH and frees you to run a lower pH. Study rationale — refine before relying on it.</p>
       </section>
+
+      <div class="callout status">
+        <p class="ttl">How pH acts on TTHM/HAA5</p>
+        <p>pH steers which byproduct forms as chlorine reacts with organics. A pH above 7.0 favors the formation of TTHM while a pH less than 7.0 favors the formation of HAA5. Because corrosion control often raises finished-water pH to control lead and copper (<a href="#lcr">Lead &amp; Copper Rule</a>), the two goals can clash. If TTHM is a problem where CCT is required, moving to an orthophosphate inhibitor can achieve LCR compliance without raising pH.</p>
+      </div>
 
       <div class="callout op">
         <p class="ttl">Chief Operator lens</p>
@@ -933,7 +920,8 @@
 
       <section class="block">
         <h3 class="sec">LT2 — <em>Cryptosporidium</em> bin classification</h3>
-        <p>LT2 established a bin classification through an initial study. Systems sampled <em>Cryptosporidium</em>, <em>E. coli</em> &amp; turbidity monthly for 2 years and were then placed in a bin based on the average oocysts concentration. A follow-up study occurred 6 years after the initial bin classification and systems were recategorized where the average concentration changed.</p>
+        <p>LT2 targeted systems with higher concentrations of <em>Cryptosporidium</em> by establishing a bin classification derived through an initial study. Systems sampled <em>Cryptosporidium</em>, <em>E. coli</em> &amp; turbidity monthly for 2 years and were then placed in a bin based on the average oocysts concentration. A follow-up study occurred 6 years after the initial bin classification and systems were recategorized where the average concentration changed.</p>
+        <p>The log removal credits required per bin were in addition to the 2-log baseline removal requirement established in the IESWTR/LT1.</p>
         <div class="tbl-wrap"><table>
           <thead><tr><th>Bin</th><th class="num">Bin concentration (oocysts/L)</th><th>Conventional</th><th>Direct</th></tr></thead>
           <tbody>
@@ -943,7 +931,10 @@
             <tr><td>Bin 4</td><td class="num">≥ 3.0</td><td>2.5-log</td><td>3-log</td></tr>
           </tbody>
         </table></div>
-        <h4 class="sub">Microbial Toolbox</h4>
+      </section>
+
+      <section class="block">
+        <h3 class="sec">Microbial Toolbox</h3>
         <p>The Microbial Toolbox is a EPA Technical Guidance Manual that outlines the set of "tools" a Water System can use to meet the additional <em>Cryptosporidium</em> treatment required by its LT2 bin classification. Systems may combine any of the applicable options below provided design, operational, and performance criteria are met.</p>
         <ul class="tight">
           <li><strong>Source:</strong> <abbr class="gloss" title="A state-approved plan to find, prioritize, and reduce crypto sources in the watershed. Filtered surface-water systems only. Credit: 0.5-log.">watershed control program</abbr>; <abbr class="gloss" title="Not a credited tool - a management move: switch to a cleaner source or relocate/time the intake to lower the raw crypto load. No prescribed credit.">alternative source/intake management</abbr></li>
