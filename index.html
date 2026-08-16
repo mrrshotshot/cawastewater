@@ -692,7 +692,7 @@
     <div class="sitenav-item">
       <button type="button" class="sitenav-btn" data-site="wastewater" aria-haspopup="true">Wastewater<span class="caret" aria-hidden="true">&#9662;</span></button>
       <div class="sitenav-dropdown">
-        <a href="#/calculators" class="sitenav-sublink" data-site-link="calculators">Calculators</a>
+        <a href="#/wastewater/calculators" class="sitenav-sublink" data-site-link="wastewater/calculators">Calculators</a>
       </div>
     </div>
     <div class="sitenav-item">
@@ -3901,19 +3901,18 @@ Match the device to the degree of hazard, and test assemblies at least annually.
   // Water section. Internal links stay bare (href="#arsenic"); the router rewrites the
   // address bar to the canonical nested form. A panel's section is read from the DOM
   // (which #site-* it is under) — no hand-maintained token->section table.
-  // Calculator formula panels get the same bare-hash treatment: #area, #volume,
-  // #MCRT, #lbs each resolve to the Calculators section + that formula panel (see
-  // calcPanelIdFor/CALC_ALIASES below — mcrt/pounds are the actual panel ids, MCRT/lbs
-  // are the shorter hash aliases). The calculators script loads after this one and
-  // registers window.__t5ShowCalcPanel late, so it re-runs window.__t5Route() itself
-  // once that hook exists — otherwise a direct load of #area would resolve to Home.
+  // Calculators mirrors this one level deeper, since Calculators is nested under the
+  // Wastewater top-nav item: #/wastewater/calculators/mcrt resolves to the Calculators
+  // section + the mcrt formula panel (matching the panel's real id, cp-mcrt — no alias
+  // table needed, same as how #/water/<id> uses the dashboard panel's real id). The
+  // calculators script loads after this one and registers window.__t5ShowCalcPanel
+  // late, so it re-runs window.__t5Route() itself once that hook exists — otherwise a
+  // direct load of #/wastewater/calculators/mcrt would resolve to Home.
   var SECTIONS = ['home','about','wastewater','calculators','water','more'];
 
-  // Calculator formula panels get their own bare hash too, same "internal links
-  // stay bare" scheme as dashboard panels. MCRT/lbs are short aliases since the
-  // panel ids (mcrt/pounds) don't match the hash text the user wants.
+  // Legacy bare calculator aliases from an earlier #MCRT/#lbs-style scheme — kept only
+  // so old links still resolve; canonicalHash() below always emits the new nested form.
   var CALC_ALIASES = { MCRT:'mcrt', lbs:'pounds' };
-  var CALC_HASH_FOR_PANEL = { mcrt:'MCRT', pounds:'lbs' };
   function calcPanelIdFor(token){
     if(CALC_ALIASES.hasOwnProperty(token)) return CALC_ALIASES[token];
     return document.getElementById('cp-' + token) ? token : null;
@@ -3942,7 +3941,7 @@ Match the device to the degree of hazard, and test assemblies at least annually.
     }
     if(sec === 'calculators'){
       var cp = currentCalcPanel();
-      return (cp && cp !== 'home') ? '#' + (CALC_HASH_FOR_PANEL[cp] || cp) : '#/calculators';
+      return (cp && cp !== 'home') ? '#/wastewater/calculators/' + cp : '#/wastewater/calculators';
     }
     return '#/' + sec;
   }
@@ -3962,15 +3961,17 @@ Match the device to the degree of hazard, and test assemblies at least annually.
     var section, panel = null, calcPanel = null;
     if(parts.length === 0){
       section = 'home';
+    } else if(parts[0] === 'wastewater' && parts[1] === 'calculators'){
+      section = 'calculators';    // #/wastewater/calculators[/panel] — nested under Wastewater
+      if(parts[2]){ calcPanel = calcPanelIdFor(parts[2]); }
     } else if(SECTIONS.indexOf(parts[0]) !== -1){
       section = parts[0];
       if(section === 'water' && parts[1]){ panel = parts[1]; }
-      if(section === 'calculators' && parts[1]){ calcPanel = calcPanelIdFor(parts[1]); }
     } else if(document.getElementById('p-' + parts[0])){
       section = 'water';          // bare panel token (internal link or old bookmark)
       panel = parts[0];
     } else if(calcPanelIdFor(parts[0])){
-      section = 'calculators';    // bare calculator formula token (#area, #volume, #MCRT, #lbs)
+      section = 'calculators';    // legacy bare calculator token (#area, #MCRT, #lbs, etc.)
       calcPanel = calcPanelIdFor(parts[0]);
     } else {
       section = 'home';           // unknown fragment -> Home
