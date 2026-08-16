@@ -60,6 +60,28 @@
   [S] Script 1 audio (MP3) download added 2026-08-10. Added a computer-read (text-to-speech) recording of Script 1 to #p-scripts, using the download attribute so it saves rather than streams. Link -> scripts/Script_1_Surface_Water_Ground_Water_Microbial_Rules.mp3 (MP3 committed separately; link is case-sensitive, must match committed path). Written and audio downloads are deliberately NOT one list: the single "Available scripts" section was split into two sibling section.block groups, "Written scripts" (PDF link + the existing "More scripts will be added" line) and "Computer-read audio" (MP3 link), so the two formats read as separate offerings and each can grow independently as Scripts 2-3 land. Existing PDF link left verbatim (still target=_blank). MP3 link text is "(MP3)" only — the "computer-read audio" descriptor lives in the header now, not repeated in the link. "How to use them" list gained one bullet: recording yourself works best, but a computer-read version can be downloaded instead. Descriptive UI copy only, NO regulatory numbers, no verification claim. Reused existing classes (block, sec, tight); no new CSS; no flashcard/exam-card IDs touched.
   [S] GWR/RTCR fecal-indicator flashcards corrected 2026-08-10. Retired card id:96 ("What fecal indicator does California require for GWR source-water sampling? / E. coli"), which overstated the rule. 40 CFR §141.402(c) (adopted by CA §64430 without narrowing, per Addendum A) allows E. coli, enterococci, or coliphage. E. coli is mandated only where a small system reuses an RTCR repeat sample as its source sample (dual-purpose, §141.402(a)(1)(iii)/(iv)). Replaced in the GWR deck by id:191 (three approved fecal indicators); added id:192 to the TCR deck (any total coliform-positive sample must be analyzed for E. coli). id:96 not reused. Deck counts render from the array, so no manual count edit. Src: 40_CFR_Part_141.md §141.402(c); California_Regulations...Aug-2025 §64430 + Addendum A.
   [S] DBP panel: added tbl-note footer under "Regulated disinfectants" table clarifying that the chlorine/chloramine MRDL RAA is built from monthly averages of coliform-site residual samples, then averaged over four quarters (computed quarterly); chlorine dioxide is daily-sample-based, not averaged. Clarifies the "RAA" compliance-basis cells, which the RAA/LRAA explainer section below describes only in TTHM/HAA5 terms. No numbers restated (single-source preserved). Src: California_Regulations...Aug-2025 §64535.4(b)(1) (RAA of monthly averages), §64534.4(a) (coliform-site sampling), §64534.4(b)/§64535.4(c) (chlorine dioxide daily basis); 40 CFR §141.65 definition.
+  [S] 2026-08-16 Added Wastewater > Calculators section (new #site-calculators site page, reached via a new dropdown under the Wastewater top-nav button; 'calculators' added to router SECTIONS). First calculators: The Pounds Formula (foundation) and MCRT. Both are teaching-first — each pounds sub-calculation and each flow-unit conversion (gpm/gpd->MGD) renders as its own worked step with color-coded inputs (green=flow/volume, orange=conc, neutral=8.34, teal=result). MCRT uses the aeration+clarifier method; note added flagging the three common in-system-solids methods for exam awareness. Stores nothing; no flashcard/exam-card IDs touched. Browser-verified: dropdown routes to #/calculators and survives reload; Pounds card 2 MGD x 200 mg/L = 3,336 lb/day and 1,000 gpm unit-conversion step both correct; MCRT worked example (tank 1 MG/2,500 mg/L, clarifier 0.25 MG/2,500 mg/L, effluent 5 MGD/10 mg/L, WAS 0.05 MGD/8,000 mg/L) = 6.944 days with all 5 steps rendering; blank-field state clears cleanly with no console errors; colors verified correct in both light and dark themes. Sources: MCRT/SRT structure and 8.34 factor are standard wastewater-operator math (sludgeschool.com, NY DEC Exercise 3 worksheet, PA DEP Module 16, American Water College) — not tied to the CA22/CFR project source files above.
+  [S] 2026-08-16 Calculators v2. Gave the Calculators page its own left sidebar (reuses dashboard .shell/.sidebar/.navlink chrome); each formula is now a swappable panel (one per view) via data-calc-target. MCRT: collapsed the two MLSS fields into a single shared MLSS concentration; numerator now teaches add-the-volumes-first then one pounds formula; added MG/gal option on both volume fields (default MG). Worked solutions unified on "Step N" / "Step N.x" substep labeling across both calculators (dropped prose "First, get the flow to MGD"). Removed number-input spinners (typed input only). All displayed numbers now round to 1 decimal (math stays full precision — verified: MCRT numerator step displays "1.0 + 0.3 = 1.3 MG" while the pounds line underneath still computes off the full-precision 1.25 MG, giving the correct 26,062.5 lb). gpm->MGD switched to the exam factor /694 (drives both the shown work and the computed result: 1,000 gpm -> 1.4 MGD -> 2,403.5 lb/day at 200 mg/L); gpd->MGD and gal->MG use /1,000,000. FIX during implementation: the spec's JS called showCalc('pounds') to set the default panel before calcSidebar/calcBackdrop were assigned, so closeCalcMenu() threw on load and aborted the rest of the IIFE — calcMenuBtn/calcBackdrop never got their click listeners, leaving the mobile hamburger menu completely inert. Fixed by moving the mobile-menu variable/listener block above the panel-switcher block. Browser-verified after the fix: hamburger opens the sidebar, backdrop and in-menu nav clicks both close it, zero console errors, panel switching and full MCRT/Pounds worked examples all match spec. No flashcard IDs touched; stores nothing.
+  [S] 2026-08-16 Calculators v3. (1) Moved "How these work" into its own Home panel (data-calc-target="home", #cp-home) instead of a persistent banner; expanded it to explain why this teaches the solution rather than just returning an answer. NOTE: the default panel on load is still Pounds (showCalc('pounds') at init was left unchanged by this spec) — Home is reachable only via the sidebar link, not shown first despite being called a "landing panel." Flagged to the user; left as specified. (2) Light/dark audit: calc cards stacked soft --text on the --bg-alt chrome tone, faint in light mode; realigned cards to --bg, worked-solution/input text to --heading, input bg to --surface-2 (theme-paired, correct in both modes) — verified both themes directly (light: card #fdf6e3/input #eee8d5/text #586e75; dark: card #002b36/input #073642/text #93a1a1). (3) Inputs now fixed-width (--calc-input-w:132px) sized for xxx,xxx,xxx — verified 123,456,789 fits with zero pixels of overflow (131px content in a 131px client box). (4) Inputs switched number->text with live comma grouping (groupInput); num() strips commas so math is unaffected — verified typing 1234567 displays "1,234,567" and a comma-grouped MLSS value still computes the correct product. (5) Added a "Conversions you need for this" box (CONV_FACTS/renderConversions) that surfaces the factor for each non-base unit selected (gpm/gpd/gal), deduped, hidden when nothing needs converting — verified hidden at MGD/MG, and showing all three deduped facts when gal/gpm/gpd are selected together on MCRT. (6) Removed max-width clamps on intros/notes for full panel width — verified computed max-width:none. (7) lb/day -> lbs/day and lb -> lbs on all result labels, including a JS comment missed by the spec's literal FIND/REPLACE list (line "Denominator term: ... lb/day" -> "lbs/day") — updated for consistency since nothing else reads "lb/day" outside the historical changelog entries above. No flashcard IDs touched; stores nothing.
+  [S] 2026-08-16 Calculators v3 follow-up. CRITICAL BUG FIX: groupInput()'s caret-restoration walk only counted digits before the caret, so typing "." (or clicking right after an existing one) left the caret BEFORE the decimal point instead of after it — every digit typed next landed in the integer part, corrupting the value (e.g. typing "123." then "45" produced garbage instead of "123.45"). Fixed by also tracking whether the caret was after a decimal point in the raw value (dotBefore) and requiring the walk to pass an actual "." character in the regrouped output before stopping, not just match the digit count. Verified: typing "123." now leaves the caret at position 4 (right after the dot); typing "1234567.89" character-by-character produces "1,234,567.89" with the caret correctly at the end (position 12) even with live comma grouping active. Also this round: (a) removed the "Teaching-first worked solutions" sidebar subtitle; (b) "Wastewater Calculators" brand heading now links to the Home/"How these work" panel (both click and Enter/Space keydown); the default panel on load also switched from Pounds to Home, resolving the v3 note above and making Home the actual landing page. (c) Removed "Start here" group-label and the standalone "How these work" nav button — cp-home is still in the DOM and still reachable via the brand link, it's just no longer duplicated as a nav item now that the brand link serves that role. (d) MCRT nav label now reads "Mean Cell Residence Time (MCRT)" (the panel's own h3 already said this; only the sidebar link changed). (e) Conversions box title changed "Conversions you need for this" -> "Conversion Values Needed". (f) Removed the MCRT "Heads up for the exam" callout entirely (three-methods-of-counting-solids note) along with its now-unused .calc-note-flag CSS rule. (g) MCRT field label "Effluent flow" -> "Plant flow" (data-mc="effflow"/"effflowunit" attribute names left unchanged — internal only, no functional effect). No flashcard IDs touched; stores nothing.
+  [S] 2026-08-16 Calculators unit-label sweep. User flagged the constant 8.34 rendering bare in worked steps (no lbs/gal) and the ÷1,000,000 conversion steps showing a bare divisor with no unit. Swept every calc-eq-static/worked-step string for the same gap. Fixed: (a) the static Pounds equation's <span class="v-const">8.34</span> -> "8.34 lbs/gal" (now every term in "Flow, MGD x 8.34 lbs/gal x Concentration, mg/L = Pounds per day" carries its unit); (b) the Home panel's color-legend sentence "The constant 8.34 stays neutral" -> "8.34 lbs/gal" for the same reason; (c) all three span('v-const', LB) call sites in the worked-step JS (Pounds "Apply the pounds formula" step, MCRT denomStep, MCRT "Solids in the system" step) now render LB + ' lbs/gal' instead of the bare number — one shared string literal, replace_all'd so all three stayed in sync; (d) the gpd->MGD conversion step's divisor label "1,000,000" -> "1,000,000 gal/day per MGD" (flowToMGD, gpd branch); (e) the gal->MG conversion step's divisor label "1,000,000" -> "1,000,000 gal per MG" (volToMG). Left as-is, deliberately: the Pounds panel's prose note ("The 8.34 is pounds per gallon of water...") already spells the unit out in words in the same sentence, so appending "lbs/gal" there would read redundantly; the CONV_FACTS box entries (694 gal/min = 1 MGD, etc.) and the gpm conversion step's "694 gal/min per MGD" label already carried full units before this sweep and needed no change. Verified in-browser: Pounds worked step now shows "2.0 MGD x 8.34 lbs/gal x 200.0 mg/L = 3,336.0 lbs/day"; gpd path shows "2,000,000.0 gal/day / 1,000,000 gal/day per MGD = 2.0 MGD"; MCRT gal-unit path shows "1,000,000.0 gal / 1,000,000 gal per MG = 1.0 MG" and every subsequent step's 8.34 now reads "8.34 lbs/gal"; full MCRT worked example still resolves to 6.9 days (math untouched, display-only change); zero console errors. No flashcard IDs touched; stores nothing.
+  [S] 2026-08-16 Calculators v4. Removed all result-interpreting text so the calculators teach only how to solve the problem (interpretation lives on dedicated subject pages, not here). Deleted the MCRT value-dependent .calc-hint block (the "<3 days young sludge" / "typical range" / "longer, watch for pin-floc" branching sentence keyed off the computed mcrt value) from runMCRT(), and its now-unused .calc-hint CSS rule. Trimmed "Typical range runs about 5 to 15 days for conventional activated sludge, longer when you are nitrifying" off the end of the MCRT intro's calc-sub paragraph, leaving only the mechanical description of what MCRT measures. Checked for the previously-removed .calc-note-flag CSS rule per the spec's optional Edit 4 — already gone from an earlier round, no action needed. Verified in-browser: full MCRT worked example still ends cleanly at "MCRT = 6.9 days" with no trailing hint text, no .calc-hint element in the DOM, intro paragraph no longer mentions the 5-15 day range, zero console errors. No flashcard IDs touched; stores nothing.
+  [S] 2026-08-16 Calculators v5. Added Area and Volume geometry calculators under Baseline Formulas, each with a shape selector that swaps inputs/formula/diagram/worked-steps (Area: rectangle, circle; Volume: box, cylinder, cone). Volume adds a desired-output selector (ft³/gal); the gal path appends a ft³×7.48 step and surfaces 7.48 gal=1 ft³ in the existing Conversion Values Needed box via a new CONV_FACTS.gal_ft3 entry. π=3.1415, 7.48 gal/ft³ per the SWRCB reference sheet — both full precision internally, 1-decimal display only. Inline theme-aware SVG diagrams per shape (stroke:currentColor so they follow --heading in both themes). Reused all shared helpers (num/fmt/span/op/line/subttl/groupInput/renderConversions) and the shared circleAreaSteps() base-area substep for both the Area/circle path and the Volume/cylinder+cone paths. Removed the fixed color-legend paragraph from "How these work" (coloring is now described as an inconsistent visual aid, not a rule, since it won't hold across all future formulas). Verified in-browser: rectangle 10x5=50 ft²; circle D=10 -> 0.25x3.1415x100=78.5 ft²; box 10x5x4=200 ft³, ft³->gal path 200x7.48=1,496 gal with the conversion box showing; cylinder D=10/H=20 -> base 78.5375 ft² (full precision, displays 78.5) x20 = 1,570.75 -> displays 1,570.8; cone same base x(1/3)x20 = 523.58 -> displays 523.6; shape-switch rebuilds inputs/equation/diagram cleanly each time; zero console errors across every shape and both panels. No flashcard IDs touched; stores nothing.
+  [S] 2026-08-16 Post-v5 tweaks: CONV_FACTS.gal_ft3 wording flipped to "1 ft³ = 7.48 gal (multiply ft³ by 7.48 to get gallons)" per user request (was "7.48 gal = 1 ft³ ..."). Sidebar nav under Baseline Formulas reordered to Area, Volume, The Pounds Formula (was Pounds, Area, Volume) per user request; showCalc()/panel wiring is data-attribute-driven so no JS changes needed, just the <button> order in the markup.
+  [S] 2026-08-16 Calculators v6. Per-dimension coloring for the geometry calculators: L=green (--ok), W=orange, H=violet (new --violet token), D=blue (new --blue token); results stay teal, constants muted. Each dimension's color now appears consistently across its input label, the formula display, the diagram, and every worked step. Added .v-dimL/W/H/D (step text), .lbl-L/W/H/D (input labels), .dim-L/W/H/D (diagram SVG groups). Redrew all five diagrams with proper dimension lines (arrowheads via a shared <marker id="ah"> + end ticks), each colored to match its input via the enclosing dim-* group and currentColor. field() gained an optional label-class arg. New --violet/--blue tokens defined once in :root (Solarized accents are theme-shared, matching how --teal/--ok/--orange already work). Math unchanged — only display/coloring.
+  FIX #1 (spec bug): the CSS given for .calc-diagram .dimline declared marker-start:url(#arrowStart) / marker-end:url(#arrowEnd), but the JS's ARROW_DEFS only ever defines a single marker with id="ah", referenced correctly via inline marker-start/marker-end="url(#ah)" attributes on each <line class="dimline">. Per the CSS/SVG cascade, a CSS marker-start/marker-end declaration on an element overrides its presentation attributes — confirmed via getComputedStyle before the fix (markerStart/markerEnd resolved to url("#arrowStart")/url("#arrowEnd"), which don't exist anywhere in the document), so every arrowhead was silently absent. Fixed by dropping marker-start/marker-end from the CSS rule entirely, letting the correct inline url(#ah) attributes take effect; confirmed post-fix computed markerStart/markerEnd both resolve to url("#ah").
+  FIX #2 (spec bug): the spec's .lbl-L/W/H/D rules (specificity 0,1,0 — one class) can never override the pre-existing .calc-field label{color:var(--heading)} rule (specificity 0,1,1 — one class + one element), regardless of stylesheet order, so every geometry input label rendered in the default --heading color instead of its dimension color. Confirmed via getComputedStyle before the fix (Length/Width labels both showed --heading, not --ok/--orange). Fixed by qualifying each rule as .calc-field label.lbl-L{...} etc. (specificity 0,2,1), which unambiguously wins. Confirmed post-fix: Length green (--ok), Width orange (--orange), Diameter blue (--blue), Height violet (--violet).
+  Verified in-browser after both fixes: rectangle diagram shows a green L-arrow and orange W-arrow with visible arrowheads at both ends of each dimension line; box diagram shows all three dimensions (green/orange/violet) with correctly colored arrows; cylinder/cone show blue D and violet H; every input label matches its diagram/formula/step color; box worked step 10x5x4=200 ft³ still correct with L/W/H each individually colored; zero console errors across every shape in both Area and Volume, plus Pounds/MCRT/Home unaffected. No flashcard IDs touched; stores nothing.
+  [S] 2026-08-16 Calculators v6 follow-up (user feedback on the v6 diagrams). (1) Removed the arrowhead system entirely per user preference: dropped the ARROW_DEFS <marker> definition and every marker-start/marker-end="url(#ah)" attribute from all five DIAGRAMS entries, keeping the colored dimension lines and their perpendicular end ticks (the .calc-diagram .dimline/.tick CSS rules already had no marker properties post the earlier bug fix, so only the JS + a stale explanatory comment needed cleanup). (2) Box diagram: moved the W dimension line + label from paralleling the top-right receding edge (diagonal near the top, offset (+7,-7) from the front/back-top-right corners) to paralleling the bottom-right receding edge instead (offset (+8,+8) from the front-bottom-right (165,125) and back-bottom-right (195,103) corners), landing the line at (173,133)-(203,111) with the "W" label at (220,128) — reads near L at the bottom now instead of colliding visually with the top of the box. (3) Extended input-label color-coding to the Pounds Formula panel: added class="lbl-flow" to the Flow label and class="lbl-conc" to the Concentration label (matching the existing v-flow/v-conc equation colors, --ok green and --orange respectively), plus two new CSS rules .calc-field label.lbl-flow/lbl-conc using the same specificity-safe qualified-selector pattern established for lbl-L/W/H/D in the prior fix (a bare .lbl-flow class alone would lose to .calc-field label's higher specificity). Verified in-browser: no triangles/arrowheads anywhere across rectangle/circle/box/cylinder/cone; box's W line+label now sit near the bottom beside L; Pounds panel's Flow label renders green (rgb(133,153,0)) and Concentration renders orange (rgb(203,75,22)), matching the equation; math and every other panel unaffected; zero console errors. No flashcard IDs touched; stores nothing.
+  [S] 2026-08-16 Design tokens sweep (per DESIGN-TOKENS-SPEC.md). Extracted the T5 Dashboard's existing font-size conventions into a shared --fs-* token scale in :root (title/body/mono-body/ui/eyebrow+sm+xs/caption/emphasis/emphasis-lg), values sourced verbatim from the dashboard's own CSS so this is a zero-visual-diff refactor, not a redesign — color system untouched. Swept ~32 call sites across the dashboard, calculators, and the two inline RAA/LRAA + OEL formula paragraphs onto the new tokens; verified in-browser (both themes, plus a live calculator run) that every swept selector's computed font-size is unchanged. Left several clusters deliberately un-tokenized because value matched a token but the selector's role didn't (e.g. .acro-block .sub, table body cells, .menu-btn, .applies, .callout, .sitenav-btn/.sitenav-sublink, all .fc-* flashcard styles) or because the value didn't cleanly match any token (the 10.5px "kicker" family used across ~7 selectors, .readout .note at 11px vs --fs-caption's 12px, .coming-soon h2 at 30px vs --fs-title's 29px — both flagged inline with "intentionally off-scale" comments). --calc-answer .big kept at its literal 24px, not folded into --fs-emphasis-lg's 21px, per the spec's explicit one-off carve-out. No flashcard/exam-card IDs touched; no content changes; CRLF line endings and script-tag balance confirmed intact after the edit.
+  [S] 2026-08-16 Calculators rounding behavior changed (user request): previously every computed step displayed 1-decimal rounded but the underlying math carried full precision to the next step (silent mismatch vs. someone replicating by hand). User explicitly wants what's on screen to be the actual value used going forward, "what I see on the screen is what I should see on my calculator." Added round2() and applied it to every computed intermediate/result across all four calculators (flowToMGD, volToMG, runPounds, denomStep + runMCRT's totalMG/sysLb/denom/mcrt, circleAreaSteps' squared-diameter and area, runArea's rectangle product, runVolume's box/cylinder/cone volumes and the ft3->gal step) so each displayed step value is now what literally feeds the next multiplication/division. fmt() changed from 1 to 2 decimal places to match. Per explicit user exception, the given constants pi (3.1415) and 0.3333 are used at full precision, never rounded (they're taught fixed reference values, not derived results) — same for the other literal constants (8.34 lbs/gal, 7.48 gal/ft3, 694 gal/min per MGD), which were already exact. Verified in-browser: Pounds 1,000 gpm/200 mg/L now shows 1.44 MGD carried forward to 1.44 x 8.34 x 200 = 2,401.92 lbs/day (previously would have used the unrounded 1.440923... internally, giving 2,403.52); circle area D=7 shows 7.00 x 7.00 = 49.00 ft2, then 0.25 x 3.1415 x 49.00 = 38.48 ft2 (pi shown unrounded, per exception); full MCRT worked example (tank 1 MG, clarifier 0.25 MG, MLSS 2,500, effluent 5 MGD/10 mg/L, WAS 0.05 MGD/8,000 mg/L) recomputes self-consistently end to end to 6.94 days. Also rewrote the Home panel's "How these work" copy (#cp-home) to the user's provided wording (teaching-tool-first intro, 4-item ol.tight list covering per-calculator descriptions, color convention, the 2-decimal rounding/carry-forward rule, and the step-by-step teaching rationale), reusing the existing ul/ol.tight CSS (no new styles). No flashcard/exam-card IDs touched; CRLF and script-tag balance confirmed intact after the edit.
+  [S] 2026-08-16 Calculators fmt() display follow-up (user feedback): the prior change forced every displayed number to exactly 2 decimals (e.g. "3,336.00 lbs/day", "2 MGD" showing as "2.00 MGD"), which read as visual clutter for whole numbers. Changed fmt()'s toLocaleString options from {minimumFractionDigits:2, maximumFractionDigits:2} to {minimumFractionDigits:0, maximumFractionDigits:2} — a whole number now displays with no decimal point at all, and a value needing only 1 decimal shows just that one (e.g. 26,062.50 -> "26,062.5"), while values needing 2 still show both (6.94, 2,401.92). This only changes how round2()'d values are WRITTEN, not the values themselves — the rounding/carry-forward behavior from the prior entry is unchanged, still applies globally across all four calculators (inputs echoed into steps and computed outputs alike, since both paths run through fmt()). Verified in-browser across Pounds (whole: "2 MGD x 8.34 lbs/gal x 200 mg/L = 3,336 lbs/day"; decimal: "1.44 MGD ... = 2,401.92 lbs/day"), MCRT (mixed whole/decimal chain ending "6.94 days"), Area (rectangle "10 ft x 5 ft = 50 ft2"; circle "0.25 x 3.1415 x 49 ft2 = 38.48 ft2", pi still unrounded per the standing exception), and Volume (box->gal "200 ft3 x 7.48 gal/ft3 = 1,496 gal"; cone "0.3333 x 78.54 ft2 x 20 ft = 523.55 ft3"). No flashcard/exam-card IDs touched; CRLF and script-tag balance confirmed intact after the edit.
+  [S] 2026-08-16 Calculators v6 follow-up #2 (user feedback on cylinder/cone D placement and box W styling). Cylinder/cone: the D dimension line sat at the ellipse's vertical center (cy), which for a squashed ellipse (ry=16) put both the line and its "D" label inside/overlapping the curve itself. Fixed by shifting the entire cylinder and cone diagrams down 20px (ellipse cy 42->62, all body/H coordinates +20, viewBox height 180->200 for cylinder and 190->210 for cone) to open up clear space above the ellipse, then moving the D dimline + new tick marks into that space (y=22, ticks to y=16/28, label at y=12) — D now reads clearly above the shape instead of through it, matching the L/H tick style used elsewhere. Box: added tick marks to the W line (perpendicular to its diagonal, mirroring the L/H tick treatment it was missing) and moved the "W" label from (220,128) to (222,126) — recentered against the diagonal line's true vertical midpoint (the line runs from y=133 to y=111, midpoint 122) instead of sitting closer to the line's upper end, which read as top-heavy relative to the line. Verified in-browser: cylinder/cone D sits fully clear of the ellipse curve with visible ticks on both ends; box W now has matching ticks and a better-centered label; volume math unchanged (box 10x5x4=200 ft³, cylinder D=10/H=20 base 78.5 ft² x20=1,570.8 ft³ both still correct); zero console errors. No flashcard IDs touched; stores nothing.
+  [S] 2026-08-16 Calculators v6 follow-up #3 (user said #2 went further than asked). Reverted cylinder/cone back to their pre-#2 geometry entirely — ellipse cy back to 42, body paths back to original coordinates, viewBox back to 270x180 (cylinder) / 270x190 (cone), D dimline back to running through the ellipse center (x1=45,y1=42 to x2=155,y2=42, no ticks) exactly as before #2 — per explicit instruction "put the line back inside the circle," only the D LABEL stayed moved (text now at y=16, clear above the ellipse's curve, instead of the original y=36 which overlapped it). Box W ticks shrunk from a ~20px diagonal span to ~12-13px (half-vector (6,8)->(4,5)) to match the L/H tick length. Then, per six rounds of user-directed pixel nudges (each confirmed by the user's own visual check, not mine — user asked me to stop taking screenshots and handle only the coordinate math), the box's entire dim-W group (dimline + both ticks + label) migrated to its current final position: dimline (177,137)-(207,115), ticks (173,132)-(181,142) and (203,110)-(211,120), label at (203,143). Also renamed the Volume shape dropdown's "Box (rectangular)" option to "Rectangle" (value="box" unchanged, internal-only). No flashcard IDs touched; stores nothing; math unaffected throughout (only diagram/label coordinates changed).
+  [S] 2026-08-16 Calculators v7. circleAreaSteps() now emits two numbered substeps — "{N}.1 — Square the diameter" and "{N}.2 — Multiply by ¼ × π to get the area" — instead of one titled line plus an untitled π-application line, fixing cylinder/cone (and standalone circle) Step 1 showing a partial substep. Applies to both callers automatically via the existing prefix arg (Area/circle passes 'Step 1'; Volume/cylinder+cone pass 'Step ' + stepNo). Verified in-browser: standalone circle D=10 -> Step 1.1/1.2 -> 78.5 ft²; cylinder D=10/H=20 -> Step 1.1/1.2 under "Step 1 — Area of the base", Step 2 continues correctly -> 1,570.8 ft³; cone same base -> Step 2 "Apply ⅓ × base area × height" -> 523.6 ft³; all three unchanged from pre-v7 values; zero console errors. Math unchanged — display/labeling only. No flashcard IDs touched.
+  [S] 2026-08-16 Calculators v8 (¼ notation + font-size audit). (1) Replaced the two remaining ¼ (&frac14;) references — the static circle-area equation display and the substep 1.2 title text — with "0.25", matching every other 0.25 already used inline in the worked math (the substep title now reads "Multiply by 0.25 × π to get the area"). ⅓ on the cone's formula/step was left untouched — not requested. (2) Font-size audit: the calculators' reading text was noticeably smaller than the T5 dashboard's established sizes. Surveyed the dashboard's actual conventions (p.lead/.acro-list li/.rail-head h2/inline-mono-formula paragraphs all cluster at 15px as the site's real "body copy" size — body{} itself has no explicit font-size, so unstyled text falls back to the 16px browser default, which the dashboard's own content never actually uses; h3.sec sits at 13px as the standard section-eyebrow size; .navlink/.acro-block.sub sit at 13.5px for compact UI text) and remapped every calculator text role to its nearest dashboard analog: .calc-sub/.calc-note/.calc-eq-static/.calc-line 13-14px -> 15px (matches p.lead/acro-list/inline-mono-formula); .calc-group-ttl/.calc-step-ttl/.calc-conv .conv-ttl 11px -> 12px (closer to h3.sec's 13px eyebrow convention without matching it exactly, since these are more frequent/lower-level labels); .calc-substep-ttl 10.5px -> 11px; .calc-field label/.calc-shape-row label 12.5px -> 13.5px and .calc-input-row select/.calc-shape-row select/.calc-unit 13px -> 13.5px (matching .navlink's 13.5px compact-UI size); .calc-conv li 13.5px -> 14.5px; .calc-answer 16px -> 18px and .calc-answer .big 22px -> 24px (kept proportionally the most emphasized element); .calc-footer 13px -> 14px. Left .calc-input-row input at 15px (already matched) and .calc-diagram text at 14px (SVG annotation, not reading prose — consistent with the dashboard keeping caption/label text small). Verified in-browser across Pounds/Area-circle/Home/MCRT: all text visibly larger and more legible, zero console errors, math unchanged (Pounds 3,336.0 lbs/day; circle 78.5 ft²; MCRT 6.9 days all match prior values). No flashcard IDs touched; stores nothing.
+  [S] 2026-08-16 Calculators v9 (⅓ notation). User asked to change the cone's remaining ⅓ references to 0.33, matching the earlier ¼->0.25 pass. FLAGGED AND APPLIED DIFFERENTLY FROM ¼: unlike 1/4, which equals exactly 0.25 (the ¼->0.25 swap was pure notation with zero precision change), 1/3 does not equal exactly 0.33 (it's 0.3333...). Rather than leave the actual computation on exact (1/3) while only relabeling the display as "0.33" — which would make the shown equation's arithmetic not match its own displayed answer, misleading a student checking the tool's math by hand — applied 0.33 as the literal computation constant itself (ft3 = 0.33 * cs.area * Hh, replacing ft3 = (1/3) * cs.area * Hh), consistent with how this app already treats π as the fixed teaching constant 3.1415 rather than exact Math.PI to match the exam reference sheet. Also updated VOL_EQ.cone's static formula display (&frac13; -> "0.33") and the cone step's title/line ("Apply ⅓ × base area × height" -> "Apply 0.33 × base area × height"). Net effect: cone volume for a given D/H is now ~1% lower than before this change (0.33 vs 0.3333...) — e.g. D=10/H=20 base 78.5 ft² now gives 518.3 ft³ where it previously gave 523.6 ft³ — and the shown "0.33 × base area × height" line's arithmetic now matches its own displayed result exactly. Verified in-browser: formula/step/line all read 0.33 consistently, zero console errors, no other panel affected. No flashcard IDs touched; stores nothing.
+  [S] 2026-08-16 Calculators v10 (⅓ precision bump). User asked for one more digit: 0.33 -> 0.3333 in the same three spots (VOL_EQ.cone display, the cone step title/line, and the actual ft3 = 0.3333 * cs.area * Hh computation) — same "actual constant, not just a relabel" treatment as v9, so the shown arithmetic still matches its own displayed result. Net effect: cone volume for a given D/H moved back up close to the true 1/3 value (D=10/H=20 base 78.5 ft² -> 523.5 ft³, vs 518.3 with 0.33 and 523.6 with exact 1/3 — now within 0.1 of exact). Verified in-browser: formula/step/line all read 0.3333, zero console errors. No flashcard IDs touched; stores nothing.
   --------------------------------------------------------------------------
   B. CURRENCY CHECKS vs PRIMARY WEB SOURCES                   checked 2026-07-22
   (These post-date the Aug-2025 project files; re-verify before the exam.)
@@ -95,11 +117,29 @@
     --warn:#b58900;         /* solarized yellow */
     --orange:#cb4b16;       /* solarized orange */
     --alarm:#dc322f;        /* solarized red */
+    --violet:#6c71c4;       /* solarized violet — geometry H */
+    --blue:#268bd2;         /* solarized blue — geometry D */
     --pill-ink:#002b36;     /* solarized base03 — dark text for solid pills on light/mid-luminance fills (yellow, green) */
     --pill-paper:#fdf6e3;   /* solarized base3 — light text for solid pills on dark/saturated fills (red, orange) */
     --radius:10px;
     --sans:"IBM Plex Sans",system-ui,sans-serif;
     --mono:"IBM Plex Mono",ui-monospace,monospace;
+
+    /* ---- Typography scale — source of truth is the T5 Dashboard (#site-water), the most
+       mature section. Values below are extracted from its existing CSS, not invented; every
+       call site this sweep touches should render at the exact same pixel size it did before.
+       Adding a new section: reuse one of these. If none fits, add ONE new token here with a
+       comment explaining the role it covers — never hardcode a bare font-size:Npx inline. ---- */
+    --fs-title:29px;       /* page-level h2, e.g. .rhead h2 (23px under 860px, see existing @media) */
+    --fs-body:15px;        /* standard reading prose — p.lead, .acro-list li, .rail-head h2 */
+    --fs-mono-body:15px;   /* inline monospace formula/readout lines at body scale */
+    --fs-ui:13.5px;        /* compact interactive/UI text — nav links, selects, small buttons */
+    --fs-eyebrow:13px;     /* section-label eyebrow, uppercase mono — h3.sec */
+    --fs-eyebrow-sm:12px;  /* secondary in-panel eyebrow labels (more frequent, smaller context) */
+    --fs-eyebrow-xs:11px;  /* tertiary/substep eyebrow labels */
+    --fs-caption:12px;     /* small print — .tbl-note, .readout .note */
+    --fs-emphasis:18px;    /* emphasized inline answer/result text */
+    --fs-emphasis-lg:21px; /* large highlighted numeric readout — .readout .val */
 
     /* Solarized Light — the only tones that differ between themes. Everything else below
        is derived from these so light/dark each stay a single, fully-committed palette
@@ -171,15 +211,15 @@
   }
   .rail-head{padding:20px 20px 16px;border-bottom:1px solid var(--line-strong)}
   .rail-head .kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin:0 0 6px}
-  .rail-head h2{font-size:15px;line-height:1.3;margin:0;color:var(--heading);font-weight:600;letter-spacing:-.01em}
+  .rail-head h2{font-size:var(--fs-body);line-height:1.3;margin:0;color:var(--heading);font-weight:600;letter-spacing:-.01em}
   .rail-body{padding:18px 20px 40px}
   .acro-block{margin:0 0 26px}
-  .acro-block .ttl{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-deep);margin:0 0 4px;font-weight:600}
+  .acro-block .ttl{font-family:var(--mono);font-size:var(--fs-eyebrow);letter-spacing:.14em;text-transform:uppercase;color:var(--teal-deep);margin:0 0 4px;font-weight:600}
   .acro-block .sub{font-size:13px;color:var(--muted);margin:0 0 14px;line-height:1.4}
   .acro-list{list-style:none;margin:0;padding:0}
-  .acro-list li{display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px;line-height:1.4;color:var(--text)}
+  .acro-list li{display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:var(--fs-body);line-height:1.4;color:var(--text)}
   .acro-list li:last-child{border-bottom:none}
-  .acro-list .letter{font-family:var(--mono);font-weight:700;font-size:15px;color:var(--teal);min-width:16px;flex:none}
+  .acro-list .letter{font-family:var(--mono);font-weight:700;font-size:var(--fs-body);color:var(--teal);min-width:16px;flex:none}
   .acro-list .dash{font-family:var(--mono);color:var(--muted);flex:none;min-width:10px;text-align:center}
   @media(max-width:1180px){
     .shell{grid-template-columns:340px 1fr}
@@ -190,7 +230,7 @@
   .brand h1{font-size:17px;line-height:1.25;margin:0;color:var(--heading);font-weight:600;letter-spacing:-.01em;cursor:pointer}
   .brand h1:hover{color:var(--teal)}
   .brand h1:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
-  .brand .sub{font-size:12px;color:var(--muted);margin:6px 0 0}
+  .brand .sub{font-size:var(--fs-caption);color:var(--muted);margin:6px 0 0}
   .theme-switch{
     position:relative;display:block;
     width:64px;height:34px;padding:0;margin:0;box-sizing:border-box;
@@ -219,7 +259,7 @@
   }
   .navlink{
     display:flex;align-items:baseline;gap:8px;width:100%;text-align:left;cursor:pointer;
-    background:none;border:none;color:var(--text);font-family:var(--sans);font-size:13.5px;
+    background:none;border:none;color:var(--text);font-family:var(--sans);font-size:var(--fs-ui);
     padding:8px 12px;border-radius:7px;line-height:1.35;transition:background .12s,color .12s;
   }
   .navlink:hover{background:var(--ink-2);color:var(--heading)}
@@ -242,7 +282,7 @@
   @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
   /* ---------- Rule header ---------- */
   .rhead{border-bottom:2px solid var(--heading);padding-bottom:16px;margin-bottom:22px}
-  .rhead h2{font-size:29px;line-height:1.1;margin:0;letter-spacing:-.02em;font-weight:700;color:var(--heading)}
+  .rhead h2{font-size:var(--fs-title);line-height:1.1;margin:0;letter-spacing:-.02em;font-weight:700;color:var(--heading)}
   .rhead .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
   .applies{font-family:var(--mono);font-size:11px;padding:4px 9px;border-radius:6px;background:var(--ink);color:var(--heading)}
   /* ---------- Readout chips (signature) ---------- */
@@ -251,23 +291,23 @@
   .readout::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--teal)}
   .readout.ok::before{background:var(--ok)} .readout.warn::before{background:var(--warn)} .readout.alarm::before{background:var(--alarm)}
   .readout .lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 7px}
-  .readout .val{font-family:var(--mono);font-size:21px;font-weight:600;color:var(--heading);line-height:1;letter-spacing:-.01em}
-  .readout .val small{font-size:12px;color:var(--muted);font-weight:400}
-  .readout .note{font-size:11px;color:var(--muted);margin:6px 0 0;line-height:1.35;font-family:var(--sans)}
+  .readout .val{font-family:var(--mono);font-size:var(--fs-emphasis-lg);font-weight:600;color:var(--heading);line-height:1;letter-spacing:-.01em}
+  .readout .val small{font-size:var(--fs-caption);color:var(--muted);font-weight:400}
+  .readout .note{font-size:11px;color:var(--muted);margin:6px 0 0;line-height:1.35;font-family:var(--sans)} /* intentionally off-scale: 11px, not merged into --fs-caption (12px) */
   /* ---------- Content blocks ---------- */
   section.block{margin:0 0 26px}
-  h3.sec{font-size:13px;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--teal-deep);
+  h3.sec{font-size:var(--fs-eyebrow);font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--teal-deep);
     margin:0 0 12px;padding-bottom:7px;border-bottom:1px solid var(--line);font-weight:600}
   h4.sub{font-size:14px;margin:18px 0 8px;color:var(--heading);font-weight:600}
   p{margin:0 0 11px}
-  p.lead{font-size:15px;color:var(--text)}
+  p.lead{font-size:var(--fs-body);color:var(--text)}
   ul.tight,ol.tight{margin:0 0 12px;padding-left:18px}
   ul.tight li,ol.tight li{margin:0 0 6px}
   ul.tight li::marker,ol.tight li::marker{color:var(--teal)}
   ul.tight ul.tight{margin:6px 0 0}
   .k{font-family:var(--mono);font-size:.92em;background:var(--surface-2);border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--teal-deep)}
   abbr.gloss{border-bottom:1px dotted var(--muted);text-decoration:none;cursor:help}
-  .tbl-note{font-size:12px;color:var(--muted)}
+  .tbl-note{font-size:var(--fs-caption);color:var(--muted)}
   strong{font-weight:600}
   a{color:var(--teal-deep);text-decoration-color:color-mix(in srgb, var(--teal-deep) 45%, transparent)}
   a:hover{color:var(--teal);text-decoration-color:currentColor}
@@ -275,7 +315,7 @@
   /* ---------- Tables ---------- */
   .tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);margin:0 0 14px;background:var(--surface)}
   table{border-collapse:collapse;width:100%;font-size:13px;min-width:440px}
-  caption{caption-side:top;text-align:left;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:11px 14px 0}
+  caption{caption-side:top;text-align:left;font-family:var(--mono);font-size:var(--fs-eyebrow-xs);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:11px 14px 0}
   th,td{padding:9px 13px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
   thead th{background:var(--ink);color:var(--heading);font-weight:600;font-size:11.5px;letter-spacing:.03em;position:sticky;top:0}
   tbody tr:last-child td{border-bottom:none}
@@ -426,14 +466,15 @@
     text-align:center;padding:40px 24px;
   }
   .coming-soon .cs-kicker{
-    font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    font-family:var(--mono);font-size:var(--fs-eyebrow-xs);letter-spacing:.18em;text-transform:uppercase;
     color:var(--teal);margin:0 0 14px;
   }
   .coming-soon h2{
-    font-size:30px;line-height:1.1;margin:0 0 12px;font-weight:700;
+    font-size:30px; /* intentionally off-scale: 1px off dashboard's --fs-title (29px) — not merged */
+    line-height:1.1;margin:0 0 12px;font-weight:700;
     letter-spacing:-.02em;color:var(--heading);
   }
-  .coming-soon p{font-size:15px;color:var(--muted);margin:0;max-width:460px;line-height:1.5}
+  .coming-soon p{font-size:var(--fs-body);color:var(--muted);margin:0;max-width:460px;line-height:1.5}
 
   /* Content wrapper for full-width site pages (no dashboard sidebar) */
   .page-wrap{padding:30px 34px 80px;max-width:1280px;margin:0 auto}
@@ -478,6 +519,160 @@
     .sitenav-sublink{padding:8px 12px;font-size:14px}
     .sitebar-theme-toggle{margin:2px 0 0}
   }
+
+  /* ================= CALCULATORS ================= */
+  /* Reuses dashboard .shell/.sidebar/.brand/.navlink/.panel chrome; only calc-specific bits here. */
+  .shell-calc{grid-template-columns:340px 1fr}      /* no right rail on calculators */
+  #site-calculators .shell{min-height:calc(100vh - var(--sitebar-h));min-height:calc(100dvh - var(--sitebar-h))}
+  #site-calculators .sidebar{top:var(--sitebar-h);height:calc(100vh - var(--sitebar-h));height:calc(100dvh - var(--sitebar-h))}
+  #site-calculators .topbar{top:var(--sitebar-h)}
+
+  .calc-panel-wrap{padding:30px 34px 0;max-width:1280px}
+  .calc-intro{margin:0 0 26px}
+
+  /* One formula panel visible at a time */
+  .calc-panel{display:none}
+  .calc-panel.active{display:block;animation:fade .22s ease}
+
+  .calc{
+    background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px 22px 24px;margin:0 0 26px;
+  }
+  .calc-head{margin:0 0 16px}
+  .calc-head .sec{margin:0 0 6px}
+  .calc-sub{font-size:var(--fs-body);color:var(--muted);margin:0;line-height:1.5}
+
+  /* Input color legend, reused everywhere */
+  .v-flow{color:var(--ok);font-weight:600}
+  .v-conc{color:var(--orange);font-weight:600}
+  .v-const{color:var(--muted);font-weight:600}
+  .v-result{color:var(--teal);font-weight:600}
+  .v-dimL{color:var(--ok);font-weight:600}
+  .v-dimW{color:var(--orange);font-weight:600}
+  .v-dimH{color:var(--violet);font-weight:600}
+  .v-dimD{color:var(--blue);font-weight:600}
+
+  .calc-eq-static{
+    display:flex;flex-wrap:wrap;align-items:center;gap:8px;
+    font-family:var(--mono);font-size:var(--fs-mono-body);line-height:1.5;
+    background:var(--ink);border:1px solid var(--line);border-radius:8px;
+    padding:14px 16px;margin:0 0 12px;
+  }
+  .calc-eq-static .op{color:var(--heading);font-weight:600}
+  .calc-eq-frac{gap:14px}
+  .frac{display:inline-flex;flex-direction:column;align-items:center;gap:4px}
+  .frac-num,.frac-den{display:flex;flex-wrap:wrap;align-items:center;gap:8px;justify-content:center}
+  .frac-bar{display:block;height:2px;width:100%;background:var(--line-strong);margin:2px 0}
+
+  .calc-note{font-size:var(--fs-body);color:var(--muted);line-height:1.5;margin:0 0 10px}
+  .calc-note em{color:var(--heading);font-style:italic}
+
+  /* Fixed input width sized to fit "xxx,xxx,xxx" in mono at 15px (~11 chars). */
+  :root{--calc-input-w:132px}
+  .calc-inputs{display:flex;flex-wrap:wrap;gap:16px 24px;margin:18px 0 4px}
+  .calc-inputs-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .calc-group-ttl{
+    font-family:var(--mono);font-size:var(--fs-eyebrow-sm);letter-spacing:.1em;text-transform:uppercase;
+    color:var(--teal-deep);margin:0 0 10px;font-weight:600;
+  }
+  .calc-field{display:flex;flex-direction:column;gap:5px;margin:0 0 12px}
+  .calc-input-row{align-items:stretch}
+  .calc-field label{font-size:var(--fs-ui);color:var(--heading);font-weight:500}
+  .calc-input-row{display:flex;gap:6px;align-items:stretch}
+  .calc-input-row input{
+    flex:0 0 auto;width:var(--calc-input-w);font-family:var(--mono);font-size:var(--fs-mono-body);
+    padding:8px 10px;border:1px solid var(--line-strong);border-radius:7px;
+    background:var(--surface-2);color:var(--heading);
+  }
+  .calc-input-row input:focus{outline:2px solid var(--teal);outline-offset:1px}
+  .calc-input-row select{
+    flex:0 0 auto;font-family:var(--mono);font-size:var(--fs-ui);
+    padding:8px 8px;border:1px solid var(--line-strong);border-radius:7px;
+    background:var(--bg);color:var(--text);cursor:pointer;
+  }
+  .calc-unit{
+    flex:0 0 auto;display:flex;align-items:center;font-family:var(--mono);
+    font-size:var(--fs-ui);color:var(--muted);padding:0 4px;
+  }
+  /* Inputs are type=text (to allow live comma grouping); nothing to strip here. */
+
+  .calc-work{margin:18px 0 0}
+  .calc-work:empty{margin:0}
+  .calc-conv{
+    margin:16px 0 0;padding:12px 14px;border-radius:8px;
+    background:var(--op-bg);border:1px solid var(--op-border);
+  }
+  .calc-conv .conv-ttl{
+    font-family:var(--mono);font-size:var(--fs-eyebrow-sm);letter-spacing:.08em;text-transform:uppercase;
+    color:var(--teal-deep);margin:0 0 8px;font-weight:600;
+  }
+  .calc-conv ul{list-style:none;margin:0;padding:0}
+  .calc-conv li{font-family:var(--mono);font-size:14.5px;line-height:1.7;color:var(--heading)}
+
+  /* Shape / output selector row */
+  .calc-shape-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:0 0 14px}
+  .calc-shape-row label{font-size:var(--fs-ui);color:var(--heading);font-weight:600}
+  .calc-shape-row .calc-shape-out{margin-left:8px}
+  .calc-shape-row select{
+    font-family:var(--mono);font-size:var(--fs-ui);padding:8px 8px;
+    border:1px solid var(--line-strong);border-radius:7px;
+    background:var(--surface-2);color:var(--heading);cursor:pointer;
+  }
+
+  /* Simple line diagrams (theme-aware via currentColor) */
+  .calc-diagram{margin:0 0 8px}
+  .calc-diagram svg{max-width:300px;width:100%;height:auto;color:var(--heading)}
+  .calc-diagram .shape{fill:none;stroke:currentColor;stroke-width:1.6}
+  /* Per-dimension colors: each letter + its arrow share one color, matched to the input label. */
+  .dim-L{color:var(--ok)}      .dim-L text{fill:var(--ok)}
+  .dim-W{color:var(--orange)}  .dim-W text{fill:var(--orange)}
+  .dim-H{color:var(--violet)}  .dim-H text{fill:var(--violet)}
+  .dim-D{color:var(--blue)}    .dim-D text{fill:var(--blue)}
+  .calc-diagram .dimline{stroke:currentColor;stroke-width:1.4;fill:none}
+  .calc-diagram .tick{stroke:currentColor;stroke-width:1.2}
+  .calc-diagram text{font-family:var(--mono);font-size:14px;font-weight:600}
+
+  /* Input-label colors (label text only; input value stays neutral) */
+  /* .calc-field label{...} sets color:var(--heading) at specificity (0,1,1); a bare
+     .lbl-* class is only (0,1,0) and would silently lose, so these are qualified with
+     .calc-field to win unambiguously (0,2,1) regardless of stylesheet order. */
+  .calc-field label.lbl-L{color:var(--ok)}
+  .calc-field label.lbl-W{color:var(--orange)}
+  .calc-field label.lbl-H{color:var(--violet)}
+  .calc-field label.lbl-D{color:var(--blue)}
+  .calc-field label.lbl-flow{color:var(--ok)}
+  .calc-field label.lbl-conc{color:var(--orange)}
+  .calc-step{
+    background:var(--ink);border:1px solid var(--line);border-radius:8px;
+    padding:12px 14px;margin:0 0 10px;
+  }
+  .calc-step-ttl{
+    font-family:var(--mono);font-size:var(--fs-eyebrow-sm);letter-spacing:.08em;text-transform:uppercase;
+    color:var(--teal);margin:0 0 8px;font-weight:600;
+  }
+  .calc-substep-ttl{
+    font-family:var(--mono);font-size:var(--fs-eyebrow-xs);letter-spacing:.06em;
+    color:var(--muted);margin:10px 0 6px;font-weight:600;
+  }
+  .calc-line{font-family:var(--mono);font-size:var(--fs-mono-body);line-height:1.7;color:var(--heading);margin:0}
+  .calc-line .op{color:var(--heading)}
+  .calc-line .lbl{color:var(--muted)}
+  .calc-answer{
+    margin:14px 0 0;padding:14px 16px;border-radius:8px;
+    background:var(--op-bg);border:1px solid var(--op-border);
+    font-family:var(--mono);font-size:var(--fs-emphasis);color:var(--heading);
+  }
+  .calc-answer .big{font-size:24px;font-weight:700;color:var(--teal-deep)}
+  .calc-footer{font-size:14px;color:var(--muted);margin:8px 0 0}
+
+  @media(max-width:1180px){ .shell-calc{grid-template-columns:340px 1fr} }
+  @media(max-width:860px){
+    .calc-panel-wrap{padding:22px 18px 0}
+  }
+  @media(max-width:640px){
+    .calc-inputs-grid{grid-template-columns:1fr}
+    .calc-eq-static{font-size:12.5px}
+  }
 </style>
 </head>
 <body>
@@ -492,7 +687,12 @@
   <div class="sitebar-menu" id="siteMenu">
   <nav class="sitenav" aria-label="Site sections">
     <button type="button" class="sitenav-btn" data-site="about">About</button>
-    <button type="button" class="sitenav-btn" data-site="wastewater">Wastewater</button>
+    <div class="sitenav-item">
+      <button type="button" class="sitenav-btn" data-site="wastewater" aria-haspopup="true">Wastewater<span class="caret" aria-hidden="true">&#9662;</span></button>
+      <div class="sitenav-dropdown">
+        <a href="#/calculators" class="sitenav-sublink" data-site-link="calculators">Calculators</a>
+      </div>
+    </div>
     <div class="sitenav-item">
       <button type="button" class="sitenav-btn" data-site="water" aria-haspopup="true">Water<span class="caret" aria-hidden="true">&#9662;</span></button>
       <div class="sitenav-dropdown">
@@ -530,6 +730,259 @@
     <h2>Wastewater Exam Prep</h2>
     <p>Coming soon.</p>
   </div>
+</div>
+
+<!-- ---------- Calculators (under Wastewater) ---------- -->
+<div class="site-page" id="site-calculators">
+<div class="shell shell-calc">
+  <!-- ============ CALCULATOR SIDEBAR ============ -->
+  <aside class="sidebar" id="calcSidebar">
+    <div class="brand">
+      <h1 id="calcBrandHome" role="button" tabindex="0" aria-label="Calculators home">Wastewater Calculators</h1>
+    </div>
+    <nav id="calcNav">
+      <p class="group-label">Baseline Formulas</p>
+      <button type="button" class="navlink" data-calc-target="area">Area</button>
+      <button type="button" class="navlink" data-calc-target="volume">Volume</button>
+      <button type="button" class="navlink" data-calc-target="pounds">The Pounds Formula</button>
+      <p class="group-label">Secondary System</p>
+      <button type="button" class="navlink" data-calc-target="mcrt">Mean Cell Residence Time (MCRT)</button>
+    </nav>
+  </aside>
+  <div class="backdrop" id="calcBackdrop"></div>
+
+  <!-- ============ CALCULATOR MAIN ============ -->
+  <main>
+    <div class="topbar">
+      <button class="menu-btn" id="calcMenuBtn" aria-label="Open menu">☰ Menu</button>
+    </div>
+
+    <div class="calc-panel-wrap">
+
+      <!-- ===== Panel: Home / How these work ===== -->
+      <section class="calc calc-panel" id="cp-home">
+        <div class="calc-head">
+          <h3 class="sec">How these work</h3>
+        </div>
+        <p class="calc-note">Unlike some calculators that merely display a result, these calculators are designed to be a teaching tool first and a calculator second.</p>
+        <ol class="tight calc-note">
+          <li>Read the information about each calculator. It will describe what it does and what information you gain from it.</li>
+          <li>Where possible, the formulas utilize colors so you can follow along. The colors are standardized where possible, but may not always follow standardization.</li>
+          <li>The calculators round to two decimals for each equation and carry that rounding to the next calculation. If you do not do the same, your answer will not match. That doesn't mean you're wrong, it just means you're not rounding the same.</li>
+          <li>The calculator explains each step so that you gain an understanding of what you're doing and why. You won't have a calculator like this in the exam room, so it's important you understand what you are doing and why you are doing it.</li>
+        </ol>
+        <p class="calc-note">Pick a formula from the menu on the left to begin.</p>
+      </section>
+
+      <!-- ===== Panel: Pounds ===== -->
+      <section class="calc calc-panel" id="cp-pounds">
+        <div class="calc-head">
+          <h3 class="sec">The Pounds Formula</h3>
+          <p class="calc-sub">The pounds formula is very likely the single most important formula you will use in your career. It is used to calculate data such as chemical use, Solids Retention Time (SRT), organic loading rates, F:M, wasting rates, and more.</p>
+          <p class="calc-note">The constant this formula uses is <span class="v-const">8.34</span> pounds per gallon which turns a concentration in milligrams per liter (or ppm) into pounds when your flow is in million gallons per day (MGD). One mg/L in one million gallons weighs 8.34 pounds.</p>
+        </div>
+
+        <div class="calc-eq-static">
+          <span class="v-flow">Flow, MGD</span>
+          <span class="op">&times;</span>
+          <span class="v-const">8.34 lbs/gal</span>
+          <span class="op">&times;</span>
+          <span class="v-conc">Concentration, mg/L</span>
+          <span class="op">=</span>
+          <span class="v-result">Pounds per day</span>
+        </div>
+
+        <div class="calc-inputs">
+          <div class="calc-field">
+            <label class="lbl-flow">Flow</label>
+            <div class="calc-input-row">
+              <input type="text" inputmode="decimal" autocomplete="off" data-pf="flow" placeholder="0">
+              <select data-pf="flowunit">
+                <option value="MGD">MGD</option>
+                <option value="gpm">gpm</option>
+                <option value="gpd">gpd</option>
+              </select>
+            </div>
+          </div>
+          <div class="calc-field">
+            <label class="lbl-conc">Concentration</label>
+            <div class="calc-input-row">
+              <input type="text" inputmode="decimal" autocomplete="off" data-pf="conc" placeholder="0">
+              <span class="calc-unit">mg/L</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-conv" data-pf-conv hidden></div>
+        <div class="calc-work" data-pf-work aria-live="polite"></div>
+      </section>
+
+      <!-- ===== Panel: Area ===== -->
+      <section class="calc calc-panel" id="cp-area">
+        <div class="calc-head">
+          <h3 class="sec">Area</h3>
+          <p class="calc-sub">The flat space a shape covers, in square feet. You'll use it:</p>
+          <ul class="tight calc-note">
+            <li>As the first step towards finding the volume of a tank, basin or pipe</li>
+            <li>To find the cross sectional area of a channel or pipe when calculating velocity</li>
+          </ul>
+          <p class="calc-sub">Select the desired shape from the menu below, then enter that shape's dimensions.</p>
+        </div>
+
+        <div class="calc-shape-row">
+          <label>Shape</label>
+          <select data-ar="shape">
+            <option value="rectangle">Rectangle</option>
+            <option value="circle">Circle</option>
+          </select>
+        </div>
+
+        <div class="calc-eq-static" data-ar-eq></div>
+        <div class="calc-diagram" data-ar-diagram></div>
+
+        <div class="calc-inputs" data-ar-inputs></div>
+
+        <div class="calc-conv" data-ar-conv hidden></div>
+        <div class="calc-work" data-ar-work aria-live="polite"></div>
+      </section>
+
+      <!-- ===== Panel: Volume ===== -->
+      <section class="calc calc-panel" id="cp-volume">
+        <div class="calc-head">
+          <h3 class="sec">Volume</h3>
+          <p class="calc-sub">How much a given shape can hold. Every volume is a base area times its height. All units in this calculator use feet (ft).</p>
+          <p class="calc-note">Finding volumes is a crucial step in determining how much water or sludge is within a defined space, such as a tank, basin, channel, or digester. Determining volumes will show up frequently under all exam levels.</p>
+          <p class="calc-note">Select the desired shape from the dropdown menu below, then enter that shape's dimensions. As an additional step, you can select whether the desired output is in ft³ or gallons.</p>
+        </div>
+
+        <div class="calc-shape-row">
+          <label>Shape</label>
+          <select data-vol="shape">
+            <option value="box">Rectangle</option>
+            <option value="cylinder">Cylinder</option>
+            <option value="cone">Cone</option>
+          </select>
+          <label class="calc-shape-out">Desired output</label>
+          <select data-vol="out">
+            <option value="ft3">cubic feet (ft³)</option>
+            <option value="gal">gallons (gal)</option>
+          </select>
+        </div>
+
+        <div class="calc-eq-static" data-vol-eq></div>
+        <div class="calc-diagram" data-vol-diagram></div>
+
+        <div class="calc-inputs" data-vol-inputs></div>
+
+        <div class="calc-conv" data-vol-conv hidden></div>
+        <div class="calc-work" data-vol-work aria-live="polite"></div>
+      </section>
+
+      <!-- ===== Panel: MCRT ===== -->
+      <section class="calc calc-panel" id="cp-mcrt">
+        <div class="calc-head">
+          <h3 class="sec">Mean Cell Residence Time (MCRT)</h3>
+          <p class="calc-sub">The Mean Cell Residence Time is the average time in days that microorganisms stay within the secondary system of an activated sludge wastewater treatment plant. Its numerator contains the entire solids inventory within the system (pounds MLSS in secondary system) while its denominator contains the solids leaving the system each day, either lost over the clarifier weir (pounds Secondary Clarifier EFF TSS) or through deliberate wasting (pounds wasted).</p>
+          <p class="calc-note">It is different from the Solids Retention Time (SRT) formula in that its calculation includes the mixed liquor contained within the entire secondary system (aeration basins + secondary clarifiers) whereas SRT omits the secondary clarifiers.</p>
+        </div>
+
+        <div class="calc-eq-static calc-eq-frac">
+          <div class="frac">
+            <span class="frac-num">
+              <span class="v-result">Solids in secondary system, lbs</span>
+            </span>
+            <span class="frac-bar"></span>
+            <span class="frac-den">
+              <span class="v-result">Sec Clar Eff TSS, lbs/day</span>
+              <span class="op">+</span>
+              <span class="v-result">WAS, lbs/day</span>
+            </span>
+          </div>
+          <span class="op">=</span>
+          <span class="v-result">MCRT, days</span>
+        </div>
+
+        <div class="calc-inputs calc-inputs-grid">
+          <div class="calc-group">
+            <p class="calc-group-ttl">Solids in the system (numerator)</p>
+            <div class="calc-field">
+              <label>Aeration basin volume</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-mc="tankvol" placeholder="0">
+                <select data-mc="tankvolunit">
+                  <option value="MG">MG</option>
+                  <option value="gal">gal</option>
+                </select>
+              </div>
+            </div>
+            <div class="calc-field">
+              <label>Clarifier volume</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-mc="clarvol" placeholder="0">
+                <select data-mc="clarvolunit">
+                  <option value="MG">MG</option>
+                  <option value="gal">gal</option>
+                </select>
+              </div>
+            </div>
+            <div class="calc-field">
+              <label>MLSS concentration</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-mc="mlss" placeholder="0">
+                <span class="calc-unit">mg/L</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="calc-group">
+            <p class="calc-group-ttl">Solids leaving each day (denominator)</p>
+            <div class="calc-field">
+              <label>Plant flow</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-mc="effflow" placeholder="0">
+                <select data-mc="effflowunit">
+                  <option value="MGD">MGD</option>
+                  <option value="gpm">gpm</option>
+                  <option value="gpd">gpd</option>
+                </select>
+              </div>
+            </div>
+            <div class="calc-field">
+              <label>Secondary Clarifier Eff TSS</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-mc="efftss" placeholder="0">
+                <span class="calc-unit">mg/L</span>
+              </div>
+            </div>
+            <div class="calc-field">
+              <label>WAS flow</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-mc="wasflow" placeholder="0">
+                <select data-mc="wasflowunit">
+                  <option value="MGD">MGD</option>
+                  <option value="gpm">gpm</option>
+                  <option value="gpd">gpd</option>
+                </select>
+              </div>
+            </div>
+            <div class="calc-field">
+              <label>WAS TSS</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-mc="wastss" placeholder="0">
+                <span class="calc-unit">mg/L</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-conv" data-mc-conv hidden></div>
+        <div class="calc-work" data-mc-work aria-live="polite"></div>
+      </section>
+
+      <p class="calc-footer">More calculators will be added here — F/M ratio, detention time, removal efficiency, and the rest of the exam math.</p>
+    </div>
+  </main>
+</div>
 </div>
 
 <!-- ---------- Water = T5 Dashboard ---------- -->
@@ -709,6 +1162,10 @@
           </tbody>
         </table></div>
         <p class="tbl-note">Chlorine and chloramine RAA has two steps: the residual readings taken at each coliform site are first averaged by month, then those monthly averages feed the running annual average, computed quarterly. Chlorine dioxide is not averaged — it is judged on daily entry-point samples.</p>
+        <div class="callout status">
+          <p class="ttl">Pathogen Risk &gt; MRDL Limits</p>
+          <p>The MRDL is a chronic-exposure limit. When there is an acute microbial threat, protecting public health comes first. A system may raise the chlorine or chloramine (not chlorine dioxide) residual above the MRDL to protect public health and address specific microbial contamination problems, such as a distribution line break, a storm run-off event, a source water contamination event, a natural disaster, or a cross-connection event. Systems must notify the State Water Board immediately when doing so.</p>
+        </div>
       </section>
 
       <section class="block">
@@ -717,7 +1174,7 @@
           <li><strong>RAA</strong> — averaged system-wide across all monitoring sites.</li>
           <li><strong>LRAA</strong> — averaged per location.</li>
         </ul>
-        <p style="font-family:var(--mono);font-size:15px;color:var(--teal-deep);margin:4px 0 8px">RAA / LRAA = (Q₋₃ + Q₋₂ + Q₋₁ + Q₀) ÷ 4</p>
+        <p style="font-family:var(--mono);font-size:var(--fs-mono-body);color:var(--teal-deep);margin:4px 0 8px">RAA / LRAA = (Q₋₃ + Q₋₂ + Q₋₁ + Q₀) ÷ 4</p>
         <p>Averaged over four consecutive quarters. As each new quarter comes in, the oldest falls off.</p>
         <p>A violation occurs when the RAA/LRAA exceeds the MCL/MRDL. A single quarter's result high enough to pull the average over the limit is itself a violation.</p>
       </section>
@@ -725,7 +1182,7 @@
       <section class="block">
         <h3 class="sec">Operational Evaluation Level (OEL)</h3>
         <p>The purpose of the OEL is to detect a rising TTHM or HAA5 level before an MCL violation occurs.</p>
-        <p style="font-family:var(--mono);font-size:15px;color:var(--teal-deep);margin:4px 0 8px">OEL = ((Q₋₂ + Q₋₁) + (Q₀ × 2)) ÷ 4</p>
+        <p style="font-family:var(--mono);font-size:var(--fs-mono-body);color:var(--teal-deep);margin:4px 0 8px">OEL = ((Q₋₂ + Q₋₁) + (Q₀ × 2)) ÷ 4</p>
         <p>The OEL is calculated at the same time as the LRAA but only includes the three most recent quarters of data. The current quarter is double-weighted so a rising trend trips the OEL early.</p>
         <p>The OEL is exceeded if its value is greater than the TTHM or HAA5 MCL. This is an operational trigger, not an MCL violation. If an OEL is exceeded, the system must:</p>
         <ul class="tight">
@@ -798,6 +1255,7 @@
           <li>TTHM and HAA5 build as chlorine sits in contact with organic material. They climb with warm water, long detention, and distance from the plant. Ensure tank turn over, aerate problem tanks, and flush dead ends where problems exist, especially during the summer.</li>
           <li>Watch pH and disinfectant choice as your levers. pH steers whether TTHM or HAA5 dominates, and switching to chloramines or moving an injection point shifts your whole DBP picture.</li>
           <li>Treat an operational evaluation level exceedance as an early warning, not a violation. Investigate and adjust before it becomes one.</li>
+          <li>If an acute microbial threat hits, the MRDL yields. The rule lets you carry chlorine or chloramines above the limit to protect public health during an event, provided you notify the State Board right away. Pathogen protection comes first.</li>
         </ul>
       </div>
     </div>
@@ -1661,7 +2119,7 @@
         <h3 class="sec">Lead and Copper Rule Improvements — California adoption</h3>
         <p>The federal LCRI (what it is, the evolution table, and the "Meeting LCRI" compliance plan) lives on the <a href="#lcr">Lead and Copper Rule page</a>. This entry adds only the California adoption layer:</p>
         <ul class="tight">
-          <li>California is adopting the federal LCRI into Title 22 as a new <strong>Chapter 17.6</strong> ("Control of Lead and Copper"), effective <strong>November 1, 2027</strong>, with the existing <strong>Chapter 17.5 repealed the same day</strong>, through an emergency rulemaking in progress (as of August 2026). Until then, the codified California numbers stay on the old framework (see the <a href="#lcr">Lead and Copper Rule page</a>).</li>
+          <li>California is adopting the federal LCRI into Title 22 as a new <strong>Chapter 17.6</strong> ("Control of Lead and Copper"), effective <strong>November 1, 2027</strong>, with the existing <strong>Chapter 17.5 repealed the same day</strong>, through an emergency rulemaking. The State Water Board was scheduled to consider adoption at its August 18&ndash;19, 2026 Board meeting (as of August 2026). Until then, the codified California numbers stay on the old framework (see the <a href="#lcr">Lead and Copper Rule page</a>).</li>
           <li>A companion policy handbook for lead testing at schools and child-care facilities (Assembly Bill 1096) is in development alongside it.</li>
         </ul>
       </section>
@@ -3441,7 +3899,7 @@ Match the device to the degree of hazard, and test assemblies at least annually.
   // Water section. Internal links stay bare (href="#arsenic"); the router rewrites the
   // address bar to the canonical nested form. A panel's section is read from the DOM
   // (which #site-* it is under) — no hand-maintained token->section table.
-  var SECTIONS = ['home','about','wastewater','water','more'];
+  var SECTIONS = ['home','about','wastewater','calculators','water','more'];
 
   function activeSection(){
     var el = document.querySelector('.site-page.active');
@@ -3504,6 +3962,571 @@ Match the device to the degree of hazard, and test assemblies at least annually.
   window.addEventListener('hashchange', route);
   window.addEventListener('popstate', route);
   route();   // initial load: honor the URL (empty = Home)
+
+  // Calculators dropdown sublink: route to the Calculators section, then drop focus
+  // so the hover/:focus-within dropdown closes. Uses the shared go() above.
+  document.querySelectorAll('.sitenav-sublink[data-site-link]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      go('#/' + a.getAttribute('data-site-link'));
+      a.blur();
+    });
+  });
+})();
+</script>
+
+<script>
+(function(){
+  // ---- Wastewater calculators: teaching-first worked solutions ----------------
+  // Own sidebar + swappable panels (mirrors the T5 dashboard). Stores nothing.
+  // Every computed step rounds to 2 decimals, and that ROUNDED value (not the
+  // full-precision one) is what feeds the next step — matches what you'd get
+  // doing the same math by hand on your own calculator. Exceptions: the given
+  // constants pi (3.1415) and 0.3333 are used at full precision, never rounded,
+  // since they're taught as fixed reference values, not derived results.
+  // Unit factors: gpm->MGD = /694 (exam factor), gpd->MGD and gal->MG = /1,000,000.
+  var LB = 8.34;
+  var GPM_PER_MGD = 694;   // exam-taught: 1 MGD = 694 gal/min
+  function round2(n){ return isFinite(n) ? Math.round((n + Number.EPSILON) * 100) / 100 : n; }
+
+  function num(el){
+    if(!el) return NaN;
+    var v = parseFloat(String(el.value).replace(/,/g, ''));
+    return (isFinite(v) && v >= 0) ? v : NaN;
+  }
+  // Live grouping for text inputs: strip non-numeric (keep one dot), regroup the
+  // integer part with commas, leave the decimal part alone. Preserves caret position
+  // approximately by counting digits before the caret. Display-only; num() strips commas.
+  function groupInput(el){
+    var raw = String(el.value);
+    var caret = el.selectionStart;
+    var beforeCaret = raw.slice(0, caret);
+    var digitsBefore = (beforeCaret.replace(/[^0-9]/g, '')).length;
+    var dotBefore = beforeCaret.indexOf('.') !== -1;   // caret was after the decimal point
+
+    // Sanitize: allow digits and a single decimal point.
+    var cleaned = raw.replace(/[^0-9.]/g, '');
+    var firstDot = cleaned.indexOf('.');
+    if(firstDot !== -1){
+      cleaned = cleaned.slice(0, firstDot + 1) + cleaned.slice(firstDot + 1).replace(/\./g, '');
+    }
+    var parts = cleaned.split('.');
+    var intPart = parts[0].replace(/^0+(?=\d)/, '');      // trim leading zeros
+    var decPart = parts.length > 1 ? parts[1] : null;
+    var grouped = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    var out = decPart !== null ? grouped + '.' + decPart : grouped;
+    el.value = out;
+
+    // Restore caret: walk out until we've passed the same number of digits, AND past
+    // the decimal point if the caret was after it before regrouping. Without the dot
+    // check, a caret placed right after a freshly-typed "." would snap back in front
+    // of it (the digit count alone is satisfied by the integer part).
+    var pos = 0, seen = 0, passedDot = false;
+    while(pos < out.length && (seen < digitsBefore || (dotBefore && !passedDot))){
+      if(/[0-9]/.test(out[pos])) seen++;
+      else if(out[pos] === '.') passedDot = true;
+      pos++;
+    }
+    try { el.setSelectionRange(pos, pos); } catch(e){}
+  }
+  // Up to 2 decimal places, with thousands separators — but no forced trailing
+  // zeros: a whole number displays with no decimal point at all (5, not 5.00),
+  // and a value needing only 1 decimal shows just that one (6.9, not 6.90).
+  // Callers pass already-rounded (round2'd) values, so what's displayed here IS
+  // what the next step uses; this only changes how it's written, not the value.
+  function fmt(n){
+    if(!isFinite(n)) return '';
+    return n.toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:2});
+  }
+  function span(cls, txt){ return '<span class="' + cls + '">' + txt + '</span>'; }
+  function op(s){ return '<span class="op">' + s + '</span>'; }
+  function line(html){ return '<p class="calc-line">' + html + '</p>'; }
+  function subttl(t){ return '<p class="calc-substep-ttl">' + t + '</p>'; }
+
+  // Human-readable conversion facts, keyed by the unit that triggers them.
+  var CONV_FACTS = {
+    gpm: '694 gal/min = 1 MGD  (divide gal/min by 694 to get MGD)',
+    gpd: '1,000,000 gal/day = 1 MGD  (divide gal/day by 1,000,000 to get MGD)',
+    gal: '1,000,000 gal = 1 MG  (divide gallons by 1,000,000 to get MG)'
+  };
+  // Given a list of currently-selected unit strings, render the box (or hide it if none need converting).
+  function renderConversions(box, units){
+    var needed = [];
+    units.forEach(function(u){
+      if(CONV_FACTS[u] && needed.indexOf(u) === -1) needed.push(u);
+    });
+    if(needed.length === 0){ box.hidden = true; box.innerHTML = ''; return; }
+    var html = '<p class="conv-ttl">Conversion Values Needed</p><ul>';
+    needed.forEach(function(u){ html += '<li>' + CONV_FACTS[u] + '</li>'; });
+    html += '</ul>';
+    box.innerHTML = html;
+    box.hidden = false;
+  }
+
+  // Flow -> MGD. Returns {mgd, step} where step is a teaching line (or null if already MGD).
+  // mgd is round2'd — the displayed result is exactly what carries into the next step.
+  function flowToMGD(value, unit){
+    if(unit === 'MGD') return {mgd:value, step:null};
+    if(unit === 'gpm'){
+      var mgd = round2(value / GPM_PER_MGD);
+      var step = span('v-flow', fmt(value) + ' gal/min') + ' ' + op('&divide;') +
+        ' <span class="lbl">694 gal/min per MGD</span> ' + op('=') + ' ' +
+        span('v-flow', fmt(mgd) + ' MGD');
+      return {mgd:mgd, step:step};
+    }
+    // gpd
+    var mgd2 = round2(value / 1000000);
+    var step2 = span('v-flow', fmt(value) + ' gal/day') + ' ' + op('&divide;') +
+      ' <span class="lbl">1,000,000 gal/day per MGD</span> ' + op('=') + ' ' +
+      span('v-flow', fmt(mgd2) + ' MGD');
+    return {mgd:mgd2, step:step2};
+  }
+  // Volume -> MG. Returns {mg, step}. mg is round2'd, same reasoning as flowToMGD.
+  function volToMG(value, unit){
+    if(unit === 'MG') return {mg:value, step:null};
+    var mg = round2(value / 1000000);
+    var step = span('v-flow', fmt(value) + ' gal') + ' ' + op('&divide;') +
+      ' <span class="lbl">1,000,000 gal per MG</span> ' + op('=') + ' ' +
+      span('v-flow', fmt(mg) + ' MG');
+    return {mg:mg, step:step};
+  }
+
+  // ---- Pounds formula panel ----
+  var pfWork = document.querySelector('[data-pf-work]');
+  var pfConv = document.querySelector('[data-pf-conv]');
+  function runPounds(){
+    var flow = num(document.querySelector('[data-pf="flow"]'));
+    var unit = document.querySelector('[data-pf="flowunit"]').value;
+    var conc = num(document.querySelector('[data-pf="conc"]'));
+    renderConversions(pfConv, [unit]);
+    if(!isFinite(flow) || !isFinite(conc)){ pfWork.innerHTML = ''; return; }
+
+    var html = '';
+    var conv = flowToMGD(flow, unit);
+    var stepNo = 1;
+    if(conv.step){
+      html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo + ' — Get the flow to MGD</p>' +
+        line(conv.step) + '</div>';
+      stepNo++;
+    }
+    var lb = round2(conv.mgd * LB * conc);
+    html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo + ' — Apply the pounds formula</p>' +
+      line(
+        span('v-flow', fmt(conv.mgd) + ' MGD') + ' ' + op('&times;') + ' ' +
+        span('v-const', LB + ' lbs/gal') + ' ' + op('&times;') + ' ' +
+        span('v-conc', fmt(conc) + ' mg/L') + ' ' + op('=') + ' ' +
+        span('v-result', fmt(lb) + ' lbs/day')
+      ) + '</div>';
+    html += '<div class="calc-answer">Answer: ' + span('big', fmt(lb)) + ' lbs/day</div>';
+    pfWork.innerHTML = html;
+  }
+
+  // ---- MCRT panel ----
+  var mcWork = document.querySelector('[data-mc-work]');
+  function mcVal(k){ return num(document.querySelector('[data-mc="' + k + '"]')); }
+  function mcUnit(k){ var el = document.querySelector('[data-mc="' + k + '"]'); return el ? el.value : ''; }
+
+  // Denominator term: flow -> MGD (with optional substep), then pounds -> lbs/day.
+  // stepNo drives the "Step N" and "Step N.x" labels. Returns {html, lb} or null.
+  function denomStep(stepNo, title, flowVal, flowUnit, tss){
+    if(!isFinite(flowVal) || !isFinite(tss)) return null;
+    var html = '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo + ' — ' + title + '</p>';
+    var conv = flowToMGD(flowVal, flowUnit);
+    var subNo = 1;
+    if(conv.step){
+      html += subttl('Step ' + stepNo + '.' + subNo + ' — Get the flow to MGD') + line(conv.step);
+      subNo++;
+      html += subttl('Step ' + stepNo + '.' + subNo + ' — Apply the pounds formula');
+    }
+    var lb = round2(conv.mgd * LB * tss);
+    html += line(
+      span('v-flow', fmt(conv.mgd) + ' MGD') + ' ' + op('&times;') + ' ' +
+      span('v-const', LB + ' lbs/gal') + ' ' + op('&times;') + ' ' +
+      span('v-conc', fmt(tss) + ' mg/L') + ' ' + op('=') + ' ' +
+      span('v-result', fmt(lb) + ' lbs/day')
+    ) + '</div>';
+    return {html:html, lb:lb};
+  }
+
+  var mcConv = document.querySelector('[data-mc-conv]');
+  function runMCRT(){
+    var tankvol = mcVal('tankvol'), tankunit = mcUnit('tankvolunit');
+    var clarvol = mcVal('clarvol'), clarunit = mcUnit('clarvolunit');
+    var mlss = mcVal('mlss');
+    var effflow = mcVal('effflow'), efftss = mcVal('efftss');
+    var wasflow = mcVal('wasflow'), wastss = mcVal('wastss');
+
+    renderConversions(mcConv, [tankunit, clarunit, mcUnit('effflowunit'), mcUnit('wasflowunit')]);
+
+    // Numerator needs both volumes + MLSS. Denominator terms each need their flow + TSS.
+    if(!(isFinite(tankvol) && isFinite(clarvol) && isFinite(mlss))){ mcWork.innerHTML = ''; return; }
+
+    var html = '';
+
+    // Step 1 — add the volumes (with gal->MG substeps if needed)
+    var tconv = volToMG(tankvol, tankunit);
+    var cconv = volToMG(clarvol, clarunit);
+    html += '<div class="calc-step"><p class="calc-step-ttl">Step 1 — Add the volumes together</p>';
+    var s1sub = 1;
+    if(tconv.step){ html += subttl('Step 1.' + s1sub + ' — Aeration basin to MG') + line(tconv.step); s1sub++; }
+    if(cconv.step){ html += subttl('Step 1.' + s1sub + ' — Clarifier to MG') + line(cconv.step); s1sub++; }
+    var totalMG = round2(tconv.mg + cconv.mg);
+    if(tconv.step || cconv.step){ html += subttl('Step 1.' + s1sub + ' — Add them'); }
+    html += line(
+      span('v-flow', fmt(tconv.mg) + ' MG') + ' ' + op('+') + ' ' +
+      span('v-flow', fmt(cconv.mg) + ' MG') + ' ' + op('=') + ' ' +
+      span('v-flow', fmt(totalMG) + ' MG')
+    ) + '</div>';
+
+    // Step 2 — one pounds formula for solids in the system
+    var sysLb = round2(totalMG * LB * mlss);
+    html += '<div class="calc-step"><p class="calc-step-ttl">Step 2 — Solids in the system</p>' +
+      line(
+        span('v-flow', fmt(totalMG) + ' MG') + ' ' + op('&times;') + ' ' +
+        span('v-const', LB + ' lbs/gal') + ' ' + op('&times;') + ' ' +
+        span('v-conc', fmt(mlss) + ' mg/L') + ' ' + op('=') + ' ' +
+        span('v-result', fmt(sysLb) + ' lbs')
+      ) + '</div>';
+
+    // Step 3 & 4 — denominator terms
+    var s3 = denomStep(3, 'Solids leaving in the effluent, per day', effflow, mcUnit('effflowunit'), efftss);
+    var s4 = denomStep(4, 'Solids leaving as WAS, per day', wasflow, mcUnit('wasflowunit'), wastss);
+    if(!(s3 && s4)){ mcWork.innerHTML = ''; return; }
+    html += s3.html + s4.html;
+
+    // Step 5 — assemble
+    var denom = round2(s3.lb + s4.lb);
+    html += '<div class="calc-step"><p class="calc-step-ttl">Step 5 — Put the pieces into MCRT</p>';
+    html += subttl('Step 5.1 — Add the two amounts leaving per day') +
+      line(
+        span('v-result', fmt(s3.lb) + ' lbs/day') + ' ' + op('+') + ' ' +
+        span('v-result', fmt(s4.lb) + ' lbs/day') + ' ' + op('=') + ' ' +
+        span('v-result', fmt(denom) + ' lbs/day')
+      );
+    if(denom === 0){
+      html += line('<span class="lbl">Nothing is leaving the system, so MCRT is undefined (you can\'t divide by zero).</span>') + '</div>';
+      mcWork.innerHTML = html;
+      return;
+    }
+    var mcrt = round2(sysLb / denom);
+    html += subttl('Step 5.2 — Divide pounds by pounds per day') +
+      line(
+        span('v-result', fmt(sysLb) + ' lbs') + ' ' + op('&divide;') + ' ' +
+        span('v-result', fmt(denom) + ' lbs/day') + ' ' + op('=') + ' ' +
+        span('v-result', fmt(mcrt) + ' days')
+      ) + '</div>';
+
+    html += '<div class="calc-answer">MCRT = ' + span('big', fmt(mcrt)) + ' days</div>';
+
+    mcWork.innerHTML = html;
+  }
+
+  // ============ Geometry: Area + Volume ============
+  var PI = 3.1415;         // matches the SWRCB reference sheet
+  var GAL_PER_FT3 = 7.48;  // taught conversion
+
+  // Extend the conversions box vocabulary (ft3->gal). CONV_FACTS/renderConversions already exist.
+  CONV_FACTS.gal_ft3 = '1 ft³ = 7.48 gal  (multiply ft³ by 7.48 to get gallons)';
+
+  // One field: label + text input + fixed unit suffix. data key drives read/write.
+  // lblCls (optional) colors the label text to match this input's dimension color.
+  function field(dataAttr, key, label, unit, lblCls){
+    var lc = lblCls ? ' class="' + lblCls + '"' : '';
+    return '<div class="calc-field"><label' + lc + '>' + label + '</label>' +
+      '<div class="calc-input-row">' +
+      '<input type="text" inputmode="decimal" autocomplete="off" ' + dataAttr + '="' + key + '" placeholder="0">' +
+      '<span class="calc-unit">' + unit + '</span></div></div>';
+  }
+
+  // ---- Diagrams (inline SVG; stroke inherits currentColor = --heading) ----
+  // ---- Diagrams (inline SVG). No arrowheads — just colored dimension lines with
+  //      perpendicular end ticks. Each dimension (line + ticks + letter) is wrapped in
+  //      a dim-L/W/H/D group so CSS colors it to match that input's label. Shape
+  //      outline follows currentColor. ----
+  function dimGroup(cls, inner){ return '<g class="' + cls + '">' + inner + '</g>'; }
+
+  var DIAGRAMS = {
+    rectangle:
+      '<svg viewBox="0 0 260 150" xmlns="http://www.w3.org/2000/svg">' +
+      '<rect class="shape" x="40" y="45" width="150" height="60"/>' +
+      dimGroup('dim-L',
+        '<line class="dimline" x1="40" y1="28" x2="190" y2="28"/>' +
+        '<line class="tick" x1="40" y1="22" x2="40" y2="34"/><line class="tick" x1="190" y1="22" x2="190" y2="34"/>' +
+        '<text x="115" y="20" text-anchor="middle">L</text>') +
+      dimGroup('dim-W',
+        '<line class="dimline" x1="208" y1="45" x2="208" y2="105"/>' +
+        '<line class="tick" x1="202" y1="45" x2="214" y2="45"/><line class="tick" x1="202" y1="105" x2="214" y2="105"/>' +
+        '<text x="224" y="80" text-anchor="middle">W</text>') +
+      '</svg>',
+    circle:
+      '<svg viewBox="0 0 260 150" xmlns="http://www.w3.org/2000/svg">' +
+      '<circle class="shape" cx="100" cy="78" r="48"/>' +
+      dimGroup('dim-D',
+        '<line class="dimline" x1="52" y1="78" x2="148" y2="78"/>' +
+        '<text x="100" y="68" text-anchor="middle">D</text>') +
+      '</svg>',
+    box:
+      '<svg viewBox="0 0 270 170" xmlns="http://www.w3.org/2000/svg">' +
+      '<rect class="shape" x="45" y="55" width="120" height="70"/>' +
+      '<path class="shape" d="M45 55 L75 33 L195 33 L165 55"/>' +
+      '<path class="shape" d="M165 55 L195 33 L195 103 L165 125"/>' +
+      dimGroup('dim-L',
+        '<line class="dimline" x1="45" y1="143" x2="165" y2="143"/>' +
+        '<line class="tick" x1="45" y1="137" x2="45" y2="149"/><line class="tick" x1="165" y1="137" x2="165" y2="149"/>' +
+        '<text x="105" y="160" text-anchor="middle">L</text>') +
+      dimGroup('dim-W',
+        '<line class="dimline" x1="177" y1="137" x2="207" y2="115"/>' +
+        '<line class="tick" x1="173" y1="132" x2="181" y2="142"/><line class="tick" x1="203" y1="110" x2="211" y2="120"/>' +
+        '<text x="203" y="143" text-anchor="middle">W</text>') +
+      dimGroup('dim-H',
+        '<line class="dimline" x1="30" y1="55" x2="30" y2="125"/>' +
+        '<line class="tick" x1="24" y1="55" x2="36" y2="55"/><line class="tick" x1="24" y1="125" x2="36" y2="125"/>' +
+        '<text x="18" y="94" text-anchor="middle">H</text>') +
+      '</svg>',
+    cylinder:
+      '<svg viewBox="0 0 270 180" xmlns="http://www.w3.org/2000/svg">' +
+      '<ellipse class="shape" cx="100" cy="42" rx="55" ry="16"/>' +
+      '<path class="shape" d="M45 42 L45 130"/><path class="shape" d="M155 42 L155 130"/>' +
+      '<path class="shape" d="M45 130 A55 16 0 0 0 155 130"/>' +
+      dimGroup('dim-D',
+        '<line class="dimline" x1="45" y1="42" x2="155" y2="42"/>' +
+        '<text x="100" y="16" text-anchor="middle">D</text>') +
+      dimGroup('dim-H',
+        '<line class="dimline" x1="178" y1="42" x2="178" y2="138"/>' +
+        '<line class="tick" x1="172" y1="42" x2="184" y2="42"/><line class="tick" x1="172" y1="138" x2="184" y2="138"/>' +
+        '<text x="194" y="94" text-anchor="middle">H</text>') +
+      '</svg>',
+    cone:
+      '<svg viewBox="0 0 270 190" xmlns="http://www.w3.org/2000/svg">' +
+      '<ellipse class="shape" cx="100" cy="42" rx="55" ry="16"/>' +
+      '<path class="shape" d="M45 42 L100 155 L155 42"/>' +
+      dimGroup('dim-D',
+        '<line class="dimline" x1="45" y1="42" x2="155" y2="42"/>' +
+        '<text x="100" y="16" text-anchor="middle">D</text>') +
+      dimGroup('dim-H',
+        '<line class="dimline" x1="182" y1="42" x2="182" y2="155"/>' +
+        '<line class="tick" x1="176" y1="42" x2="188" y2="42"/><line class="tick" x1="176" y1="155" x2="188" y2="155"/>' +
+        '<text x="198" y="100" text-anchor="middle">H</text>') +
+      '</svg>'
+  };
+
+  // ---- Static formula strings per shape (labels, color-coded where it helps) ----
+  var AREA_EQ = {
+    rectangle:
+      span('v-dimL','L, ft') + ' ' + op('&times;') + ' ' + span('v-dimW','W, ft') +
+      ' ' + op('=') + ' ' + span('v-result','Area, ft²'),
+    circle:
+      span('v-const','0.25') + ' ' + op('&times;') + ' ' + span('v-const','&pi;') +
+      ' ' + op('&times;') + ' ' + span('v-dimD','D², ft') +
+      ' ' + op('=') + ' ' + span('v-result','Area, ft²')
+  };
+  var VOL_EQ = {
+    box:
+      span('v-dimL','L, ft') + ' ' + op('&times;') + ' ' + span('v-dimW','W, ft') +
+      ' ' + op('&times;') + ' ' + span('v-dimH','H, ft') +
+      ' ' + op('=') + ' ' + span('v-result','Volume, ft³'),
+    cylinder:
+      span('v-result','Base area, ft²') + ' ' + op('&times;') + ' ' + span('v-dimH','H, ft') +
+      ' ' + op('=') + ' ' + span('v-result','Volume, ft³'),
+    cone:
+      span('v-const','0.3333') + ' ' + op('&times;') + ' ' + span('v-result','Base area, ft²') +
+      ' ' + op('&times;') + ' ' + span('v-dimH','H, ft') +
+      ' ' + op('=') + ' ' + span('v-result','Volume, ft³')
+  };
+
+  // ---- Shared: circle base area worked substep. Returns {html, area}. ----
+  function circleAreaSteps(prefix, diaVal){
+    var dSq = round2(diaVal * diaVal);
+    var area = round2(0.25 * PI * dSq);
+    var html =
+      subttl(prefix + '.1 — Square the diameter') +
+      line(span('v-dimD', fmt(diaVal) + ' ft') + ' ' + op('&times;') + ' ' +
+           span('v-dimD', fmt(diaVal) + ' ft') + ' ' + op('=') + ' ' +
+           span('v-dimD', fmt(dSq) + ' ft²')) +
+      subttl(prefix + '.2 — Multiply by 0.25 × π to get the area') +
+      line(span('v-const','0.25') + ' ' + op('&times;') + ' ' + span('v-const', PI) + ' ' +
+           op('&times;') + ' ' + span('v-dimD', fmt(dSq) + ' ft²') + ' ' + op('=') + ' ' +
+           span('v-result', fmt(area) + ' ft²'));
+    return {html:html, area:area};
+  }
+
+  // ---- Area panel ----
+  var arInputs = document.querySelector('[data-ar-inputs]');
+  var arEq = document.querySelector('[data-ar-eq]');
+  var arDiagram = document.querySelector('[data-ar-diagram]');
+  var arWork = document.querySelector('[data-ar-work]');
+  var arConv = document.querySelector('[data-ar-conv]');
+  function arShape(){ var el = document.querySelector('[data-ar="shape"]'); return el ? el.value : 'rectangle'; }
+  function arVal(k){ return num(document.querySelector('[data-ar="' + k + '"]')); }
+
+  function buildAreaInputs(){
+    var s = arShape();
+    if(s === 'rectangle'){
+      arInputs.innerHTML = field('data-ar','length','Length','ft','lbl-L') + field('data-ar','width','Width','ft','lbl-W');
+    } else {
+      arInputs.innerHTML = field('data-ar','dia','Diameter','ft','lbl-D');
+    }
+    arEq.innerHTML = AREA_EQ[s];
+    arDiagram.innerHTML = DIAGRAMS[s];
+    wireGeomFields('[data-ar]', runArea);
+    runArea();
+  }
+  function runArea(){
+    var s = arShape();
+    arConv.hidden = true; arConv.innerHTML = '';   // area needs no conversions
+    if(s === 'rectangle'){
+      var L = arVal('length'), W = arVal('width');
+      if(!(isFinite(L) && isFinite(W))){ arWork.innerHTML = ''; return; }
+      var a = round2(L * W);
+      arWork.innerHTML =
+        '<div class="calc-step"><p class="calc-step-ttl">Step 1 — Multiply length by width</p>' +
+        line(span('v-dimL', fmt(L) + ' ft') + ' ' + op('&times;') + ' ' +
+             span('v-dimW', fmt(W) + ' ft') + ' ' + op('=') + ' ' +
+             span('v-result', fmt(a) + ' ft²')) + '</div>' +
+        '<div class="calc-answer">Area = ' + span('big', fmt(a)) + ' ft²</div>';
+    } else {
+      var D = arVal('dia');
+      if(!isFinite(D)){ arWork.innerHTML = ''; return; }
+      var cs = circleAreaSteps('Step 1', D);
+      arWork.innerHTML =
+        '<div class="calc-step"><p class="calc-step-ttl">Step 1 — Area of the circle</p>' + cs.html + '</div>' +
+        '<div class="calc-answer">Area = ' + span('big', fmt(cs.area)) + ' ft²</div>';
+    }
+  }
+
+  // ---- Volume panel ----
+  var volInputs = document.querySelector('[data-vol-inputs]');
+  var volEq = document.querySelector('[data-vol-eq]');
+  var volDiagram = document.querySelector('[data-vol-diagram]');
+  var volWork = document.querySelector('[data-vol-work]');
+  var volConv = document.querySelector('[data-vol-conv]');
+  function volShape(){ var el = document.querySelector('[data-vol="shape"]'); return el ? el.value : 'box'; }
+  function volOut(){ var el = document.querySelector('[data-vol="out"]'); return el ? el.value : 'ft3'; }
+  function volVal(k){ return num(document.querySelector('[data-vol="' + k + '"]')); }
+
+  function buildVolInputs(){
+    var s = volShape();
+    if(s === 'box'){
+      volInputs.innerHTML = field('data-vol','length','Length','ft','lbl-L') +
+        field('data-vol','width','Width','ft','lbl-W') + field('data-vol','height','Height','ft','lbl-H');
+    } else {
+      volInputs.innerHTML = field('data-vol','dia','Diameter','ft','lbl-D') + field('data-vol','height','Height','ft','lbl-H');
+    }
+    volEq.innerHTML = VOL_EQ[s];
+    volDiagram.innerHTML = DIAGRAMS[s];
+    wireGeomFields('[data-vol]', runVolume);
+    runVolume();
+  }
+  function runVolume(){
+    var s = volShape(), out = volOut();
+    renderConversions(volConv, out === 'gal' ? ['gal_ft3'] : []);
+
+    var html = '', ft3 = NaN, stepNo = 1;
+    if(s === 'box'){
+      var L = volVal('length'), W = volVal('width'), H = volVal('height');
+      if(!(isFinite(L) && isFinite(W) && isFinite(H))){ volWork.innerHTML = ''; return; }
+      ft3 = round2(L * W * H);
+      html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo + ' — Multiply length × width × height</p>' +
+        line(span('v-dimL', fmt(L) + ' ft') + ' ' + op('&times;') + ' ' +
+             span('v-dimW', fmt(W) + ' ft') + ' ' + op('&times;') + ' ' +
+             span('v-dimH', fmt(H) + ' ft') + ' ' + op('=') + ' ' +
+             span('v-result', fmt(ft3) + ' ft³')) + '</div>';
+      stepNo++;
+    } else {
+      var D = volVal('dia'), Hh = volVal('height');
+      if(!(isFinite(D) && isFinite(Hh))){ volWork.innerHTML = ''; return; }
+      var cs = circleAreaSteps('Step ' + stepNo, D);
+      html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo + ' — Area of the base</p>' + cs.html + '</div>';
+      stepNo++;
+      if(s === 'cylinder'){
+        ft3 = round2(cs.area * Hh);
+        html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo + ' — Multiply base area by height</p>' +
+          line(span('v-result', fmt(cs.area) + ' ft²') + ' ' + op('&times;') + ' ' +
+               span('v-dimH', fmt(Hh) + ' ft') + ' ' + op('=') + ' ' +
+               span('v-result', fmt(ft3) + ' ft³')) + '</div>';
+        stepNo++;
+      } else { // cone
+        ft3 = round2(0.3333 * cs.area * Hh);
+        html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo + ' — Apply 0.3333 × base area × height</p>' +
+          line(span('v-const','0.3333') + ' ' + op('&times;') + ' ' +
+               span('v-result', fmt(cs.area) + ' ft²') + ' ' + op('&times;') + ' ' +
+               span('v-dimH', fmt(Hh) + ' ft') + ' ' + op('=') + ' ' +
+               span('v-result', fmt(ft3) + ' ft³')) + '</div>';
+        stepNo++;
+      }
+    }
+
+    var answer, answerUnit;
+    if(out === 'gal'){
+      var gal = round2(ft3 * GAL_PER_FT3);
+      html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo + ' — Convert cubic feet to gallons</p>' +
+        line(span('v-result', fmt(ft3) + ' ft³') + ' ' + op('&times;') + ' ' +
+             span('v-const', GAL_PER_FT3 + ' gal/ft³') + ' ' + op('=') + ' ' +
+             span('v-result', fmt(gal) + ' gal')) + '</div>';
+      answer = gal; answerUnit = 'gal';
+    } else {
+      answer = ft3; answerUnit = 'ft³';
+    }
+    html += '<div class="calc-answer">Volume = ' + span('big', fmt(answer)) + ' ' + answerUnit + '</div>';
+    volWork.innerHTML = html;
+  }
+
+  // Geometry fields are rebuilt on shape change, so (re)wire their listeners each time.
+  function wireGeomFields(scope, runner){
+    document.querySelectorAll(scope).forEach(function(el){
+      if(el.tagName === 'INPUT'){ el.addEventListener('input', function(){ groupInput(el); }); }
+      el.addEventListener('input', runner); el.addEventListener('change', runner);
+    });
+  }
+  // Shape/output selectors persist across rebuilds; wire them once.
+  var arShapeSel = document.querySelector('[data-ar="shape"]');
+  if(arShapeSel){ arShapeSel.addEventListener('change', buildAreaInputs); }
+  var volShapeSel = document.querySelector('[data-vol="shape"]');
+  if(volShapeSel){ volShapeSel.addEventListener('change', buildVolInputs); }
+  var volOutSel = document.querySelector('[data-vol="out"]');
+  if(volOutSel){ volOutSel.addEventListener('change', runVolume); }
+  buildAreaInputs();
+  buildVolInputs();
+
+  // Wire inputs. Text fields (data-*="...") get live comma grouping first, then recompute.
+  // Unit <select>s have no value to group; they only trigger recompute.
+  function isTextField(el){ return el.tagName === 'INPUT'; }
+  document.querySelectorAll('[data-pf]').forEach(function(el){
+    if(isTextField(el)){ el.addEventListener('input', function(){ groupInput(el); }); }
+    el.addEventListener('input', runPounds); el.addEventListener('change', runPounds);
+  });
+  document.querySelectorAll('[data-mc]').forEach(function(el){
+    if(isTextField(el)){ el.addEventListener('input', function(){ groupInput(el); }); }
+    el.addEventListener('input', runMCRT); el.addEventListener('change', runMCRT);
+  });
+
+  // Mobile menu (reuses dashboard sidebar classes). Declared before the panel
+  // switcher below because showCalc()'s initial call closes the menu on load.
+  var calcSidebar = document.getElementById('calcSidebar');
+  var calcBackdrop = document.getElementById('calcBackdrop');
+  var calcMenuBtn = document.getElementById('calcMenuBtn');
+  function openCalcMenu(){ calcSidebar.classList.add('open'); calcBackdrop.classList.add('show'); }
+  function closeCalcMenu(){ calcSidebar.classList.remove('open'); calcBackdrop.classList.remove('show'); }
+  if(calcMenuBtn){ calcMenuBtn.addEventListener('click', openCalcMenu); }
+  if(calcBackdrop){ calcBackdrop.addEventListener('click', closeCalcMenu); }
+
+  // ---- Sidebar panel switching (one formula per view) ----
+  var calcPanels = document.querySelectorAll('.calc-panel');
+  var calcLinks = document.querySelectorAll('#calcNav .navlink');
+  function showCalc(id){
+    calcPanels.forEach(function(p){ p.classList.toggle('active', p.id === 'cp-' + id); });
+    calcLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('data-calc-target') === id); });
+    closeCalcMenu();
+  }
+  calcLinks.forEach(function(l){
+    l.addEventListener('click', function(){ showCalc(l.getAttribute('data-calc-target')); });
+  });
+  var calcBrand = document.getElementById('calcBrandHome');
+  if(calcBrand){
+    calcBrand.addEventListener('click', function(){ showCalc('home'); });
+    calcBrand.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); showCalc('home'); } });
+  }
+  showCalc('home');   // default panel — the "How these work" panel is the section's home page
 })();
 </script>
 </body>
