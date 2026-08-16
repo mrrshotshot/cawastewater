@@ -545,6 +545,7 @@
   /* Input color legend, reused everywhere */
   .v-flow{color:var(--ok);font-weight:600}
   .v-conc{color:var(--orange);font-weight:600}
+  .v-vol{color:var(--violet);font-weight:600}
   .v-const{color:var(--muted);font-weight:600}
   .v-result{color:var(--teal);font-weight:600}
   .v-dimL{color:var(--ok);font-weight:600}
@@ -642,6 +643,7 @@
   .calc-field label.lbl-D{color:var(--blue)}
   .calc-field label.lbl-flow{color:var(--ok)}
   .calc-field label.lbl-conc{color:var(--orange)}
+  .calc-field label.lbl-vol{color:var(--violet)}
   .calc-step{
     background:var(--ink);border:1px solid var(--line);border-radius:8px;
     padding:12px 14px;margin:0 0 10px;
@@ -906,7 +908,7 @@
           <div class="calc-group">
             <p class="calc-group-ttl">Solids in the system (numerator)</p>
             <div class="calc-field">
-              <label>Aeration basin volume</label>
+              <label class="lbl-vol">Aeration basin volume</label>
               <div class="calc-input-row">
                 <input type="text" inputmode="decimal" autocomplete="off" data-mc="tankvol" placeholder="0">
                 <select data-mc="tankvolunit">
@@ -916,7 +918,7 @@
               </div>
             </div>
             <div class="calc-field">
-              <label>Clarifier volume</label>
+              <label class="lbl-vol">Clarifier volume</label>
               <div class="calc-input-row">
                 <input type="text" inputmode="decimal" autocomplete="off" data-mc="clarvol" placeholder="0">
                 <select data-mc="clarvolunit">
@@ -926,7 +928,7 @@
               </div>
             </div>
             <div class="calc-field">
-              <label>MLSS concentration</label>
+              <label class="lbl-conc">MLSS concentration</label>
               <div class="calc-input-row">
                 <input type="text" inputmode="decimal" autocomplete="off" data-mc="mlss" placeholder="0">
                 <span class="calc-unit">mg/L</span>
@@ -937,7 +939,7 @@
           <div class="calc-group">
             <p class="calc-group-ttl">Solids leaving each day (denominator)</p>
             <div class="calc-field">
-              <label>Plant flow</label>
+              <label class="lbl-flow">Plant flow</label>
               <div class="calc-input-row">
                 <input type="text" inputmode="decimal" autocomplete="off" data-mc="effflow" placeholder="0">
                 <select data-mc="effflowunit">
@@ -948,14 +950,14 @@
               </div>
             </div>
             <div class="calc-field">
-              <label>Secondary Clarifier Eff TSS</label>
+              <label class="lbl-conc">Secondary Clarifier Eff TSS</label>
               <div class="calc-input-row">
                 <input type="text" inputmode="decimal" autocomplete="off" data-mc="efftss" placeholder="0">
                 <span class="calc-unit">mg/L</span>
               </div>
             </div>
             <div class="calc-field">
-              <label>WAS flow</label>
+              <label class="lbl-flow">WAS flow</label>
               <div class="calc-input-row">
                 <input type="text" inputmode="decimal" autocomplete="off" data-mc="wasflow" placeholder="0">
                 <select data-mc="wasflowunit">
@@ -966,7 +968,7 @@
               </div>
             </div>
             <div class="calc-field">
-              <label>WAS TSS</label>
+              <label class="lbl-conc">WAS TSS</label>
               <div class="calc-input-row">
                 <input type="text" inputmode="decimal" autocomplete="off" data-mc="wastss" placeholder="0">
                 <span class="calc-unit">mg/L</span>
@@ -3899,7 +3901,23 @@ Match the device to the degree of hazard, and test assemblies at least annually.
   // Water section. Internal links stay bare (href="#arsenic"); the router rewrites the
   // address bar to the canonical nested form. A panel's section is read from the DOM
   // (which #site-* it is under) — no hand-maintained token->section table.
+  // Calculator formula panels get the same bare-hash treatment: #area, #volume,
+  // #MCRT, #lbs each resolve to the Calculators section + that formula panel (see
+  // calcPanelIdFor/CALC_ALIASES below — mcrt/pounds are the actual panel ids, MCRT/lbs
+  // are the shorter hash aliases). The calculators script loads after this one and
+  // registers window.__t5ShowCalcPanel late, so it re-runs window.__t5Route() itself
+  // once that hook exists — otherwise a direct load of #area would resolve to Home.
   var SECTIONS = ['home','about','wastewater','calculators','water','more'];
+
+  // Calculator formula panels get their own bare hash too, same "internal links
+  // stay bare" scheme as dashboard panels. MCRT/lbs are short aliases since the
+  // panel ids (mcrt/pounds) don't match the hash text the user wants.
+  var CALC_ALIASES = { MCRT:'mcrt', lbs:'pounds' };
+  var CALC_HASH_FOR_PANEL = { mcrt:'MCRT', pounds:'lbs' };
+  function calcPanelIdFor(token){
+    if(CALC_ALIASES.hasOwnProperty(token)) return CALC_ALIASES[token];
+    return document.getElementById('cp-' + token) ? token : null;
+  }
 
   function activeSection(){
     var el = document.querySelector('.site-page.active');
@@ -3909,6 +3927,10 @@ Match the device to the degree of hazard, and test assemblies at least annually.
     var el = document.querySelector('.panel.active');
     return el ? el.id.replace(/^p-/, '') : null;
   }
+  function currentCalcPanel(){
+    var el = document.querySelector('.calc-panel.active');
+    return el ? el.id.replace(/^cp-/, '') : null;
+  }
 
   // The hash the address bar SHOULD show for whatever is currently on screen.
   function canonicalHash(){
@@ -3917,6 +3939,10 @@ Match the device to the degree of hazard, and test assemblies at least annually.
     if(sec === 'water'){
       var p = currentPanel();
       return (p && p !== 'home') ? '#/water/' + p : '#/water';
+    }
+    if(sec === 'calculators'){
+      var cp = currentCalcPanel();
+      return (cp && cp !== 'home') ? '#' + (CALC_HASH_FOR_PANEL[cp] || cp) : '#/calculators';
     }
     return '#/' + sec;
   }
@@ -3933,15 +3959,19 @@ Match the device to the degree of hazard, and test assemblies at least annually.
   function route(){
     var raw = (location.hash || '').replace(/^#\/?/, '');   // drop '#' and one leading '/'
     var parts = raw ? raw.split('/') : [];
-    var section, panel = null;
+    var section, panel = null, calcPanel = null;
     if(parts.length === 0){
       section = 'home';
     } else if(SECTIONS.indexOf(parts[0]) !== -1){
       section = parts[0];
       if(section === 'water' && parts[1]){ panel = parts[1]; }
+      if(section === 'calculators' && parts[1]){ calcPanel = calcPanelIdFor(parts[1]); }
     } else if(document.getElementById('p-' + parts[0])){
       section = 'water';          // bare panel token (internal link or old bookmark)
       panel = parts[0];
+    } else if(calcPanelIdFor(parts[0])){
+      section = 'calculators';    // bare calculator formula token (#area, #volume, #MCRT, #lbs)
+      calcPanel = calcPanelIdFor(parts[0]);
     } else {
       section = 'home';           // unknown fragment -> Home
     }
@@ -3949,8 +3979,12 @@ Match the device to the degree of hazard, and test assemblies at least annually.
     if(section === 'water' && panel && document.getElementById('p-' + panel) && window.__t5ShowPanel){
       window.__t5ShowPanel(panel);
     }
+    if(section === 'calculators' && calcPanel && window.__t5ShowCalcPanel){
+      window.__t5ShowCalcPanel(calcPanel);
+    }
     syncUrl();
   }
+  window.__t5Route = route;   // hook: lets the calculators script (loaded later) re-apply the URL once its panel-switch hook is registered
 
   // Programmatic navigation: push one history entry, then apply it.
   function go(hash){
@@ -4085,9 +4119,9 @@ Match the device to the degree of hazard, and test assemblies at least annually.
   function volToMG(value, unit){
     if(unit === 'MG') return {mg:value, step:null};
     var mg = round2(value / 1000000);
-    var step = span('v-flow', fmt(value) + ' gal') + ' ' + op('&divide;') +
+    var step = span('v-vol', fmt(value) + ' gal') + ' ' + op('&divide;') +
       ' <span class="lbl">1,000,000 gal per MG</span> ' + op('=') + ' ' +
-      span('v-flow', fmt(mg) + ' MG');
+      span('v-vol', fmt(mg) + ' MG');
     return {mg:mg, step:step};
   }
 
@@ -4127,16 +4161,19 @@ Match the device to the degree of hazard, and test assemblies at least annually.
   function mcUnit(k){ var el = document.querySelector('[data-mc="' + k + '"]'); return el ? el.value : ''; }
 
   // Denominator term: flow -> MGD (with optional substep), then pounds -> lbs/day.
-  // stepNo drives the "Step N" and "Step N.x" labels. Returns {html, lb} or null.
-  function denomStep(stepNo, title, flowVal, flowUnit, tss){
+  // stepNo drives the "Step N" and "Step N.x" labels. flowName/tssName name the
+  // specific quantities (e.g. "plant flow"/"Secondary Clarifier Eff TSS" vs "WAS
+  // flow"/"WAS TSS") so the substeps read as specifically as the numerator's do.
+  // Returns {html, lb} or null.
+  function denomStep(stepNo, title, flowVal, flowUnit, tss, flowName, tssName){
     if(!isFinite(flowVal) || !isFinite(tss)) return null;
     var html = '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo + ' — ' + title + '</p>';
     var conv = flowToMGD(flowVal, flowUnit);
     var subNo = 1;
     if(conv.step){
-      html += subttl('Step ' + stepNo + '.' + subNo + ' — Get the flow to MGD') + line(conv.step);
+      html += subttl('Step ' + stepNo + '.' + subNo + ' — Convert the ' + flowName + ' to million gallons per day (MGD)') + line(conv.step);
       subNo++;
-      html += subttl('Step ' + stepNo + '.' + subNo + ' — Apply the pounds formula');
+      html += subttl('Step ' + stepNo + '.' + subNo + ' — Apply the pounds formula using the ' + flowName + ' and ' + tssName);
     }
     var lb = round2(conv.mgd * LB * tss);
     html += line(
@@ -4166,38 +4203,38 @@ Match the device to the degree of hazard, and test assemblies at least annually.
     // Step 1 — add the volumes (with gal->MG substeps if needed)
     var tconv = volToMG(tankvol, tankunit);
     var cconv = volToMG(clarvol, clarunit);
-    html += '<div class="calc-step"><p class="calc-step-ttl">Step 1 — Add the volumes together</p>';
+    html += '<div class="calc-step"><p class="calc-step-ttl">Step 1 — Find the volume of the entire secondary system</p>';
     var s1sub = 1;
-    if(tconv.step){ html += subttl('Step 1.' + s1sub + ' — Aeration basin to MG') + line(tconv.step); s1sub++; }
-    if(cconv.step){ html += subttl('Step 1.' + s1sub + ' — Clarifier to MG') + line(cconv.step); s1sub++; }
+    if(tconv.step){ html += subttl('Step 1.' + s1sub + ' — Convert the aeration basin volume from gallons to million gallons (MG)') + line(tconv.step); s1sub++; }
+    if(cconv.step){ html += subttl('Step 1.' + s1sub + ' — Convert the secondary clarifier volume from gallons to million gallons (MG)') + line(cconv.step); s1sub++; }
     var totalMG = round2(tconv.mg + cconv.mg);
-    if(tconv.step || cconv.step){ html += subttl('Step 1.' + s1sub + ' — Add them'); }
+    if(tconv.step || cconv.step){ html += subttl('Step 1.' + s1sub + ' — Add the aeration basin volume to the secondary clarifier volume'); }
     html += line(
-      span('v-flow', fmt(tconv.mg) + ' MG') + ' ' + op('+') + ' ' +
-      span('v-flow', fmt(cconv.mg) + ' MG') + ' ' + op('=') + ' ' +
-      span('v-flow', fmt(totalMG) + ' MG')
+      span('v-vol', fmt(tconv.mg) + ' MG') + ' ' + op('+') + ' ' +
+      span('v-vol', fmt(cconv.mg) + ' MG') + ' ' + op('=') + ' ' +
+      span('v-vol', fmt(totalMG) + ' MG')
     ) + '</div>';
 
     // Step 2 — one pounds formula for solids in the system
     var sysLb = round2(totalMG * LB * mlss);
-    html += '<div class="calc-step"><p class="calc-step-ttl">Step 2 — Solids in the system</p>' +
+    html += '<div class="calc-step"><p class="calc-step-ttl">Step 2 — Calculate the solids contained within the secondary system, in lbs</p>' +
       line(
-        span('v-flow', fmt(totalMG) + ' MG') + ' ' + op('&times;') + ' ' +
+        span('v-vol', fmt(totalMG) + ' MG') + ' ' + op('&times;') + ' ' +
         span('v-const', LB + ' lbs/gal') + ' ' + op('&times;') + ' ' +
         span('v-conc', fmt(mlss) + ' mg/L') + ' ' + op('=') + ' ' +
         span('v-result', fmt(sysLb) + ' lbs')
       ) + '</div>';
 
     // Step 3 & 4 — denominator terms
-    var s3 = denomStep(3, 'Solids leaving in the effluent, per day', effflow, mcUnit('effflowunit'), efftss);
-    var s4 = denomStep(4, 'Solids leaving as WAS, per day', wasflow, mcUnit('wasflowunit'), wastss);
+    var s3 = denomStep(3, 'Calculate the solids leaving the secondary system by way of the secondary clarifier weirs, in lbs/day', effflow, mcUnit('effflowunit'), efftss, 'plant flow', 'Secondary Clarifier Eff TSS');
+    var s4 = denomStep(4, 'Calculate the solids leaving the secondary system by way of deliberate wasting, in lbs/day', wasflow, mcUnit('wasflowunit'), wastss, 'WAS flow', 'WAS TSS');
     if(!(s3 && s4)){ mcWork.innerHTML = ''; return; }
     html += s3.html + s4.html;
 
     // Step 5 — assemble
     var denom = round2(s3.lb + s4.lb);
-    html += '<div class="calc-step"><p class="calc-step-ttl">Step 5 — Put the pieces into MCRT</p>';
-    html += subttl('Step 5.1 — Add the two amounts leaving per day') +
+    html += '<div class="calc-step"><p class="calc-step-ttl">Step 5 — Calculate the MCRT</p>';
+    html += subttl('Step 5.1 — Add the amounts leaving per day together (Secondary Clarifier Eff, lbs/day + WAS, lbs/day)') +
       line(
         span('v-result', fmt(s3.lb) + ' lbs/day') + ' ' + op('+') + ' ' +
         span('v-result', fmt(s4.lb) + ' lbs/day') + ' ' + op('=') + ' ' +
@@ -4209,7 +4246,7 @@ Match the device to the degree of hazard, and test assemblies at least annually.
       return;
     }
     var mcrt = round2(sysLb / denom);
-    html += subttl('Step 5.2 — Divide pounds by pounds per day') +
+    html += subttl('Step 5.2 — Divide pounds within the secondary system by pounds leaving the secondary system per day') +
       line(
         span('v-result', fmt(sysLb) + ' lbs') + ' ' + op('&divide;') + ' ' +
         span('v-result', fmt(denom) + ' lbs/day') + ' ' + op('=') + ' ' +
@@ -4519,14 +4556,19 @@ Match the device to the degree of hazard, and test assemblies at least annually.
     closeCalcMenu();
   }
   calcLinks.forEach(function(l){
-    l.addEventListener('click', function(){ showCalc(l.getAttribute('data-calc-target')); });
+    l.addEventListener('click', function(){
+      showCalc(l.getAttribute('data-calc-target'));
+      if(window.__t5SyncUrl){ window.__t5SyncUrl(); }
+    });
   });
   var calcBrand = document.getElementById('calcBrandHome');
   if(calcBrand){
-    calcBrand.addEventListener('click', function(){ showCalc('home'); });
-    calcBrand.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); showCalc('home'); } });
+    calcBrand.addEventListener('click', function(){ showCalc('home'); if(window.__t5SyncUrl){ window.__t5SyncUrl(); } });
+    calcBrand.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); showCalc('home'); if(window.__t5SyncUrl){ window.__t5SyncUrl(); } } });
   }
   showCalc('home');   // default panel — the "How these work" panel is the section's home page
+  window.__t5ShowCalcPanel = showCalc;   // hook: lets the top-level router drive calculator panels by token (#area, #volume, #MCRT, #lbs)
+  if(window.__t5Route){ window.__t5Route(); }   // re-apply the URL now that the hook exists, in case it named a calculator panel (e.g. a direct load of #area)
 })();
 </script>
 </body>
