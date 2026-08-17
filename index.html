@@ -82,6 +82,11 @@
   [S] 2026-08-16 Calculators v8 (¼ notation + font-size audit). (1) Replaced the two remaining ¼ (&frac14;) references — the static circle-area equation display and the substep 1.2 title text — with "0.25", matching every other 0.25 already used inline in the worked math (the substep title now reads "Multiply by 0.25 × π to get the area"). ⅓ on the cone's formula/step was left untouched — not requested. (2) Font-size audit: the calculators' reading text was noticeably smaller than the T5 dashboard's established sizes. Surveyed the dashboard's actual conventions (p.lead/.acro-list li/.rail-head h2/inline-mono-formula paragraphs all cluster at 15px as the site's real "body copy" size — body{} itself has no explicit font-size, so unstyled text falls back to the 16px browser default, which the dashboard's own content never actually uses; h3.sec sits at 13px as the standard section-eyebrow size; .navlink/.acro-block.sub sit at 13.5px for compact UI text) and remapped every calculator text role to its nearest dashboard analog: .calc-sub/.calc-note/.calc-eq-static/.calc-line 13-14px -> 15px (matches p.lead/acro-list/inline-mono-formula); .calc-group-ttl/.calc-step-ttl/.calc-conv .conv-ttl 11px -> 12px (closer to h3.sec's 13px eyebrow convention without matching it exactly, since these are more frequent/lower-level labels); .calc-substep-ttl 10.5px -> 11px; .calc-field label/.calc-shape-row label 12.5px -> 13.5px and .calc-input-row select/.calc-shape-row select/.calc-unit 13px -> 13.5px (matching .navlink's 13.5px compact-UI size); .calc-conv li 13.5px -> 14.5px; .calc-answer 16px -> 18px and .calc-answer .big 22px -> 24px (kept proportionally the most emphasized element); .calc-footer 13px -> 14px. Left .calc-input-row input at 15px (already matched) and .calc-diagram text at 14px (SVG annotation, not reading prose — consistent with the dashboard keeping caption/label text small). Verified in-browser across Pounds/Area-circle/Home/MCRT: all text visibly larger and more legible, zero console errors, math unchanged (Pounds 3,336.0 lbs/day; circle 78.5 ft²; MCRT 6.9 days all match prior values). No flashcard IDs touched; stores nothing.
   [S] 2026-08-16 Calculators v9 (⅓ notation). User asked to change the cone's remaining ⅓ references to 0.33, matching the earlier ¼->0.25 pass. FLAGGED AND APPLIED DIFFERENTLY FROM ¼: unlike 1/4, which equals exactly 0.25 (the ¼->0.25 swap was pure notation with zero precision change), 1/3 does not equal exactly 0.33 (it's 0.3333...). Rather than leave the actual computation on exact (1/3) while only relabeling the display as "0.33" — which would make the shown equation's arithmetic not match its own displayed answer, misleading a student checking the tool's math by hand — applied 0.33 as the literal computation constant itself (ft3 = 0.33 * cs.area * Hh, replacing ft3 = (1/3) * cs.area * Hh), consistent with how this app already treats π as the fixed teaching constant 3.1415 rather than exact Math.PI to match the exam reference sheet. Also updated VOL_EQ.cone's static formula display (&frac13; -> "0.33") and the cone step's title/line ("Apply ⅓ × base area × height" -> "Apply 0.33 × base area × height"). Net effect: cone volume for a given D/H is now ~1% lower than before this change (0.33 vs 0.3333...) — e.g. D=10/H=20 base 78.5 ft² now gives 518.3 ft³ where it previously gave 523.6 ft³ — and the shown "0.33 × base area × height" line's arithmetic now matches its own displayed result exactly. Verified in-browser: formula/step/line all read 0.33 consistently, zero console errors, no other panel affected. No flashcard IDs touched; stores nothing.
   [S] 2026-08-16 Calculators v10 (⅓ precision bump). User asked for one more digit: 0.33 -> 0.3333 in the same three spots (VOL_EQ.cone display, the cone step title/line, and the actual ft3 = 0.3333 * cs.area * Hh computation) — same "actual constant, not just a relabel" treatment as v9, so the shown arithmetic still matches its own displayed result. Net effect: cone volume for a given D/H moved back up close to the true 1/3 value (D=10/H=20 base 78.5 ft² -> 523.5 ft³, vs 518.3 with 0.33 and 523.6 with exact 1/3 — now within 0.1 of exact). Verified in-browser: formula/step/line all read 0.3333, zero console errors. No flashcard IDs touched; stores nothing.
+  [S] 2026-08-16 Added Food to Microorganism Ratio (F:M) calculator under Secondary System, alongside MCRT. New panel #cp-fm mirrors MCRT's markup/helper pattern exactly (fmVal/fmUnit alongside mcVal/mcUnit; flowToMGD/volToMG/renderConversions/round2 all reused, no new helpers). Numerator = pounds Pri Eff BOD (flow x 8.34 x BOD, flow->MGD substep if needed); denominator = pounds MLVSS under aeration, with a "MLVSS given" yes/no toggle — yes reads MLVSS directly, no derives it from MLSS x %VSS (shown as its own labeled substep, e.g. "2,500 mg/L x 0.8 (80% VSS) = 2,000 mg/L") before the basin-volume gal->MG substep and the pounds formula; divide-by-zero guarded (0 lbs MLVSS -> "F:M is undefined" line, not NaN/Infinity). New CSS rule .calc-field[hidden]{display:none} added since .calc-field's own display:flex otherwise beats the UA [hidden] rule (same specificity trap the codebase already solves elsewhere for .navsub[hidden]) — needed because the MLVSS/MLSS+%VSS field groups toggle via the hidden attribute on the toggle's change event (syncFMFields()), and hidden fields keep their typed values so switching the toggle back doesn't lose data. Legacy bare-hash alias FM:'fm' added to CALC_ALIASES for parity with MCRT/lbs, but NOTE this is read-only backward-compat only — canonicalHash() always emits the nested form regardless, so #FM never appears in the address bar; it only resolves an inbound #FM/#fm link to the panel. Browser-verified: nav link routes correctly and survives reload via #/wastewater/calculators/fm; toggle correctly shows/hides MLVSS vs MLSS+%VSS (hidden fields confirmed absent from layout, not just faded); worked example (flow 2 MGD, Pri Eff BOD 150 mg/L, basin 1 MG, MLVSS 2,000 mg/L) = 2,502 lbs/day / 16,680 lbs = 0.15; same inputs with MLVSS given=no (MLSS 2,500 mg/L, 80% VSS) derives MLVSS 2,000 mg/L and matches 0.15; gpm/gal unit-conversion substeps and the Conversion Values Needed box both correct (1,000 gpm -> 1.44 MGD, 1,000,000 gal -> 1 MG); zero console errors; Pounds/Area/Volume/MCRT panels and the mobile hamburger menu unaffected. No flashcard/exam-card IDs touched; stores nothing in localStorage; CRLF and script-tag balance confirmed intact after the edit.
+  [S] 2026-08-16 F:M follow-up: user asked for the result unit to be labeled. Added "lbs BOD/lb MLVSS/day" to both the static formula display (v-result span, previously bare "F:M") and the computed answer line (previously bare number, now "F:M = {value} lbs BOD/lb MLVSS/day"). Display-only; math unchanged.
+  [S] 2026-08-16 Added Chlorine Dose, Demand & Residual calculator, new "Disinfection" nav group (after Secondary System). New panel #cp-chlorine: a single dose-minus-residual-equals-demand relationship (mg/L, no unit conversions), solved for whichever of the three the user picks from a "Solve for" dropdown — the other two input fields show/hide via the same .calc-field[hidden] CSS rule the F:M panel uses, and the static equation display swaps its terms/operator (+ for solving dose, − otherwise) to match. Negative-result guard on both subtraction modes (demand, residual): a caution line appears above the answer instead of a misleading negative mg/L value. Reused helpers only (num/fmt/span/op/line/round2/groupInput/isTextField); no new helpers, no routing edit needed (#chlorine resolves natively via calcPanelIdFor -> #cp-chlorine, canonical hash is #chlorine same as #area/#volume/#pounds). Color convention: Dose=v-flow (green), Demand=v-conc (orange), Residual=v-vol (violet), reusing the existing palette classes as pure color (not a claim that dose/residual are flows/volumes) per user-approved open decision. No flashcard/exam-card IDs touched; stores nothing in localStorage. NOTE: applied from a pasted edit spec without browser verification, per explicit user instruction to stop doing visual verification passes going forward — spec's FIND blocks were checked against the live file (CSS hidden rule already present from the F:M add, so Edit 1 skipped; F:M nav link present, so Edit 2b applied) and math/logic reviewed by reading, not by rendering.
+  [S] 2026-08-16 Added Percent Removal calculator under Baseline Formulas, alongside Area/Volume/Pounds. New panel #cp-removal: two always-visible inputs (In, Out mg/L), no dropdown, no hidden fields, no unit conversions — (In - Out) / In x 100. Reuses the .frac/.frac-num/.frac-bar/.frac-den markup MCRT/F:M already established for the static equation display; Step 1 finds the amount removed (In - Out), Step 2 divides by In and multiplies by 100 in one line (two-operator line, same pattern as the Pounds formula's single line). Divide-by-zero guarded (In=0 -> "percent removal is undefined" line); negative-result guarded (Out > In -> caution line above the answer, computed negative value still shown, e.g. -50%). Colors: In=v-flow (green), Out=v-conc (orange), computed values=v-result -- reused palette classes as pure color per the same convention used for the Chlorine panel. No routing edit needed (#removal resolves natively via calcPanelIdFor -> #cp-removal). Reused helpers only (num/fmt/span/op/line/round2/groupInput/isTextField); no CSS added (no hidden fields in this panel). No flashcard/exam-card IDs touched; stores nothing in localStorage. Applied from a pasted edit spec, anchors checked against the live file before editing; no browser verification performed per standing user instruction -- reviewed by reading the source only.
+  [S] 2026-08-16 Added Sludge Volume Index (SVI) calculator under Secondary System, alongside MCRT and F:M. New panel #cp-svi: two always-visible inputs (Sludge Volume 30-min settling test in mL/L, MLSS in mg/L), no dropdown, no hidden fields, no unit conversions -- SVI = SV30 x 1,000 mg/g / MLSS. Reuses the .frac/.frac-num/.frac-bar/.frac-den markup MCRT/F:M/Percent-Removal already established; single worked line (multi-operator, no substeps) matching the Pounds-formula precedent; the 1,000 mg/g factor is exact, never rounded, consistent with how this app treats other taught constants (8.34, 3.1415, 694). "30 min" rendered as a plain <sub> element, no new CSS. Divide-by-zero guarded (MLSS=0 -> "SVI is undefined" line). Colors: Sludge Volume=v-vol (violet), MLSS=v-conc (orange), result=v-result. No routing edit needed (#svi resolves natively via calcPanelIdFor -> #cp-svi). Reused helpers only (num/fmt/span/op/line/round2/groupInput/isTextField); no CSS added. Deliberately left out any settling-quality interpretation (e.g. the ~80-150 mL/g rule of thumb) per the calculators' no-interpretation convention (same choice made for MCRT). No flashcard/exam-card IDs touched; stores nothing in localStorage. Applied from a pasted edit spec, anchors (data-mc-conv/data-mc-work, F:M nav link present so variant 1b used) checked against the live file before editing; no browser verification performed per standing user instruction -- reviewed by reading the source only.
   --------------------------------------------------------------------------
   B. CURRENCY CHECKS vs PRIMARY WEB SOURCES                   checked 2026-07-22
   (These post-date the Aug-2025 project files; re-verify before the exam.)
@@ -577,6 +582,7 @@
     color:var(--teal-deep);margin:0 0 10px;font-weight:600;
   }
   .calc-field{display:flex;flex-direction:column;gap:5px;margin:0 0 12px}
+  .calc-field[hidden]{display:none}
   .calc-input-row{align-items:stretch}
   .calc-field label{font-size:var(--fs-ui);color:var(--heading);font-weight:500}
   .calc-input-row{display:flex;gap:6px;align-items:stretch}
@@ -747,8 +753,13 @@
       <button type="button" class="navlink" data-calc-target="area">Area</button>
       <button type="button" class="navlink" data-calc-target="volume">Volume</button>
       <button type="button" class="navlink" data-calc-target="pounds">The Pounds Formula</button>
+      <button type="button" class="navlink" data-calc-target="removal">Percent Removal</button>
       <p class="group-label">Secondary System</p>
       <button type="button" class="navlink" data-calc-target="mcrt">Mean Cell Residence Time (MCRT)</button>
+      <button type="button" class="navlink" data-calc-target="fm">Food to Microorganism Ratio (F:M)</button>
+      <button type="button" class="navlink" data-calc-target="svi">Sludge Volume Index (SVI)</button>
+      <p class="group-label">Disinfection</p>
+      <button type="button" class="navlink" data-calc-target="chlorine">Chlorine Dose, Demand &amp; Residual</button>
     </nav>
   </aside>
   <div class="backdrop" id="calcBackdrop"></div>
@@ -823,6 +834,51 @@
 
         <div class="calc-conv" data-pf-conv hidden></div>
         <div class="calc-work" data-pf-work aria-live="polite"></div>
+      </section>
+
+      <!-- ===== Panel: Percent Removal ===== -->
+      <section class="calc calc-panel" id="cp-removal">
+        <div class="calc-head">
+          <h3 class="sec">Percent Removal</h3>
+          <p class="calc-sub">Percent removal tells you how much of something a treatment process took out, by comparing what came in to what went out. Use it for BOD, TSS, or any constituent measured before and after a process.</p>
+        </div>
+
+        <div class="calc-eq-static calc-eq-frac">
+          <div class="frac">
+            <span class="frac-num">
+              <span class="v-flow">In, mg/L</span>
+              <span class="op">&minus;</span>
+              <span class="v-conc">Out, mg/L</span>
+            </span>
+            <span class="frac-bar"></span>
+            <span class="frac-den">
+              <span class="v-flow">In, mg/L</span>
+            </span>
+          </div>
+          <span class="op">&times;</span>
+          <span class="lbl">100</span>
+          <span class="op">=</span>
+          <span class="v-result">Percent Removal, %</span>
+        </div>
+
+        <div class="calc-inputs">
+          <div class="calc-field">
+            <label class="lbl-flow">In</label>
+            <div class="calc-input-row">
+              <input type="text" inputmode="decimal" autocomplete="off" data-pr="in" placeholder="0">
+              <span class="calc-unit">mg/L</span>
+            </div>
+          </div>
+          <div class="calc-field">
+            <label class="lbl-conc">Out</label>
+            <div class="calc-input-row">
+              <input type="text" inputmode="decimal" autocomplete="off" data-pr="out" placeholder="0">
+              <span class="calc-unit">mg/L</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-work" data-pr-work aria-live="polite"></div>
       </section>
 
       <!-- ===== Panel: Area ===== -->
@@ -985,6 +1041,189 @@
 
         <div class="calc-conv" data-mc-conv hidden></div>
         <div class="calc-work" data-mc-work aria-live="polite"></div>
+      </section>
+
+      <!-- ===== Panel: SVI (Sludge Volume Index) ===== -->
+      <section class="calc calc-panel" id="cp-svi">
+        <div class="calc-head">
+          <h3 class="sec">Sludge Volume Index (SVI)</h3>
+          <p class="calc-sub">The Sludge Volume Index is the volume in milliliters taken up by one gram of activated sludge solids after the mixed liquor settles for 30 minutes. It ties the settling test to the mixed liquor concentration, showing how well the sludge settles and compacts.</p>
+        </div>
+
+        <div class="calc-eq-static calc-eq-frac">
+          <div class="frac">
+            <span class="frac-num">
+              <span class="v-vol">Sludge Volume<sub>30 min</sub>, mL/L</span>
+              <span class="op">&times;</span>
+              <span class="lbl">1,000 mg/g</span>
+            </span>
+            <span class="frac-bar"></span>
+            <span class="frac-den">
+              <span class="v-conc">MLSS, mg/L</span>
+            </span>
+          </div>
+          <span class="op">=</span>
+          <span class="v-result">SVI, mL/g</span>
+        </div>
+
+        <div class="calc-inputs">
+          <div class="calc-field">
+            <label class="lbl-vol">Sludge Volume (30 min)</label>
+            <div class="calc-input-row">
+              <input type="text" inputmode="decimal" autocomplete="off" data-svi="sv30" placeholder="0">
+              <span class="calc-unit">mL/L</span>
+            </div>
+          </div>
+          <div class="calc-field">
+            <label class="lbl-conc">MLSS</label>
+            <div class="calc-input-row">
+              <input type="text" inputmode="decimal" autocomplete="off" data-svi="mlss" placeholder="0">
+              <span class="calc-unit">mg/L</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-work" data-svi-work aria-live="polite"></div>
+      </section>
+
+      <!-- ===== Panel: Chlorine Dose / Demand / Residual ===== -->
+      <section class="calc calc-panel" id="cp-chlorine">
+        <div class="calc-head">
+          <h3 class="sec">Chlorine Dose, Demand &amp; Residual</h3>
+          <p class="calc-sub">Chlorine Dose is the amount of chlorine applied in the disinfection process measured in mg/L.</p>
+          <p class="calc-sub">Chlorine Demand is the amount of chlorine used from the initial chlorine dose to disinfect the water measured in mg/L.</p>
+          <p class="calc-sub">Chlorine Residual is the amount of chlorine left over after the chlorine demand has been met measured in mg/L.</p>
+          <p class="calc-note">Know any two of the three and you can find the third. Pick what you're solving for below, then enter the other two.</p>
+        </div>
+
+        <div class="calc-shape-row">
+          <label>Solve for</label>
+          <select data-chl="solve">
+            <option value="demand">Chlorine Demand</option>
+            <option value="dose">Chlorine Dose</option>
+            <option value="residual">Chlorine Residual</option>
+          </select>
+        </div>
+
+        <div class="calc-eq-static" data-chl-eq></div>
+
+        <div class="calc-inputs">
+          <div class="calc-field" data-chl-field="dose">
+            <label class="lbl-flow">Chlorine Dose</label>
+            <div class="calc-input-row">
+              <input type="text" inputmode="decimal" autocomplete="off" data-chl="dose" placeholder="0">
+              <span class="calc-unit">mg/L</span>
+            </div>
+          </div>
+          <div class="calc-field" data-chl-field="demand" hidden>
+            <label class="lbl-conc">Chlorine Demand</label>
+            <div class="calc-input-row">
+              <input type="text" inputmode="decimal" autocomplete="off" data-chl="demand" placeholder="0">
+              <span class="calc-unit">mg/L</span>
+            </div>
+          </div>
+          <div class="calc-field" data-chl-field="residual">
+            <label class="lbl-vol">Chlorine Residual</label>
+            <div class="calc-input-row">
+              <input type="text" inputmode="decimal" autocomplete="off" data-chl="residual" placeholder="0">
+              <span class="calc-unit">mg/L</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-work" data-chl-work aria-live="polite"></div>
+      </section>
+
+      <!-- ===== Panel: F:M ===== -->
+      <section class="calc calc-panel" id="cp-fm">
+        <div class="calc-head">
+          <h3 class="sec">Food to Microorganism Ratio (F:M)</h3>
+          <p class="calc-sub">The Food to Microorganism ratio is a measurement of the amount of food available for every pound of mixed liquor volatile suspended solids under aeration.</p>
+        </div>
+
+        <div class="calc-eq-static calc-eq-frac">
+          <div class="frac">
+            <span class="frac-num">
+              <span class="v-result">Pri Eff BOD, lbs/day</span>
+            </span>
+            <span class="frac-bar"></span>
+            <span class="frac-den">
+              <span class="v-result">MLVSS under aeration, lbs</span>
+            </span>
+          </div>
+          <span class="op">=</span>
+          <span class="v-result">F:M, lbs BOD/lb MLVSS/day</span>
+        </div>
+
+        <div class="calc-shape-row">
+          <label>MLVSS given</label>
+          <select data-fm="mlvssgiven">
+            <option value="yes">yes</option>
+            <option value="no">no</option>
+          </select>
+        </div>
+
+        <div class="calc-inputs calc-inputs-grid">
+          <div class="calc-group">
+            <p class="calc-group-ttl">Food — BOD load (numerator)</p>
+            <div class="calc-field">
+              <label class="lbl-flow">Plant flow</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-fm="flow" placeholder="0">
+                <select data-fm="flowunit">
+                  <option value="MGD">MGD</option>
+                  <option value="gpm">gpm</option>
+                  <option value="gpd">gpd</option>
+                </select>
+              </div>
+            </div>
+            <div class="calc-field">
+              <label class="lbl-conc">Pri Eff BOD</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-fm="bod" placeholder="0">
+                <span class="calc-unit">mg/L</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="calc-group">
+            <p class="calc-group-ttl">Microorganisms — MLVSS under aeration (denominator)</p>
+            <div class="calc-field">
+              <label class="lbl-vol">Aeration basin volume</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-fm="basinvol" placeholder="0">
+                <select data-fm="basinvolunit">
+                  <option value="MG">MG</option>
+                  <option value="gal">gal</option>
+                </select>
+              </div>
+            </div>
+            <div class="calc-field" data-fm-field="mlvss">
+              <label class="lbl-conc">MLVSS</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-fm="mlvss" placeholder="0">
+                <span class="calc-unit">mg/L</span>
+              </div>
+            </div>
+            <div class="calc-field" data-fm-field="mlss" hidden>
+              <label class="lbl-conc">MLSS</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-fm="mlss" placeholder="0">
+                <span class="calc-unit">mg/L</span>
+              </div>
+            </div>
+            <div class="calc-field" data-fm-field="pctvss" hidden>
+              <label class="lbl-conc">MLSS % VSS</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-fm="pctvss" placeholder="0">
+                <span class="calc-unit">%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-conv" data-fm-conv hidden></div>
+        <div class="calc-work" data-fm-work aria-live="polite"></div>
       </section>
 
     </div>
@@ -2244,6 +2483,7 @@
         <p class="ttl">Purpose</p>
         <p>Improve public health protection by providing educational material to allow consumers to make educated decisions regarding any potential health risks pertaining to the quality, treatment, and management of their drinking water supply.</p>
       </div>
+      <div class="callout status"><p class="ttl">Current status (as of August 2026)</p><p>The <strong>2024 EPA CCR Rule Revisions</strong> apply federally starting <strong>2027</strong> (first revised reports due July 1, 2027) — see the comparison table below for what changes.</p></div>
       <section class="block">
         <h3 class="sec">Annual deadlines</h3>
         <ul class="tight">
@@ -2254,19 +2494,16 @@
       </section>
       <section class="block">
         <h3 class="sec">Eight required content items</h3>
-        <div class="tbl-wrap"><table>
-          <thead><tr><th class="num">#</th><th>Content</th></tr></thead>
-          <tbody>
-            <tr><td class="num">1</td><td>Water system information — contact name/phone; public-participation opportunities</td></tr>
-            <tr><td class="num">2</td><td>Source(s) of water</td></tr>
-            <tr><td class="num">3</td><td>Definitions — MCL, MCLG, TT, AL, MRDL, MRDLG</td></tr>
-            <tr><td class="num">4</td><td>Detected contaminants — table of concentrations vs. MCLs/MCLGs (or MRDLs/MRDLGs), known sources, health-effects language</td></tr>
-            <tr><td class="num">5</td><td>Monitoring info for <em>Cryptosporidium</em>, radon, and other contaminants (if detected)</td></tr>
-            <tr><td class="num">6</td><td>Compliance with other regulations — violations and GWR special notices</td></tr>
-            <tr><td class="num">7</td><td>Variances and exemptions (if applicable)</td></tr>
-            <tr><td class="num">8</td><td>Required educational information — contaminants in drinking &amp; bottled water; vulnerable-population <em>Cryptosporidium</em> info; nitrate, arsenic, and lead statements</td></tr>
-          </tbody>
-        </table></div>
+        <ul class="tight">
+          <li>Water system information — contact name/phone; public-participation opportunities</li>
+          <li>Source(s) of water</li>
+          <li>Definitions — MCL, MCLG, TT, AL, MRDL, MRDLG</li>
+          <li>Detected contaminants — table of concentrations vs. MCLs/MCLGs (or MRDLs/MRDLGs), known sources, health-effects language</li>
+          <li>Monitoring info for <em>Cryptosporidium</em>, radon, and other contaminants (if detected)</li>
+          <li>Compliance with other regulations — violations and GWR special notices</li>
+          <li>Variances and exemptions (if applicable)</li>
+          <li>Required educational information — contaminants in drinking &amp; bottled water; vulnerable-population <em>Cryptosporidium</em> info; nitrate, arsenic, and lead statements</li>
+        </ul>
       </section>
       <section class="block">
         <h3 class="sec">Reporting &amp; recordkeeping</h3>
@@ -2277,9 +2514,8 @@
           <li>All CWSs must make copies available on request.</li>
         </ul>
       </section>
-      <div class="callout status"><p class="ttl">Current status (as of July 2026)</p><p>The <strong>2024 EPA CCR Rule Revisions</strong> apply federally starting <strong>2027</strong> (first revised reports due July 1, 2027) — see the comparison table below for what changes.</p></div>
       <section class="block">
-        <h3 class="sec">Now vs Revised CCR Rule</h3>
+        <h3 class="sec">2027 CCR Revisions</h3>
         <div class="tbl-wrap"><table>
           <thead><tr><th>Component</th><th>California now (Title 22)</th><th>EPA revised (2027)</th></tr></thead>
           <tbody>
@@ -2352,23 +2588,20 @@
         </ul>
         <p class="tbl-note">Repeat annually while unresolved.</p>
       </section>
-      <div class="callout op"><p class="ttl">Turbidity consultation</p><p>A turbidity violation — either a single exceedance of a maximum turbidity limit, or a turbidity MCL exceedance — requires the PWS to consult the primacy agency <strong>within 24 hours</strong>. If that consultation doesn't happen in time, the PWS must issue a <span class="pill alarm">Tier 1</span> notice <strong>within 48 hours</strong> of learning of the violation.</p></div>
       <section class="block">
-        <h3 class="sec">Ten required elements of a notice</h3>
-        <div class="tbl-wrap"><table>
-          <tbody>
-            <tr><td class="num">1</td><td>Description of the violation/situation, contaminant(s), and levels</td></tr>
-            <tr><td class="num">2</td><td>When it occurred</td></tr>
-            <tr><td class="num">3</td><td>Potential health effects (Appendix B language for MCL/MRDL/TT; standard monitoring language otherwise)</td></tr>
-            <tr><td class="num">4</td><td>Population at risk, including vulnerable subpopulations</td></tr>
-            <tr><td class="num">5</td><td>Whether alternate water should be used</td></tr>
-            <tr><td class="num">6</td><td>Actions consumers should take, including when to seek medical help</td></tr>
-            <tr><td class="num">7</td><td>What the PWS is doing to correct it</td></tr>
-            <tr><td class="num">8</td><td>When the PWS expects to return to compliance</td></tr>
-            <tr><td class="num">9</td><td>PWS (or designee) name, business address, and phone</td></tr>
-            <tr><td class="num">10</td><td>Statement encouraging recipients to distribute the notice, where applicable</td></tr>
-          </tbody>
-        </table></div>
+        <h3 class="sec">Ten required content items</h3>
+        <ul class="tight">
+          <li>Description of the violation/situation, contaminant(s), and levels</li>
+          <li>When it occurred</li>
+          <li>Potential health effects (Appendix B language for MCL/MRDL/TT; standard monitoring language otherwise)</li>
+          <li>Population at risk, including vulnerable subpopulations</li>
+          <li>Whether alternate water should be used</li>
+          <li>Actions consumers should take, including when to seek medical help</li>
+          <li>What the PWS is doing to correct it</li>
+          <li>When the PWS expects to return to compliance</li>
+          <li>PWS (or designee) name, business address, and phone</li>
+          <li>Statement encouraging recipients to distribute the notice, where applicable</li>
+        </ul>
       </section>
 
       <div class="callout op">
@@ -3917,7 +4150,7 @@ Match the device to the degree of hazard, and test assemblies at least annually.
 
   // Legacy bare calculator aliases from an earlier #MCRT/#lbs-style scheme — kept only
   // so old links still resolve; canonicalHash() below always emits the new nested form.
-  var CALC_ALIASES = { MCRT:'mcrt', lbs:'pounds' };
+  var CALC_ALIASES = { MCRT:'mcrt', lbs:'pounds', FM:'fm' };
   function calcPanelIdFor(token){
     if(CALC_ALIASES.hasOwnProperty(token)) return CALC_ALIASES[token];
     return document.getElementById('cp-' + token) ? token : null;
@@ -4264,6 +4497,247 @@ Match the device to the degree of hazard, and test assemblies at least annually.
     mcWork.innerHTML = html;
   }
 
+  // ---- F:M (Food-to-Microorganism ratio) panel ----
+  var fmWork = document.querySelector('[data-fm-work]');
+  var fmConv = document.querySelector('[data-fm-conv]');
+  function fmVal(k){ return num(document.querySelector('[data-fm="' + k + '"]')); }
+  function fmUnit(k){ var el = document.querySelector('[data-fm="' + k + '"]'); return el ? el.value : ''; }
+
+  // Show the MLVSS field when MLVSS is entered directly (dropdown = yes); show MLSS +
+  // % VSS when MLVSS must be derived (dropdown = no). Toggles the [data-fm-field]
+  // wrappers via the hidden attribute (see the .calc-field[hidden] CSS rule). Hidden
+  // fields keep their typed values; runFM only reads the ones for the current mode.
+  function syncFMFields(){
+    var given = fmUnit('mlvssgiven') === 'yes';
+    var mlvssF = document.querySelector('[data-fm-field="mlvss"]');
+    var mlssF = document.querySelector('[data-fm-field="mlss"]');
+    var pctF = document.querySelector('[data-fm-field="pctvss"]');
+    if(mlvssF) mlvssF.hidden = !given;
+    if(mlssF) mlssF.hidden = given;
+    if(pctF) pctF.hidden = given;
+  }
+
+  function runFM(){
+    var flow = fmVal('flow'), flowunit = fmUnit('flowunit');
+    var bod = fmVal('bod');
+    var basinvol = fmVal('basinvol'), basinunit = fmUnit('basinvolunit');
+    var given = fmUnit('mlvssgiven') === 'yes';
+    var mlvss = fmVal('mlvss');
+    var mlss = fmVal('mlss'), pctvss = fmVal('pctvss');
+
+    renderConversions(fmConv, [flowunit, basinunit]);
+
+    // Numerator needs flow + BOD. Denominator needs basin volume + either MLVSS
+    // directly, or MLSS + % VSS (from which MLVSS is derived).
+    var haveDen = given ? isFinite(mlvss) : (isFinite(mlss) && isFinite(pctvss));
+    if(!(isFinite(flow) && isFinite(bod) && isFinite(basinvol) && haveDen)){ fmWork.innerHTML = ''; return; }
+
+    var html = '';
+
+    // Step 1 — pounds of Pri Eff BOD sent to aeration (flow x 8.34 x BOD), flow->MGD substep if needed
+    var fconv = flowToMGD(flow, flowunit);
+    html += '<div class="calc-step"><p class="calc-step-ttl">Step 1 — Calculate the pounds of primary effluent BOD being sent to the aeration basin</p>';
+    if(fconv.step){
+      html += subttl('Step 1.1 — Convert the plant flow to million gallons per day (MGD)') + line(fconv.step);
+      html += subttl('Step 1.2 — Apply the pounds formula using the plant flow and primary effluent BOD');
+    }
+    var bodLb = round2(fconv.mgd * LB * bod);
+    html += line(
+      span('v-flow', fmt(fconv.mgd) + ' MGD') + ' ' + op('&times;') + ' ' +
+      span('v-const', LB + ' lbs/gal') + ' ' + op('&times;') + ' ' +
+      span('v-conc', fmt(bod) + ' mg/L') + ' ' + op('=') + ' ' +
+      span('v-result', fmt(bodLb) + ' lbs/day')
+    ) + '</div>';
+
+    // Step 2 — pounds of MLVSS under aeration (basin volume x 8.34 x MLVSS).
+    // Substeps appear only when the step decomposes: deriving MLVSS from MLSS x %VSS
+    // (dropdown = no) and/or converting the basin volume gal->MG. Same substep rule
+    // MCRT's denomStep uses — a single operation gets no substep title, just the line.
+    html += '<div class="calc-step"><p class="calc-step-ttl">Step 2 — Calculate the pounds of MLVSS under aeration</p>';
+    var s2sub = 1;
+    var mlvssConc = mlvss;
+    if(!given){
+      var vssFrac = round2(pctvss / 100);
+      mlvssConc = round2(mlss * vssFrac);
+      html += subttl('Step 2.' + s2sub + ' — Convert the MLSS to MLVSS using the percent volatile solids') +
+        line(
+          span('v-conc', fmt(mlss) + ' mg/L') + ' ' + op('&times;') + ' ' +
+          '<span class="lbl">' + fmt(vssFrac) + ' (' + fmt(pctvss) + '% VSS)</span> ' + op('=') + ' ' +
+          span('v-conc', fmt(mlvssConc) + ' mg/L')
+        );
+      s2sub++;
+    }
+    var bconv = volToMG(basinvol, basinunit);
+    if(bconv.step){
+      html += subttl('Step 2.' + s2sub + ' — Convert the aeration basin volume from gallons to million gallons (MG)') + line(bconv.step);
+      s2sub++;
+    }
+    if(s2sub > 1){
+      html += subttl('Step 2.' + s2sub + ' — Apply the pounds formula using the aeration basin volume and MLVSS');
+    }
+    var mlvssLb = round2(bconv.mg * LB * mlvssConc);
+    html += line(
+      span('v-vol', fmt(bconv.mg) + ' MG') + ' ' + op('&times;') + ' ' +
+      span('v-const', LB + ' lbs/gal') + ' ' + op('&times;') + ' ' +
+      span('v-conc', fmt(mlvssConc) + ' mg/L') + ' ' + op('=') + ' ' +
+      span('v-result', fmt(mlvssLb) + ' lbs')
+    ) + '</div>';
+
+    // Step 3 — F:M = pounds BOD per day / pounds MLVSS
+    html += '<div class="calc-step"><p class="calc-step-ttl">Step 3 — Calculate the F:M</p>';
+    if(mlvssLb === 0){
+      html += line('<span class="lbl">There are no pounds of MLVSS under aeration, so F:M is undefined (you can\'t divide by zero).</span>') + '</div>';
+      fmWork.innerHTML = html;
+      return;
+    }
+    var fm = round2(bodLb / mlvssLb);
+    html += line(
+      span('v-result', fmt(bodLb) + ' lbs/day') + ' ' + op('&divide;') + ' ' +
+      span('v-result', fmt(mlvssLb) + ' lbs') + ' ' + op('=') + ' ' +
+      span('v-result', fmt(fm))
+    ) + '</div>';
+
+    html += '<div class="calc-answer">F:M = ' + span('big', fmt(fm)) + ' lbs BOD/lb MLVSS/day</div>';
+
+    fmWork.innerHTML = html;
+  }
+
+  // ---- Chlorine Dose / Demand / Residual panel ----
+  var chlWork = document.querySelector('[data-chl-work]');
+  var chlEq = document.querySelector('[data-chl-eq]');
+  function chlVal(k){ return num(document.querySelector('[data-chl="' + k + '"]')); }
+  function chlMode(){ var el = document.querySelector('[data-chl="solve"]'); return el ? el.value : 'demand'; }
+
+  // Each mode solves for one quantity from the other two.
+  //   show = the two input fields to reveal; a/b = their data keys and read order;
+  //   add  = true -> a + b, false -> a - b; eq* = the static-equation terms + colors;
+  //   title = the Step 1 wording. Colors: dose=v-flow, demand=v-conc, residual=v-vol.
+  var CHL_MODES = {
+    demand:   { show:['dose','residual'], a:'dose', b:'residual', add:false,
+                eqA:'Chlorine Dose, mg/L', eqAcls:'v-flow',
+                eqB:'Chlorine Residual, mg/L', eqBcls:'v-vol',
+                eqR:'Chlorine Demand, mg/L',
+                title:'Subtract the chlorine residual from the chlorine dose' },
+    dose:     { show:['residual','demand'], a:'residual', b:'demand', add:true,
+                eqA:'Chlorine Residual, mg/L', eqAcls:'v-vol',
+                eqB:'Chlorine Demand, mg/L', eqBcls:'v-conc',
+                eqR:'Chlorine Dose, mg/L',
+                title:'Add the chlorine demand to the chlorine residual' },
+    residual: { show:['dose','demand'], a:'dose', b:'demand', add:false,
+                eqA:'Chlorine Dose, mg/L', eqAcls:'v-flow',
+                eqB:'Chlorine Demand, mg/L', eqBcls:'v-conc',
+                eqR:'Chlorine Residual, mg/L',
+                title:'Subtract the chlorine demand from the chlorine dose' }
+  };
+
+  // Show only the two input fields the current mode needs; render that mode's static
+  // equation (input terms colored to match their fields, result in v-result).
+  function syncCHLFields(){
+    var m = CHL_MODES[chlMode()];
+    ['dose','demand','residual'].forEach(function(k){
+      var f = document.querySelector('[data-chl-field="' + k + '"]');
+      if(f) f.hidden = (m.show.indexOf(k) === -1);
+    });
+    if(chlEq){
+      chlEq.innerHTML =
+        span(m.eqAcls, m.eqA) + ' ' + op(m.add ? '+' : '&minus;') + ' ' +
+        span(m.eqBcls, m.eqB) + ' ' + op('=') + ' ' +
+        span('v-result', m.eqR);
+    }
+  }
+
+  function runCHL(){
+    var m = CHL_MODES[chlMode()];
+    var a = chlVal(m.a), b = chlVal(m.b);
+    if(!(isFinite(a) && isFinite(b))){ chlWork.innerHTML = ''; return; }
+
+    var result = round2(m.add ? a + b : a - b);
+    var mode = chlMode();
+    var solveLabel = mode.charAt(0).toUpperCase() + mode.slice(1);   // Demand / Dose / Residual
+
+    var html = '<div class="calc-step"><p class="calc-step-ttl">Step 1 — ' + m.title + '</p>' +
+      line(
+        span(m.eqAcls, fmt(a) + ' mg/L') + ' ' + op(m.add ? '+' : '&minus;') + ' ' +
+        span(m.eqBcls, fmt(b) + ' mg/L') + ' ' + op('=') + ' ' +
+        span('v-result', fmt(result) + ' mg/L')
+      ) + '</div>';
+
+    if(!m.add && result < 0){
+      html += line('<span class="lbl">A negative result means the amount subtracted is larger than the chlorine dose — re-check your inputs.</span>');
+    }
+
+    html += '<div class="calc-answer">Chlorine ' + solveLabel + ' = ' + span('big', fmt(result)) + ' mg/L</div>';
+    chlWork.innerHTML = html;
+  }
+
+  // ---- Percent Removal panel ----
+  var prWork = document.querySelector('[data-pr-work]');
+  function prVal(k){ return num(document.querySelector('[data-pr="' + k + '"]')); }
+
+  function runPR(){
+    var inV = prVal('in'), outV = prVal('out');
+    if(!(isFinite(inV) && isFinite(outV))){ prWork.innerHTML = ''; return; }
+
+    var html = '';
+
+    // Step 1 — amount removed (In - Out)
+    var removed = round2(inV - outV);
+    html += '<div class="calc-step"><p class="calc-step-ttl">Step 1 — Find the amount removed by subtracting the outlet concentration from the inlet concentration</p>' +
+      line(
+        span('v-flow', fmt(inV) + ' mg/L') + ' ' + op('&minus;') + ' ' +
+        span('v-conc', fmt(outV) + ' mg/L') + ' ' + op('=') + ' ' +
+        span('v-result', fmt(removed) + ' mg/L')
+      ) + '</div>';
+
+    // Step 2 — percent removal (amount removed / In x 100)
+    html += '<div class="calc-step"><p class="calc-step-ttl">Step 2 — Calculate the percent removal</p>';
+    if(inV === 0){
+      html += line('<span class="lbl">The inlet concentration is zero, so percent removal is undefined (you can\'t divide by zero).</span>') + '</div>';
+      prWork.innerHTML = html;
+      return;
+    }
+    var pct = round2(removed / inV * 100);
+    html += line(
+      span('v-result', fmt(removed) + ' mg/L') + ' ' + op('&divide;') + ' ' +
+      span('v-flow', fmt(inV) + ' mg/L') + ' ' + op('&times;') + ' ' +
+      '<span class="lbl">100</span> ' + op('=') + ' ' +
+      span('v-result', fmt(pct) + ' %')
+    ) + '</div>';
+
+    if(pct < 0){
+      html += line('<span class="lbl">A negative percent removal means the outlet concentration is higher than the inlet — the process added to it rather than removing. Re-check your inputs.</span>');
+    }
+
+    html += '<div class="calc-answer">Percent Removal = ' + span('big', fmt(pct)) + ' %</div>';
+    prWork.innerHTML = html;
+  }
+
+  // ---- SVI (Sludge Volume Index) panel ----
+  var sviWork = document.querySelector('[data-svi-work]');
+  function sviVal(k){ return num(document.querySelector('[data-svi="' + k + '"]')); }
+
+  function runSVI(){
+    var sv30 = sviVal('sv30'), mlss = sviVal('mlss');
+    if(!(isFinite(sv30) && isFinite(mlss))){ sviWork.innerHTML = ''; return; }
+
+    var html = '<div class="calc-step"><p class="calc-step-ttl">Step 1 — Calculate the Sludge Volume Index</p>';
+    if(mlss === 0){
+      html += line('<span class="lbl">The MLSS is zero, so the SVI is undefined (you can\'t divide by zero).</span>') + '</div>';
+      sviWork.innerHTML = html;
+      return;
+    }
+    var svi = round2(sv30 * 1000 / mlss);
+    html += line(
+      span('v-vol', fmt(sv30) + ' mL/L') + ' ' + op('&times;') + ' ' +
+      '<span class="lbl">1,000 mg/g</span> ' + op('&divide;') + ' ' +
+      span('v-conc', fmt(mlss) + ' mg/L') + ' ' + op('=') + ' ' +
+      span('v-result', fmt(svi) + ' mL/g')
+    ) + '</div>';
+
+    html += '<div class="calc-answer">SVI = ' + span('big', fmt(svi)) + ' mL/g</div>';
+    sviWork.innerHTML = html;
+  }
+
   // ============ Geometry: Area + Volume ============
   var PI = 3.1415;         // matches the SWRCB reference sheet
   var GAL_PER_FT3 = 7.48;  // taught conversion
@@ -4538,10 +5012,32 @@ Match the device to the degree of hazard, and test assemblies at least annually.
     if(isTextField(el)){ el.addEventListener('input', function(){ groupInput(el); }); }
     el.addEventListener('input', runPounds); el.addEventListener('change', runPounds);
   });
+  document.querySelectorAll('[data-pr]').forEach(function(el){
+    if(isTextField(el)){ el.addEventListener('input', function(){ groupInput(el); }); }
+    el.addEventListener('input', runPR); el.addEventListener('change', runPR);
+  });
   document.querySelectorAll('[data-mc]').forEach(function(el){
     if(isTextField(el)){ el.addEventListener('input', function(){ groupInput(el); }); }
     el.addEventListener('input', runMCRT); el.addEventListener('change', runMCRT);
   });
+  document.querySelectorAll('[data-svi]').forEach(function(el){
+    if(isTextField(el)){ el.addEventListener('input', function(){ groupInput(el); }); }
+    el.addEventListener('input', runSVI); el.addEventListener('change', runSVI);
+  });
+  document.querySelectorAll('[data-chl]').forEach(function(el){
+    if(isTextField(el)){ el.addEventListener('input', function(){ groupInput(el); }); }
+    el.addEventListener('input', runCHL); el.addEventListener('change', runCHL);
+  });
+  var chlSolveSel = document.querySelector('[data-chl="solve"]');
+  if(chlSolveSel){ chlSolveSel.addEventListener('change', syncCHLFields); }
+  syncCHLFields();
+  document.querySelectorAll('[data-fm]').forEach(function(el){
+    if(isTextField(el)){ el.addEventListener('input', function(){ groupInput(el); }); }
+    el.addEventListener('input', runFM); el.addEventListener('change', runFM);
+  });
+  var fmGivenSel = document.querySelector('[data-fm="mlvssgiven"]');
+  if(fmGivenSel){ fmGivenSel.addEventListener('change', syncFMFields); }
+  syncFMFields();
 
   // Mobile menu (reuses dashboard sidebar classes). Declared before the panel
   // switcher below because showCalc()'s initial call closes the menu on load.
