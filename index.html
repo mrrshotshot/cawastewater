@@ -87,6 +87,10 @@
   [S] 2026-08-16 Added Chlorine Dose, Demand & Residual calculator, new "Disinfection" nav group (after Secondary System). New panel #cp-chlorine: a single dose-minus-residual-equals-demand relationship (mg/L, no unit conversions), solved for whichever of the three the user picks from a "Solve for" dropdown — the other two input fields show/hide via the same .calc-field[hidden] CSS rule the F:M panel uses, and the static equation display swaps its terms/operator (+ for solving dose, − otherwise) to match. Negative-result guard on both subtraction modes (demand, residual): a caution line appears above the answer instead of a misleading negative mg/L value. Reused helpers only (num/fmt/span/op/line/round2/groupInput/isTextField); no new helpers, no routing edit needed (#chlorine resolves natively via calcPanelIdFor -> #cp-chlorine, canonical hash is #chlorine same as #area/#volume/#pounds). Color convention: Dose=v-flow (green), Demand=v-conc (orange), Residual=v-vol (violet), reusing the existing palette classes as pure color (not a claim that dose/residual are flows/volumes) per user-approved open decision. No flashcard/exam-card IDs touched; stores nothing in localStorage. NOTE: applied from a pasted edit spec without browser verification, per explicit user instruction to stop doing visual verification passes going forward — spec's FIND blocks were checked against the live file (CSS hidden rule already present from the F:M add, so Edit 1 skipped; F:M nav link present, so Edit 2b applied) and math/logic reviewed by reading, not by rendering.
   [S] 2026-08-16 Added Percent Removal calculator under Baseline Formulas, alongside Area/Volume/Pounds. New panel #cp-removal: two always-visible inputs (In, Out mg/L), no dropdown, no hidden fields, no unit conversions — (In - Out) / In x 100. Reuses the .frac/.frac-num/.frac-bar/.frac-den markup MCRT/F:M already established for the static equation display; Step 1 finds the amount removed (In - Out), Step 2 divides by In and multiplies by 100 in one line (two-operator line, same pattern as the Pounds formula's single line). Divide-by-zero guarded (In=0 -> "percent removal is undefined" line); negative-result guarded (Out > In -> caution line above the answer, computed negative value still shown, e.g. -50%). Colors: In=v-flow (green), Out=v-conc (orange), computed values=v-result -- reused palette classes as pure color per the same convention used for the Chlorine panel. No routing edit needed (#removal resolves natively via calcPanelIdFor -> #cp-removal). Reused helpers only (num/fmt/span/op/line/round2/groupInput/isTextField); no CSS added (no hidden fields in this panel). No flashcard/exam-card IDs touched; stores nothing in localStorage. Applied from a pasted edit spec, anchors checked against the live file before editing; no browser verification performed per standing user instruction -- reviewed by reading the source only.
   [S] 2026-08-16 Added Sludge Volume Index (SVI) calculator under Secondary System, alongside MCRT and F:M. New panel #cp-svi: two always-visible inputs (Sludge Volume 30-min settling test in mL/L, MLSS in mg/L), no dropdown, no hidden fields, no unit conversions -- SVI = SV30 x 1,000 mg/g / MLSS. Reuses the .frac/.frac-num/.frac-bar/.frac-den markup MCRT/F:M/Percent-Removal already established; single worked line (multi-operator, no substeps) matching the Pounds-formula precedent; the 1,000 mg/g factor is exact, never rounded, consistent with how this app treats other taught constants (8.34, 3.1415, 694). "30 min" rendered as a plain <sub> element, no new CSS. Divide-by-zero guarded (MLSS=0 -> "SVI is undefined" line). Colors: Sludge Volume=v-vol (violet), MLSS=v-conc (orange), result=v-result. No routing edit needed (#svi resolves natively via calcPanelIdFor -> #cp-svi). Reused helpers only (num/fmt/span/op/line/round2/groupInput/isTextField); no CSS added. Deliberately left out any settling-quality interpretation (e.g. the ~80-150 mL/g rule of thumb) per the calculators' no-interpretation convention (same choice made for MCRT). No flashcard/exam-card IDs touched; stores nothing in localStorage. Applied from a pasted edit spec, anchors (data-mc-conv/data-mc-work, F:M nav link present so variant 1b used) checked against the live file before editing; no browser verification performed per standing user instruction -- reviewed by reading the source only.
+  [S] 2026-08-18 Table style unified to three-tone; SMF frequency table rebuilt to band rows. (1) Global: thead th background --ink -> --ink-3, so headers no longer match the even zebra stripe (both were --bg-alt); every table gains a defined header. Added one selector .grp th (band/sub-header rows) using existing --ink-2 + --line-strong. Zebra unchanged (--surface/--surface-2). No new tokens. (2) SMF "Frequency logic" table converted from a rowspan Group column to full-width .grp band rows (Group column removed; thead now Status/Frequency). All Status/Frequency cell text preserved verbatim; EPTDS abbr kept on first occurrence. Zebra left on under the bands; per-group stripe parity intentionally NOT reset (design decision — bands carry the grouping, stripes read as texture). (3) SMF lead: IOC/SOC/VOC/radionuclides expanded on first use; added a one-line tbl-note that the C is sometimes written "chemical." Sourcing note: SMF guide acronym key uses "contaminant"; EPA guides master list + 40 CFR §141.23/.24 section titles use "chemical" — both current, no functional difference. Reused existing classes; no flashcard/exam-card IDs touched; stores nothing.
+  [S] 2026-08-18 SMF "Frequency logic" split into six per-group tables. Replaced the single banded table with six <h4 class="sub"> + <table> blocks (IOCs — Ground water, IOCs — Surface water, SOCs (all sizes), VOCs — Ground water, Nitrate, Radionuclides), each with its own Status/Frequency thead. All cell text preserved verbatim; EPTDS abbr kept on first occurrence (IOC-GW). Reused existing h4.sub + tbl-wrap; no new CSS. The three-tone .grp th band rule remains in the stylesheet for file-wide use (now unused on this panel). Recurring "Quarterly — 4 quarterly samples…" repeats across four tables by design (verbose kept for exam readability). tbl-note now trails the Radionuclides table, unchanged.
+  [S] 2026-08-18 SMF frequency section rebuilt to full grid fidelity (EPA 816-F-20-002 May 2020 + 40 CFR 141.23/.24/.26). Six tables -> eleven: added IOC-SW waiver row; added Asbestos; expanded SOC to 5 rows (population splits + waiver); corrected VOC-GW R&C to Annual and expanded to 5 rows; added VOC-SW; split Nitrate into GW/SW/TNCWS; added Nitrite; split Radionuclides 6/3-yr into separate rows. Prior "SOC R&C -> Annual is an error" flag WITHDRAWN — grid + 40 CFR 141.24(h)(7)(iii) confirm annual is correct. All frequencies derived from grid symbols/patterns, verified by the user. Added tbl-notes for highest-quarter sampling, waiver mechanics, no-R&C-for-surface-nitrate, 20 mg/L NCWS nitrate MCL, and radionuclide scope. All eleven tables carry the existing .twocol class (fixed first-column width) so they stay column-aligned with the Scope table above, consistent with the prior alignment fix.
+  [S] 2026-08-18 SMF page polish pass. (1) Moved "How this tab is built" callout to directly follow Purpose (was after the lead paragraph); renamed to "How this page is built" and reworded to name the source explicitly ("The SMF Quick Reference Guide") and drop the "current 4th & 5th cycles" aside and the "only the presentation is condensed" close, per user-provided replacement text. (2) Scope table: PWS/CWS/NTNCWS now defined inline via the existing .gloss abbr pattern (title tooltip), matching how GWUDI/DDW/TOC/etc. are already glossed elsewhere on the site — NTNCWS expanded with standard hyphenation ("Non-Transient Non-Community Water System"). (3) "Counts & exceptions" inline sentence converted to an h4.sub heading ("Counts and Exceptions") + ul.tight bullet list, one item per contaminant-group count; considered p.ttl for the heading but that class only renders styled inside .callout/.acro-block, so used the panel's existing h4.sub sub-heading pattern instead. (4) All 19 EPTDS occurrences in the SMF panel (the one abbr-glossed instance plus 18 bare mentions) expanded to literal "entry point to the distribution system" — abbr/gloss wrapper removed since the term is no longer abbreviated. (5) Row merges (paired Status conditions that share one Frequency, combined with "w/no waiver, or"/", or" phrasing): IOC-GW rows 1+2 (≤MCL no waiver / R&C <MCL, both "once per 3-year period"); IOC-SW rows 1+2 (same pair, both annual); VOC-SW rows 1+2 (<detect no waiver / R&C <MCL, both annual); Nitrate-GW rows 1+2 (<½MCL / R&C <MCL, both annual). Table row counts now: IOC-GW 3, IOC-SW 3, Asbestos 3, SOC 5, VOC-GW 5, VOC-SW 3, Nitrate-GW 2, Nitrate-SW 2, Nitrate-TNCWS 1, Nitrite 3, Radionuclides 4. No card IDs touched; CRLF and script-tag balance confirmed intact (6/6).
   --------------------------------------------------------------------------
   B. CURRENCY CHECKS vs PRIMARY WEB SOURCES                   checked 2026-07-22
   (These post-date the Aug-2025 project files; re-verify before the exam.)
@@ -322,9 +326,12 @@
   table{border-collapse:collapse;width:100%;font-size:13px;min-width:440px}
   caption{caption-side:top;text-align:left;font-family:var(--mono);font-size:var(--fs-eyebrow-xs);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:11px 14px 0}
   th,td{padding:9px 13px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
-  thead th{background:var(--ink);color:var(--heading);font-weight:600;font-size:11.5px;letter-spacing:.03em;position:sticky;top:0}
+  .twocol{table-layout:fixed}
+  .twocol th:first-child,.twocol td:first-child{width:36%}
+  thead th{background:var(--ink-3);color:var(--heading);font-weight:600;font-size:11.5px;letter-spacing:.03em;position:sticky;top:0}
   tbody tr:last-child td{border-bottom:none}
   tbody tr:nth-child(even){background:var(--surface-2)}
+  .grp th{background:var(--ink-2);color:var(--heading);font-weight:600;font-size:11.5px;letter-spacing:.03em;border-top:2px solid var(--line-strong)}
   td.num,th.num{font-family:var(--mono);white-space:nowrap}
   /* ---------- Callouts ---------- */
   .callout{border-radius:var(--radius);padding:13px 16px;margin:0 0 16px;font-size:13.5px;border:1px solid}
@@ -1963,6 +1970,83 @@
       </div>
     </div>
 
+    <!-- ========== 6b. NITRATE ========== -->
+    <div class="panel" id="p-nitrate">
+      <div class="rhead">
+        <h2>Nitrate</h2>
+      </div>
+      <div class="callout purpose">
+        <p class="ttl">Purpose</p>
+        <p>Protect public health — particularly formula-fed infants — from nitrate in drinking water.</p>
+      </div>
+      <section class="block">
+        <h3 class="sec">Background</h3>
+        <ul class="tight">
+          <li>Nitrate is a nitrogen compound. It is largely a man-made contaminant. The main sources include agricultural fertilizer runoff and leaching from septic tanks and sewage.</li>
+          <li>In California it is one of the two most commonly regulated primary inorganic chemicals in groundwater, along with <a href="#arsenic">arsenic</a>.</li>
+          <li>Nitrate is an <strong>acute</strong> contaminant. In high enough concentrations it interferes with the blood's ability to carry oxygen. In formula-fed infants or younger children that drink water, this can cause methemoglobinemia, or "blue baby syndrome." In infants under six months this can come on quickly and, if left untreated, can be fatal, with symptoms including shortness of breath and a bluish skin color. High levels can also affect pregnant women.</li>
+        </ul>
+      </section>
+      <section class="block">
+        <h3 class="sec">Regulations</h3>
+        <p>Nitrate and Nitrite carry their own MCLs:</p>
+        <ul class="tight">
+          <li>Nitrate: <strong>10 mg/L</strong></li>
+          <li>Nitrite: <strong>1 mg/L</strong></li>
+          <li>Nitrate + Nitrite (as N): <strong>10 mg/L</strong></li>
+        </ul>
+      </section>
+      <section class="block">
+        <h3 class="sec">Monitoring &amp; Reporting</h3>
+        <p>Base monitoring frequency depends on source type:</p>
+        <ul class="tight">
+          <li>Groundwater systems, and transient-noncommunity systems on approved surface water: <strong>annually</strong>.</li>
+          <li>Community and nontransient-noncommunity systems on approved surface water: <strong>quarterly</strong>.</li>
+        </ul>
+        <p>Repeat monitoring steps up at half the MCL:</p>
+        <ul class="tight">
+          <li>Groundwater: any single sample at or above <strong>50% of the MCL</strong> puts you on quarterly monitoring for at least a year. After four straight quarterly results below the MCL, you may ask the State Board to return to annual.</li>
+          <li>Approved surface water: any single sample at or above 50% of the MCL puts you on quarterly monitoring. After four straight quarterly results below 50% of the MCL, you may return to annual; you go back to quarterly if any one sample reaches 50% of the MCL again.</li>
+        </ul>
+        <p><strong>Nitrite</strong> is sampled once per site as a baseline. If a single sample exceeds the MCL, handle it the same way as nitrate. Repeat monitoring is quarterly, then possibly annual, if a result is at or above half the MCL, or once every three years if it stays below half. <strong>Nitrate plus nitrite</strong> is tracked as a combined sum against the 10 mg/L limit; if the sum exceeds it, handle it as nitrate. If you treat for nitrate, you also sample the treated water monthly.</p>
+      </section>
+      <section class="block">
+        <h3 class="sec">Treatment options (Best Available Technologies)</h3>
+        <p>Nitrates and Nitrites can be treated via three processes:</p>
+        <ul class="tight">
+          <li><strong>Ion exchange</strong> works by swapping nitrate/nitrite onto a resin, which then needs regeneration and brine (salt-waste) disposal. Watch for <em>chromatographic peaking</em>: if a run goes too long, the column can suddenly release stored nitrate/nitrite in a spike higher than the incoming level.</li>
+          <li><strong>Reverse osmosis</strong> removes nitrate/nitrite well but wastes a large share of the feed water as reject.</li>
+          <li><strong>Electrodialysis</strong> (Nitrate only) works well but is complex and generally suited to smaller systems.</li>
+        </ul>
+        <p>Where a cleaner source exists, <strong>blending or switching sources</strong> is often the cheapest way to stay under the MCL. It is a source-management strategy rather than a listed BAT, but it is frequently the first move.</p>
+      </section>
+      <section class="block">
+        <h3 class="sec">If the MCL is exceeded</h3>
+        <p>As an acute health risk, compliance is judged sample by sample, not on a running annual average. One exceedance triggers steps for confirmation and subsequent action:</p>
+        <ul class="tight">
+          <li>The lab must notify you within <strong>24 hours</strong> whenever a single sample exceeds the MCL. If the lab cannot reach you, it must notify the State Water Board directly.</li>
+          <li>Within 24 hours of that notice, a confirmation sample must be collected and analyzed.
+            <ul class="tight">
+              <li>If the average of the two samples exceeds the MCL, a violation has occurred and a <a href="#pn" class="pill alarm">Tier 1</a> public notification must be issued.</li>
+              <li>If you cannot resample within 24 hours, issue a <a href="#pn" class="pill alarm">Tier 1</a> public notice and collect the confirmation sample within two weeks.</li>
+              <li>If the average is at or below the MCL, inform the State Board within 7 days.</li>
+            </ul>
+          </li>
+          <li><strong>Get below the MCL:</strong> take the source offline, blend it down, or move to a cleaner source. You cannot keep delivering water over 10 mg/L to the public.</li>
+          <li>If nitrate is detected above 5 mg/L (as nitrogen) but at or below the MCL, specific health-effect language must appear in the annual <a href="#ccr">Consumer Confidence Report (CCR)</a>.</li>
+        </ul>
+      </section>
+      <div class="callout op">
+        <p class="ttl">Chief Operator lens</p>
+        <ul class="tight">
+          <li>Treat it as acute. Nitrate is not on a slow chronic clock. It is Tier 1, and the confirmation sample is on a 24-hour fuse, so know who your 24-hour contact is before you ever need them.</li>
+          <li>Protect infants first. The whole limit exists for babies under six months. If you are over the MCL, get affected users onto safe water, such as bottled or an alternate supply, right away while you fix the source.</li>
+          <li>Know your season. Nitrate rises with irrigation and rainfall, so your peak risk is agricultural season. Watch trending wells before they cross half the MCL.</li>
+          <li>Choose treatment for its waste stream. Ion-exchange brine and reverse-osmosis reject both need disposal, and if you run ion exchange, do not over-run the column or you will spike nitrate into the finished water.</li>
+        </ul>
+      </div>
+    </div>
+
     <!-- ========== 7. RADIONUCLIDES ========== -->
     <div class="panel" id="p-radio">
       <div class="rhead">
@@ -2400,55 +2484,133 @@
         <p class="ttl">Purpose</p>
         <p>Standardize, simplify, and consolidate monitoring requirements across contaminant groups. The SMF increases public health protection by simplifying monitoring plans and synchronizing monitoring schedules, leading to increased compliance with monitoring requirements.</p>
       </div>
-      <p class="lead">The SMF synchronizes monitoring for chemical and radiological contaminants into a repeating <strong>9-year compliance cycle</strong> made of three <strong>3-year compliance periods</strong>. It covers IOCs, SOCs, VOCs, and radionuclides — with named exceptions.</p>
-      <div class="callout op"><p class="ttl">How this tab is built</p><p>The source guide presents the framework as year-by-year grids (2020–2037, current 4th &amp; 5th cycles). Those grids encode a frequency logic; this tab presents that logic directly (contaminant → status → frequency) plus the governing footnotes, rather than reproducing the 18-column grids. The framework itself is unchanged — only the presentation is condensed.</p></div>
+      <div class="callout op"><p class="ttl">How this page is built</p><p>The SMF Quick Reference Guide presents the framework as year-by-year grids (2020–2037). Those grids encode a frequency logic. This page presents that logic directly (contaminant → status → frequency) plus the governing footnotes, rather than reproducing the 18-column grids. The framework itself is unchanged.</p></div>
+      <p class="lead">The SMF synchronizes monitoring for chemical and radiological contaminants into a repeating <strong>9-year compliance cycle</strong> made of three <strong>3-year compliance periods</strong>. It covers inorganic contaminants (IOCs), synthetic organic contaminants (SOCs), volatile organic contaminants (VOCs), and radionuclides (radioactive contaminants) — with named exceptions.</p>
+      <p class="tbl-note">IOCs, SOCs, and VOCs are also written as inorganic, synthetic organic, and volatile organic <strong>chemicals</strong>.</p>
       <section class="block">
         <h3 class="sec">Scope</h3>
-        <div class="tbl-wrap"><table>
+        <div class="tbl-wrap"><table class="twocol">
           <thead><tr><th>Applies to</th><th>Contaminants</th></tr></thead>
           <tbody>
-            <tr><td>All PWSs</td><td>Nitrate, Nitrite</td></tr>
-            <tr><td>CWSs</td><td>IOCs, SOCs, VOCs, Radionuclides</td></tr>
-            <tr><td>NTNCWSs</td><td>IOCs, SOCs, VOCs</td></tr>
+            <tr><td>All <abbr class="gloss" title="Public Water System">PWS</abbr>s</td><td>Nitrate, Nitrite</td></tr>
+            <tr><td><abbr class="gloss" title="Community Water System">CWS</abbr>s</td><td>IOCs, SOCs, VOCs, Radionuclides</td></tr>
+            <tr><td><abbr class="gloss" title="Non-Transient Non-Community Water System">NTNCWS</abbr>s</td><td>IOCs, SOCs, VOCs</td></tr>
           </tbody>
         </table></div>
-        <p><strong>Counts &amp; exceptions:</strong> 15 IOCs (nitrate, nitrite, asbestos are SMF exceptions) · 51 SOCs &amp; VOCs (vinyl chloride for ground water is an exception) · 4 radionuclides (excludes beta/photon emitters).</p>
-      </section>
-      <section class="block">
-        <h3 class="sec">Sampling-frequency legend</h3>
-        <div class="tbl-wrap"><table>
-          <thead><tr><th class="num">Symbol</th><th>Meaning</th></tr></thead>
-          <tbody>
-            <tr><td class="num">*</td><td>1 sample at each <abbr class="gloss" title="Entry Point to the Distribution System">entry point (EPTDS)</abbr></td></tr>
-            <tr><td class="num">**</td><td>2 quarterly samples at each EPTDS, taken in 1 calendar year of each 3-year period</td></tr>
-            <tr><td class="num">****</td><td>4 quarterly samples at each EPTDS within the primacy-agency timeframe</td></tr>
-            <tr><td class="num">X</td><td>No sample required unless specified; waivers renewed at this frequency (must show sources not vulnerable)</td></tr>
-            <tr><td class="num">#</td><td>Monitor at a frequency specified by the primacy agency</td></tr>
-          </tbody>
-        </table></div>
+        <h4 class="sub">Counts and Exceptions</h4>
+        <ul class="tight">
+          <li>15 IOCs (nitrate, nitrite, asbestos are SMF exceptions)</li>
+          <li>51 SOCs &amp; VOCs (vinyl chloride for ground water is an exception)</li>
+          <li>4 radionuclides (excludes beta/photon emitters)</li>
+        </ul>
       </section>
       <section class="block">
         <h3 class="sec">Frequency logic by contaminant group</h3>
-        <div class="tbl-wrap"><table>
-          <thead><tr><th>Group</th><th>Status</th><th>Frequency</th></tr></thead>
+        <h4 class="sub">IOCs — Ground water</h4>
+        <div class="tbl-wrap"><table class="twocol">
+          <thead><tr><th>Status</th><th>Frequency</th></tr></thead>
           <tbody>
-            <tr><td rowspan="3">IOCs — Ground water</td><td>≤ MCL, no waiver</td><td>1 sample in 1st period of each cycle</td></tr>
-            <tr><td>Reliably &amp; consistently &lt; MCL</td><td>1 sample per 3-yr period</td></tr>
-            <tr><td>&gt; MCL / not R&amp;C &lt; MCL</td><td>Quarterly (****)</td></tr>
-            <tr><td rowspan="2">IOCs — Surface water</td><td>≤ MCL / R&amp;C &lt; MCL</td><td>Annual (*)</td></tr>
-            <tr><td>&gt; MCL / not R&amp;C &lt; MCL</td><td>Quarterly (****)</td></tr>
-            <tr><td rowspan="2">SOCs (all sizes)</td><td>Reliably &amp; consistently &lt; MCL</td><td>Annual (*); reduced to 2/period (&gt;3,300) or 1/period (≤3,300) if &lt; detect &amp; no waiver</td></tr>
-            <tr><td>≥ detect / not R&amp;C &lt; MCL</td><td>Quarterly (****)</td></tr>
-            <tr><td rowspan="3">VOCs — Ground water</td><td>&lt; detect, no waiver</td><td>Annual (*)</td></tr>
-            <tr><td>&lt; detect after ≥3 annual samples</td><td>1 per period</td></tr>
-            <tr><td>≥ detect / not R&amp;C &lt; MCL</td><td>Quarterly (****)</td></tr>
-            <tr><td rowspan="2">Nitrate</td><td>&lt; ½ MCL</td><td>Annual baseline; per §141.23</td></tr>
-            <tr><td>≥ ½ MCL</td><td>Quarterly</td></tr>
-            <tr><td rowspan="3">Radionuclides</td><td>&lt; detect</td><td>Every 9 years</td></tr>
-            <tr><td>≥ detect – ½ MCL / &gt;½ MCL – MCL</td><td>Every 6 / 3 years</td></tr>
-            <tr><td>&gt; MCL</td><td>Quarterly until 4 consecutive &lt; MCL</td></tr>
+            <tr><td>≤ MCL w/no waiver, or Reliably &amp; consistently &lt; MCL</td><td>Once per 3-year compliance period</td></tr>
+            <tr><td>With waiver</td><td>Once per 9-year cycle — 1 sample while the waiver is effective, renewed each cycle</td></tr>
+            <tr><td>&gt; MCL / not R&amp;C &lt; MCL</td><td>Quarterly — 4 quarterly samples at each entry point to the distribution system within the primacy-agency timeframe</td></tr>
           </tbody>
         </table></div>
+        <h4 class="sub">IOCs — Surface water</h4>
+        <div class="tbl-wrap"><table class="twocol">
+          <thead><tr><th>Status</th><th>Frequency</th></tr></thead>
+          <tbody>
+            <tr><td>≤ MCL w/no waiver, or Reliably &amp; consistently &lt; MCL</td><td>Annual — 1 sample at each entry point to the distribution system</td></tr>
+            <tr><td>With waiver</td><td>Once per 9-year cycle — 1 sample while the waiver is effective, renewed each cycle</td></tr>
+            <tr><td>&gt; MCL / not R&amp;C &lt; MCL</td><td>Quarterly — 4 quarterly samples at each entry point to the distribution system within the primacy-agency timeframe</td></tr>
+          </tbody>
+        </table></div>
+        <h4 class="sub">Asbestos</h4>
+        <div class="tbl-wrap"><table class="twocol">
+          <thead><tr><th>Status</th><th>Frequency</th></tr></thead>
+          <tbody>
+            <tr><td>No waiver, R&amp;C &lt; MCL, or vulnerable to asbestos</td><td>Once per 9-year cycle — 1 sample in the first 3-year compliance period</td></tr>
+            <tr><td>With waiver (vulnerability assessment every 3 years)</td><td>No sample unless the primacy agency requires it</td></tr>
+            <tr><td>&gt; MCL / not R&amp;C &lt; MCL</td><td>Quarterly — 4 quarterly samples at each entry point to the distribution system within the primacy-agency timeframe</td></tr>
+          </tbody>
+        </table></div>
+        <p class="tbl-note">Vulnerable through asbestos-cement pipe corrosion: sample at a tap served by that pipe. Vulnerable at the source: sample at each entry point to the distribution system.</p>
+        <h4 class="sub">SOCs (all sizes)</h4>
+        <div class="tbl-wrap"><table class="twocol">
+          <thead><tr><th>Status</th><th>Frequency</th></tr></thead>
+          <tbody>
+            <tr><td>Reliably &amp; consistently &lt; MCL</td><td>Annual — 1 sample at each entry point to the distribution system</td></tr>
+            <tr><td>&lt; detect, no waiver (population &gt; 3,300)</td><td>2 quarterly samples in one year of each 3-year compliance period</td></tr>
+            <tr><td>&lt; detect, no waiver (population ≤ 3,300)</td><td>Once per 3-year compliance period</td></tr>
+            <tr><td>With waiver (vulnerability assessment every 3 years)</td><td>No sample unless the primacy agency requires it</td></tr>
+            <tr><td>≥ detect / not R&amp;C &lt; MCL</td><td>Quarterly — 4 quarterly samples at each entry point to the distribution system within the primacy-agency timeframe</td></tr>
+          </tbody>
+        </table></div>
+        <p class="tbl-note">Annual samples are taken in the quarter that previously produced the highest result. After 3 consecutive annual samples below the detection limit a system may seek a waiver; the primacy agency reconfirms non-vulnerability every 3 years.</p>
+        <h4 class="sub">VOCs — Ground water</h4>
+        <div class="tbl-wrap"><table class="twocol">
+          <thead><tr><th>Status</th><th>Frequency</th></tr></thead>
+          <tbody>
+            <tr><td>&lt; detect, no waiver</td><td>Annual — 1 sample at each entry point to the distribution system</td></tr>
+            <tr><td>&lt; detect after ≥3 annual samples</td><td>Once per 3-year compliance period</td></tr>
+            <tr><td>Reliably &amp; consistently &lt; MCL</td><td>Annual — 1 sample at each entry point to the distribution system</td></tr>
+            <tr><td>With waiver (vulnerability assessment every 3 years)</td><td>1 sample per 6-year waiver term (two compliance periods)</td></tr>
+            <tr><td>≥ detect / not R&amp;C &lt; MCL</td><td>Quarterly — 4 quarterly samples at each entry point to the distribution system within the primacy-agency timeframe</td></tr>
+          </tbody>
+        </table></div>
+        <h4 class="sub">VOCs — Surface water</h4>
+        <div class="tbl-wrap"><table class="twocol">
+          <thead><tr><th>Status</th><th>Frequency</th></tr></thead>
+          <tbody>
+            <tr><td>&lt; detect w/no waiver, or Reliably &amp; consistently &lt; MCL</td><td>Annual — 1 sample at each entry point to the distribution system</td></tr>
+            <tr><td>With waiver (vulnerability assessment every 3 years)</td><td>No sample unless the primacy agency requires it</td></tr>
+            <tr><td>≥ detect / not R&amp;C &lt; MCL</td><td>Quarterly — 4 quarterly samples at each entry point to the distribution system within the primacy-agency timeframe</td></tr>
+          </tbody>
+        </table></div>
+        <p class="tbl-note">Annual VOC samples are taken in the quarter that previously produced the highest result. A ground water waiver still requires 1 sample every 6 years; a surface water waiver requires no routine sample. After 3 consecutive annual non-detects a system may seek a waiver.</p>
+        <h4 class="sub">Nitrate — Ground water</h4>
+        <div class="tbl-wrap"><table class="twocol">
+          <thead><tr><th>Status</th><th>Frequency</th></tr></thead>
+          <tbody>
+            <tr><td>&lt; ½ MCL, or Reliably &amp; consistently &lt; MCL</td><td>Annual — 1 sample at each entry point to the distribution system</td></tr>
+            <tr><td>≥ ½ MCL / not R&amp;C &lt; MCL</td><td>Quarterly — 4 quarterly samples</td></tr>
+          </tbody>
+        </table></div>
+        <h4 class="sub">Nitrate — Surface water</h4>
+        <div class="tbl-wrap"><table class="twocol">
+          <thead><tr><th>Status</th><th>Frequency</th></tr></thead>
+          <tbody>
+            <tr><td>After 4 consecutive quarters &lt; ½ MCL</td><td>Annual — 1 sample at each entry point to the distribution system</td></tr>
+            <tr><td>≥ ½ MCL within the last four quarters</td><td>Quarterly — 4 quarterly samples</td></tr>
+          </tbody>
+        </table></div>
+        <h4 class="sub">Nitrate — TNCWSs (ground &amp; surface water)</h4>
+        <div class="tbl-wrap"><table class="twocol">
+          <thead><tr><th>Status</th><th>Frequency</th></tr></thead>
+          <tbody>
+            <tr><td>All systems</td><td>Annual — 1 sample at each entry point to the distribution system</td></tr>
+          </tbody>
+        </table></div>
+        <p class="tbl-note">No R&amp;C &lt; MCL determination is allowed for surface water nitrate. A 20 mg/L nitrate MCL may be approved by the primacy agency for certain non-community systems not serving children under 6 months (40 CFR §141.11(d)).</p>
+        <h4 class="sub">Nitrite</h4>
+        <div class="tbl-wrap"><table class="twocol">
+          <thead><tr><th>Status</th><th>Frequency</th></tr></thead>
+          <tbody>
+            <tr><td>&lt; ½ MCL</td><td>As specified by the primacy agency</td></tr>
+            <tr><td>Reliably &amp; consistently &lt; MCL</td><td>Annual — 1 sample at each entry point to the distribution system</td></tr>
+            <tr><td>≥ ½ MCL / not R&amp;C &lt; MCL</td><td>Quarterly — 4 quarterly samples</td></tr>
+          </tbody>
+        </table></div>
+        <h4 class="sub">Radionuclides</h4>
+        <div class="tbl-wrap"><table class="twocol">
+          <thead><tr><th>Status</th><th>Frequency</th></tr></thead>
+          <tbody>
+            <tr><td>&lt; detect</td><td>Every 9 years</td></tr>
+            <tr><td>≥ detect and ≤ ½ MCL</td><td>Every 6 years</td></tr>
+            <tr><td>&gt; ½ MCL and ≤ MCL</td><td>Every 3 years</td></tr>
+            <tr><td>&gt; MCL</td><td>Quarterly until 4 consecutive quarters &lt; MCL</td></tr>
+          </tbody>
+        </table></div>
+        <p class="tbl-note">Covers gross alpha, radium-226, radium-228, and uranium. Beta particle and photon radioactivity are monitored separately under 40 CFR §141.26(b).</p>
         <p class="tbl-note">"R&amp;C &lt; MCL" = primacy agency has determined the point is reliably and consistently below the MCL.</p>
       </section>
       <section class="block">
@@ -2458,7 +2620,7 @@
           <li>If the RAA of quarterly sampling is &gt; MCL, remain quarterly until qualifying as R&amp;C &lt; MCL.</li>
           <li>Annual samples taken in the quarter that previously gave the highest result.</li>
           <li>SOC/VOC waiver: apply after 3 consecutive annual results below detection; vulnerability reconfirmed every 3 years (VOC waiver effective 2 periods / 6 years).</li>
-          <li><strong>Asbestos:</strong> monitor in the 1st 3-year period of each 9-year cycle (tap served by A-C pipe, or each EPTDS if source-vulnerable).</li>
+          <li><strong>Asbestos:</strong> monitor in the 1st 3-year period of each 9-year cycle (tap served by A-C pipe, or each entry point to the distribution system if source-vulnerable).</li>
           <li>Nitrate MCL of 20 mg/L may be approved for NCWSs not serving children under 6 months if criteria met (§141.11(d)).</li>
         </ul>
       </section>
@@ -3065,6 +3227,7 @@
       {id:"gwr", label:"Ground Water Rule", crumb:"Study Guide — Ground Water Rule"},
       {id:"lcr", label:"Lead and Copper Rule", crumb:"Study Guide — Lead and Copper Rule"},
       {id:"manganese", label:"Manganese", crumb:"Study Guide — Manganese"},
+      {id:"nitrate", label:"Nitrate", crumb:"Study Guide — Nitrate"},
       {id:"pfas", label:"PFAS", crumb:"Study Guide — PFAS (Per- and Polyfluoroalkyl Substances)"},
       {id:"pn", label:"Public Notification Rule", crumb:"Study Guide — Public Notification Rule"},
       {id:"radio", label:"Radionuclides Rule", crumb:"Study Guide — Radionuclides Rule"},
@@ -3228,6 +3391,7 @@
     {id:"lcr", name:"Lead & Copper Rule", short:"LCR"},
     {id:"mgmt", name:"Management & Emergency", short:"Mgmt"},
     {id:"manganese", name:"Manganese", short:"Mn"},
+    {id:"nitrate", name:"Nitrate", short:"NO3"},
     {id:"pfas", name:"PFAS", short:"PFAS"},
     {id:"pn", name:"Public Notification", short:"PN"},
     {id:"radio", name:"Radionuclides Rule", short:"Rad"},
@@ -3383,9 +3547,9 @@ Any filter in normal operation:
 
     // --- Inorganics & treatment quick facts (added) ---
     {id:102, deck:"primarystds", q:`California MCL for perchlorate?`, a:`6 ppb.`},
-    {id:103, deck:"primarystds", q:`MCL for nitrate?`, a:`10 mg/L as nitrogen (N).`},
-    {id:104, deck:"treatment", q:`What does "anthropogenic" mean, and what are nitrate's two main groundwater sources?`, a:`Man-made in origin; the main groundwater sources are agricultural fertilizer and sewage.`},
-    {id:105, deck:"treatment", q:`Three best available technologies (BATs) for nitrate, and their drawbacks?`, a:`Ion exchange (brine disposal), reverse osmosis (high water waste), and electrodialysis (complex, small-scale only).`},
+    {id:103, deck:"nitrate", q:`MCL for nitrate?`, a:`10 mg/L as nitrogen (N).`},
+    {id:104, deck:"nitrate", q:`What does "anthropogenic" mean, and what are nitrate's two main groundwater sources?`, a:`Man-made in origin; the main groundwater sources are agricultural fertilizer and sewage.`},
+    {id:105, deck:"nitrate", q:`Three best available technologies (BATs) for nitrate, and their drawbacks?`, a:`Ion exchange (brine disposal), reverse osmosis (high water waste), and electrodialysis (complex, small-scale only).`},
     {id:106, deck:"treatment", q:`What is chromatographic peaking in anion exchange?`, a:`A preferred contaminant accumulates on the media and can later dump into the effluent at high concentration if not monitored.`},
     {id:107, deck:"arsenic", q:`Why does the arsenic oxidation state matter for ion removal?`, a:`As+3 is uncharged and won't ion-exchange; As+5 is an anion and removes readily, so systems pre-oxidize to As+5.`},
     {id:108, deck:"treatment", q:`Two most common regulated primary inorganics in California groundwater?`, a:`Nitrate and arsenic. (Iron and manganese show up more often but are secondary/aesthetic standards, not primary.)`},
