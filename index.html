@@ -354,6 +354,7 @@
   .callout.purpose .ttl{color:var(--ok-deep)}
   /* ---------- Flash cards ---------- */
   .fc-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:4px 0 18px}
+  .fc-toolbar-stacked{flex-direction:column;align-items:flex-start;gap:8px}
   .fc-btn{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;padding:8px 13px;border-radius:8px;border:1px solid var(--line-strong);background:var(--surface);color:var(--heading);cursor:pointer;transition:background .12s,border-color .12s,color .12s}
   .fc-btn:hover{border-color:var(--teal);color:var(--teal-deep)}
   .fc-btn.fc-btn-active{background:var(--accent-solid);border-color:var(--accent-solid);color:#fff}
@@ -2223,45 +2224,32 @@
         <ul class="tight">
           <li>Manganese is the 12th most abundant element in the earth's crust; naturally occurring in both surface water and groundwater.</li>
           <li>It is an essential nutrient, but over-exposure poses a neurotoxic risk; occupational exposure causes <strong>manganism</strong>, a cognitive/motor syndrome resembling Parkinson disease.</li>
-          <li>Main absorption route is the gastrointestinal tract (inhalation secondary; dermal not significant).</li>
           <li><strong>Formula-fed infants are the most susceptible population</strong> — they absorb and/or retain more manganese than adults. This is the driver of the 2026 revision.</li>
           <li>Aesthetic effects at lower concentrations: discolored water, staining of plumbing fixtures and laundry, sediment buildup.</li>
         </ul>
       </section>
       <section class="block">
-        <h3 class="sec">Current regulation — the secondary MCL</h3>
-        <ul class="tight">
-          <li>Secondary MCL: <span class="k">0.05 mg/L</span>, established for aesthetics (discoloration), not health.</li>
-          <li><strong>In California, secondary MCLs are enforceable</strong> (U.S. EPA's identical 0.05 mg/L secondary standard is a non-enforceable guideline). Exam-critical distinction.</li>
-          <li>CA secondary MCLs apply <strong>only to community water systems</strong> — nontransient noncommunity systems (schools, workplaces) do not get the benefit of the secondary standard.</li>
-        </ul>
-        <p>See the Secondary MCL table on the <a href="#primarystds">Drinking Water Standards page</a>.</p>
-      </section>
-      <section class="block">
         <h3 class="sec">June 2026 revised NL and RL</h3>
         <div class="tbl-wrap"><table>
-          <thead><tr><th>Level</th><th class="num">Value</th><th>Basis</th><th class="num">Prior value (2003)</th></tr></thead>
+          <thead><tr><th>Level</th><th class="num">Value</th><th>Basis</th></tr></thead>
           <tbody>
-            <tr><td>Notification Level</td><td class="num">0.05 mg/L</td><td>Running annual average (RAA)</td><td class="num">0.5 mg/L</td></tr>
-            <tr><td>Response Level</td><td class="num">0.20 mg/L</td><td>Single confirmed detection</td><td class="num">5.0 mg/L</td></tr>
+            <tr><td>Notification Level</td><td class="num">0.05 mg/L</td><td>Running annual average (RAA)</td></tr>
+            <tr><td>Response Level</td><td class="num">0.20 mg/L</td><td>Single confirmed detection</td></tr>
           </tbody>
         </table></div>
         <ul class="tight">
-          <li>NL exceedance → notify the <strong>governing body within 30 days</strong> (Health &amp; Safety Code §116455).</li>
-          <li>RL exceedance (a single confirmed detection — take a repeat sample and average the two) → notify DDW <strong>within 7 days</strong>, and a community water system must, <strong>within 30 days</strong> of the initial exceedance, either notify customers to <strong>use an alternative water source (e.g., bottled water) when preparing infant formula</strong> <strong>or</strong> mitigate (take the source offline / treat).</li>
-          <li>The RL is set at <strong>4× the NL</strong> — an unusually tight multiple; most non-cancer response levels are 10× the notification level.</li>
+          <li>NL exceedance → notify the governing body within 30 days.</li>
+          <li>RL exceedance → take a repeat sample and average the two for confirmation. If the RL is still exceeded:
+            <ul class="tight">
+              <li>notify DDW within 7 days</li>
+              <li>within 30 days of the initial exceedance, either notify customers to use an alternative water source (e.g., bottled water) when preparing infant formula or mitigate (take the source offline / treat).</li>
+            </ul>
+          </li>
         </ul>
-        <p>DDW derived a <strong>health-protective concentration (HPC) of 0.02 mg/L</strong> as the health basis, but set the NL higher at 0.05 mg/L to line up with the enforceable secondary MCL (0.05 mg/L) and the 0.05 mg/L bottled-water limit — which gives the Board authority to require community-system public notice.</p>
-        <p>Comparison advisories for context: U.S. EPA health advisory <strong>0.3 mg/L</strong> (2004); WHO provisional health-based guideline <strong>0.8 mg/L</strong> (2021).</p>
-        <p class="tbl-note">Exam trap: the secondary MCL and the new NL are <strong>numerically identical (0.05 mg/L) but distinct</strong> — different purpose (aesthetic standard vs. health-based advisory), different compliance basis, different applicability. An exam question can probe exactly this.</p>
       </section>
       <section class="block">
-        <h3 class="sec">The path to a primary MCL</h3>
-        <ul class="tight">
-          <li>June 2, 2026: DDW requested OEHHA establish a PHG for manganese.</li>
-          <li>The CA ladder: <strong>occurrence/health data → NL/RL (HSC §116455/§116456) → PHG (OEHHA, HSC §116365(c)) → primary MCL set as close to the PHG as technologically and economically feasible (HSC §116365(a))</strong>.</li>
-        </ul>
-        <p>See the <a href="#pfas">PFAS page</a> for the parallel example of the same ladder in motion.</p>
+        <h3 class="sec">Treatment</h3>
+        <p>While no BAT is explicitly given for manganese, common treatment options include oxidation, usually with chlorine or potassium permanganate, followed by filtration, typically with greensand, which is a glauconite-based filtration media.</p>
       </section>
       <div class="callout op">
         <p class="ttl">Chief Operator lens</p>
@@ -3035,7 +3023,11 @@
         <p class="ttl">How to use this tab</p>
         <p>One prompt at a time. Work the answer out loud, then reveal the things to talk about to check your coverage. There is no right/wrong scoring here — this is a rehearsal tool, not a quiz.</p>
       </div>
-      <div class="fc-toolbar">
+      <div class="fc-toolbar fc-toolbar-stacked">
+        <span class="fc-filter-label">Category</span>
+        <div class="fc-pills" id="eqCatPills" role="group" aria-label="Filter prompts by category"></div>
+        <span class="fc-filter-label">Topic</span>
+        <div class="fc-pills" id="eqTopicPills" role="group" aria-label="Filter prompts by topic"></div>
         <button type="button" class="fc-btn" id="eqShuffleBtn">Shuffle</button>
       </div>
       <div class="fc-card" id="eqCard">
@@ -3127,9 +3119,8 @@
       <section class="block">
         <h3 class="sec">How to use them</h3>
         <ul class="tight">
-          <li>Read a script aloud and record yourself with any phone voice-recorder app.</li>
+          <li>Read each script out loud and record yourself with any voice-recording tool.</li>
           <li>Listen to your own recording on repeat. Hearing the material in your own voice is a strong memory aid.</li>
-          <li>Open the written version alongside when you want to see the numbers and citations.</li>
           <li>Each script runs about 15 to 20 minutes, sized to fit a typical commute.</li>
           <li>Recording it in your own voice works best. If you would rather not, you can download a computer-read audio version below and listen to that instead.</li>
         </ul>
@@ -3142,7 +3133,6 @@
           <li><a href="scripts/Script_2_Disinfection_Byproducts_Lead_and_Copper_and_Public_Communication.pdf" target="_blank" rel="noopener noreferrer">Script 2 — Disinfection Byproducts, Lead and Copper, and Public Communication (PDF)</a></li>
           <li><a href="scripts/Script_3_The_Safe_Drinking_Water_Act_and_the_Established_Contaminants.pdf" target="_blank" rel="noopener noreferrer">Script 3 — The Safe Drinking Water Act and the Established Contaminants (PDF)</a></li>
         </ul>
-        <p>More scripts will be added here as they are finished.</p>
       </section>
 
       <section class="block">
@@ -3400,7 +3390,6 @@
     {id:"pfas", name:"PFAS", short:"PFAS"},
     {id:"pn", name:"Public Notification", short:"PN"},
     {id:"radio", name:"Radionuclides Rule", short:"Rad"},
-    {id:"records", name:"Record Keeping", short:"Records"},
     {id:"swtr", name:"Surface Water Treatment Rules", short:"SWTR"},
     {id:"tcr", name:"Total Coliform Rules", short:"TCR"},
     {id:"treatment", name:"Treatment & Operations", short:"Treatment"},
@@ -3409,18 +3398,22 @@
 
   var CARDS = [
     {id:2, deck:"swtr", q:`What is Cryptosporidium and why is it a public health concern?`, a:`Cryptosporidium is a protozoan parasite that is a public health risk because its oocysts are chlorine resistant and can cause gastrointestinal illness.`},
-    {id:39, deck:"swtr", q:`What regulations govern crypto requirements?`, a:`Cryptosporidium is governed by a set of federal rules that built on each other. The Interim Enhanced Surface Water Treatment Rule (IESWTR), from 1998, first required 2-log (99%) removal of crypto for large systems serving 10,000 people or more. The Long Term 1 Enhanced Surface Water Treatment Rule (LT1ESWTR) extended that same 2-log removal requirement to small systems in 2005. The Long Term 2 Enhanced Surface Water Treatment Rule (LT2ESWTR), from 2006, added source water monitoring and bin classification — systems with higher crypto levels in source water must provide additional treatment on top of that base 2-log removal.`},
-    {id:40, deck:"swtr", q:`What are the log requirements for crypto?`, a:`The IESWTR (large systems) and LT1ESWTR (small systems) specify a 2-log (99%) removal requirement for crypto. The LT2ESWTR dictates additional log treatment requirements based on crypto levels found in your source water.`},
+    {id:39, deck:"swtr", q:`What surface water treatment rules govern crypto requirements?`, a:`1. The Interim Enhanced Surface Water Treatment Rule (IESWTR) first required 2-log (99%) removal of crypto for large systems serving 10,000 people or more. 
+2. The Long Term 1 Enhanced Surface Water Treatment Rule (LT1ESWTR) extended that same 2-log removal requirement to small systems. 
+3. The Long Term 2 Enhanced Surface Water Treatment Rule (LT2ESWTR) added source water monitoring and bin classification — systems with higher crypto levels in source water must provide additional treatment on top of that base 2-log removal.`},
+    {id:40, deck:"swtr", q:`What are the additional crypto log requirements for each LT2 Bin?`, a:`1. Bin 1 - No additional treatment
+2. Bin 2 - 1.0/1.5 Conventional/Direct Filtration
+3. Bin 3 - 2.0/2.5 Conventional/Direct Filtration
+4. Bin 4 - 2.5/3.0 Conventional/Direct Filtration`},
     {id:41, deck:"swtr", q:`How is crypto treated?`, a:`Crypto is best removed via filtration. It is extremely resistant to chlorine disinfection. UV and Ozone are good disinfection treatment approaches for additional log removal.`},
     {id:3, deck:"pfas", q:`What are PFAS and why are they a public health concern?`, a:`PFAS stands for per- and polyfluoroalkyl substances and is a generic term for a group of synthetic chemicals containing strong carbon-fluorine bonds. PFAS accumulate in the body ("forever chemicals") and have been linked to cancer and other diseases.`},
-    {id:42, deck:"pfas", q:`Where do PFAS come from?`, a:`For drinking water, the four major sources are fire training and response sites, industrial sites, landfills, and wastewater treatment plants and biosolids. More broadly, PFAS come from making, using, and disposing of products like non-stick cookware, stain-resistant fabrics, and firefighting foam.`},
     {id:43, deck:"pfas", q:`What regulations govern PFAS requirements?`, a:`The US EPA issued final National Primary Drinking Water Regulations for PFAS in April 2024.`},
     {id:44, deck:"pfas", q:`What are the monitoring and reporting requirements for PFAS?`, a:`• Initial monitoring to be completed by 2027 then ongoing monitoring. Must notify customers of PFAS levels beginning in 2027.
 • Implement solutions to reduce PFAS by 2029
 • Post 2029 take action to reduce PFAS if exceeding MCLs`},
     {id:45, deck:"manganese", q:`What are California's revised (June 2026) manganese NL and RL, and their bases?`, a:`NL 50 ppb (0.05 mg/L) on a running annual average; RL 200 ppb (0.20 mg/L) on a single confirmed detection.`},
     {id:46, deck:"manganese", q:`A source exceeds the manganese Response Level — what must the system tell customers?`, a:`To use an alternative water source (e.g., bottled water) when preparing infant formula; governing-body notification applies at the NL (within 30 days).`},
-    {id:47, deck:"primarystds", q:`How do secondary MCLs differ in California vs. federally, and who do CA secondary MCLs apply to?`, a:`Enforceable in CA (federal secondary standards are non-enforceable guidelines); applicable only to community water systems.`},
+    {id:47, deck:"primarystds", q:`How do secondary MCLs differ in California vs. federally?`, a:`Secondary MCLs are enforceable in CA.`},
     {id:48, deck:"upcoming", q:`Cr(VI) MCL and compliance dates by system size?`, a:`0.010 mg/L; Oct 1, 2026 (≥10,000 SC), Oct 1, 2027 (1,000–9,999), Oct 1, 2028 (<1,000), sized as of Oct 1, 2024.`},
     {id:49, deck:"upcoming", q:`What is the California pathway from emerging contaminant to primary MCL?`, a:`NL/RL → PHG → MCL set as close to the PHG as technologically and economically feasible`},
     {id:12, deck:"treatment", q:`Discuss the components of an effective Cross-Connection Control Plan.`, a:`1. Designate a Cross-Connection Control Coordinator. This individual must be certified as a Cross-Connection Control Specialist.
@@ -3450,12 +3443,25 @@ Post:
 5. Monitoring info for Cryptosporidium, radon, and other contaminants (if detected)
 6. Compliance with other regulations — violations and GWR special notices
 7. Variances and exemptions (if applicable)
-8. Required educational information — contaminants in drinking & bottled water; vulnerable-population Cryptosporidium info; nitrate, arsenic, and lead statements`},
+8. Required educational information — contaminants in drinking & bottled water; vulnerable-population Cryptosporidium info; nitrate, arsenic, and lead statements
+Remember MASTER
+M - Monitoring Information
+A - Analytes Detected
+S - System Info + Sources
+T - Terms Defined
+E - Educational/Health Info
+R - Regulatory Compliance`},
     {id:18, deck:"cert", q:`What regulations govern certification requirements for a T5 Water Treatment Operator?`, a:`Title 22 Sections 63775 & 63800, or Title 22, Chapter 13`},
     {id:19, deck:"lcr", q:`Current AL for Lead under the LCRR`, a:`15 ppb`},
     {id:20, deck:"arsenic", q:`MCL for Arsenic`, a:`10 ppb (0.010 ppm)`},
-    {id:168, deck:"arsenic", q:`Arsenic MCL exceedance — the two Title 22 §64432(g) response paths?`, a:`Either notify the State Board within 48 hours and start quarterly monitoring the next quarter, or notify within 7 days and take a confirmation sample within 14 days; if the two-sample average exceeds the MCL, report within 48 hours and go quarterly.`},
-    {id:169, deck:"arsenic", q:`Arsenic — when can a source return to routine (reduced) monitoring after going quarterly?`, a:`By application to the State Board: ground water after 2 consecutive quarterly samples below the MCL; surface water after 4.`},
+    {id:168, deck:"arsenic", q:`7 BATs for Arsenic.`, a:`1. Ion Exchange
+2. Reverse Osmosis
+3. Electrodialysis
+4. Activated Alumina
+5. Oxidation/filtration
+6. Lime Softening
+7. Coagulation/filtration`},
+    {id:169, deck:"arsenic", q:`When must an arsenic statement be added to the annual CCR?`, a:`When detected results are greater than half the MCL but at or below the MCL.`},
     {id:21, deck:"swtr", q:`Giardia log reduction`, a:`3-log (99.9%)`},
     {id:22, deck:"swtr", q:`Crypto log reduction`, a:`2-log (99%)`},
     {id:23, deck:"swtr", q:`Virus log reduction`, a:`4-log (99.99%)`},
@@ -3468,18 +3474,17 @@ The FBRR itself sets no numeric limit.  The FBRR Technical Guidance Manual and C
     {id:30, deck:"mgmt", q:`What is the UCMR?`, a:`The Unregulated Contaminant Monitoring Rule. The rule requires that every 5 years the EPA issue a list of 30 unregulated contaminants for PWS' to monitor in support of future regulations. The goal of the UCMR is to discover contaminants of emerging concern.`},
     {id:31, deck:"dbpr", q:`What is the MCL for Bromate?`, a:`10 ppb`},
     {id:32, deck:"dbpr", q:`What is the MCL for Chlorite?`, a:`1.0 ppm`},
-    {id:33, deck:"dbpr", q:`What are the MRDLs for Chlorine, Chloramines, and Chlorine Dioxide?`, a:`Chlorine: 4.0 ppm
-Chloramines: 4.0 ppm
+    {id:33, deck:"dbpr", q:`What are the MRDLs for Chlorine, Chloramines, and Chlorine Dioxide?`, a:`Chlorine and Chloriamines: 4.0 ppm
 Chlorine Dioxide: 0.8 ppm`},
     {id:34, deck:"dbpr", q:`What is chloramination?`, a:`Chloramination utilizes a combination of ammonia and chlorine to create monochloramine within the distribution system.`},
     {id:164, deck:"dbpr", q:`What is a Nitrification Action Plan?`, a:`A plan used by water systems that practice chloramination to prevent nitrification from occuring within the distribution system.`},
     {id:165, deck:"dbpr", q:`Why is chloramination used (2 reasons)?`, a:`1. Creates a longer lasting chlorine residual in systems that have trouble maintaining a free chlorine residual.
-2. Can limit the formation of DBPs.`},
+2. Can limit the formation of TTHM/HAA5.`},
     {id:166, deck:"dbpr", q:`If chloramination is not closely controlled, what water quality issue can develop?`, a:`Excess ammonia can lead to nitrification within the distribution system increasing nitrate (NO3) levels.`},
     {id:35, deck:"lcr", q:`Under the LCRR, When were lead service line inventories due to the State?`, a:`October 16, 2024`},
     {id:36, deck:"swtr", q:`What is the "Microbial Toolbox?"`, a:`The "Microbial Toolbox" is a EPA guidance manual that help PWS' choose appropriate combinations of treatment processes for compliance with LT2ESWTR requirements.`},
-    {id:37, deck:"dbpr", q:`How does pH effect TTHM and HAA5 formation?`, a:`As pH increases the tendency to develop TTHMs increases and, as pH decreases the tendency to develop HAA5 increases. Corrosion Control (increasing finish water pH) can increase the formation of TTHM.`},
-    {id:38, deck:"records", q:`When are the components of the monthly operating/monitoring report due to the State?`, a:`By the 10th day of the following month. This applies to all monthly report components (turbidity, disinfectant residual, etc.) — it is not unique to any single rule such as the SWTR.`},
+    {id:37, deck:"dbpr", q:`How does pH effect TTHM and HAA5 formation?`, a:`As pH increases the tendency to develop TTHMs increases and, as pH decreases the tendency to develop HAA5 increases. Corrosion Control (increasing finish water pH) can favor the formation of TTHM.`},
+    {id:38, deck:"mgmt", q:`When are the components of the monthly operating/monitoring report due to the State?`, a:`By the 10th day of the following month.`},
 
     // --- DBPR quick facts (added) ---
     {id:50, deck:"dbpr", q:`Purpose of the Disinfection Byproducts Rule (DBPR)?`, a:`Limit the health-hazard by-products formed when disinfectants react with organics in the water.`},
@@ -3487,7 +3492,7 @@ Chlorine Dioxide: 0.8 ppm`},
     {id:52, deck:"dbpr", q:`How is bromate compliance determined?`, a:`Monthly grab sample at the entrance to the distribution system, as a running annual average.`},
     {id:53, deck:"dbpr", q:`How is chlorite compliance determined?`, a:`Daily grab sample at the entrance to the distribution system.`},
     {id:54, deck:"dbpr", q:`Biggest change from Stage 1 to Stage 2 DBPR?`, a:`Moved from a system-wide running average to a Locational Running Annual Average (LRAA) at each site, plus the new Operational Evaluation Level (OEL).`},
-    {id:55, deck:"dbpr", q:`What drove the Stage 2 DBPR?`, a:`System-wide averaging let some locations stay over the MCL while the system still "passed," so people at those locations were still over-exposed.`},
+    {id:55, deck:"dbpr", q:`What drove the Stage 2 DBPR?`, a:`DBPs form in the Distribution System. System-wide RAA let some locations stay over the MCL while the system still "passed," so people at those locations were still over-exposed.`},
     {id:57, deck:"dbpr", q:`Why does the DBPR require total organic carbon (TOC) removal?`, a:`TOC is the precursor to DBPs.`},
     {id:58, deck:"dbpr", q:`Which DBPs does free chlorine form?`, a:`Trihalomethanes (TTHMs) and haloacetic acids (HAA5).`},
     {id:59, deck:"dbpr", q:`Which DBP is associated with chloramines?`, a:`N-nitrosodimethylamine (NDMA).`},
@@ -3496,16 +3501,14 @@ Chlorine Dioxide: 0.8 ppm`},
     {id:62, deck:"dbpr", q:`How is the Operational Evaluation Level (OEL) computed?`, a:`((Previous quarter 1 + previous quarter 2) + (twice the current quarter)) ÷ 4, at each monitoring location.`},
     {id:63, deck:"dbpr", q:`Purpose of the Operational Evaluation Level (OEL)?`, a:`Catch seasonal TTHM/HAA5 spikes early so systems act before an MCL violation.`},
     {id:64, deck:"dbpr", q:`What must a system do after an OEL exceedance?`, a:`Conduct an operational evaluation of source, treatment, and distribution, and report it to the state within 90 days.`},
-    {id:66, deck:"dbpr", q:`Three basic strategies for DBP control?`, a:`Remove TOC precursors, manage the disinfectant (dose, type, location), reduce water age.`},
+    {id:66, deck:"dbpr", q:`Three basic strategies for DBP control?`, a:`Remove TOC precursors, manage the disinfectant (dose, type, location), reduce water age (flush, turnover, dead-ends).`},
     {id:167, deck:"dbpr", q:`What method can reduce TTHMs after formation?`, a:`TTHMs are volatile. Aerating can reduce concentrations after formation (cannot be done with HAA5).`},
 
     // --- SWTR & LT2 quick facts (added) ---
     {id:68, deck:"swtr", q:`Which pathogens does the original SWTR's treatment technique cover?`, a:`Giardia and viruses.`},
-    {id:69, deck:"swtr", q:`Why does the SWTR use a treatment technique instead of testing finished water for pathogens?`, a:`Pathogens are particles that aren't evenly distributed, and testing for them directly is slow, costly, and not useful for real-time plant control.`},
     {id:70, deck:"swtr", q:`Why is turbidity used as the SWTR standard?`, a:`Pathogens are particles — removing particles (measured as turbidity) removes pathogens, so turbidity serves as the surrogate.`},
     {id:71, deck:"swtr", q:`Combined filter effluent (CFE) turbidity standard for conventional/direct filtration?`, a:`≤0.3 NTU in at least 95% of monthly readings, and never exceeding 1 NTU at any time.`},
     {id:72, deck:"swtr", q:`CFE turbidity standard for slow sand filtration?`, a:`≤1.0 NTU in 95% of monthly readings, never above 5.0 NTU.`},
-    {id:73, deck:"swtr", q:`CFE turbidity standard for diatomaceous earth (DE) filtration?`, a:`≤0.5 NTU in 95% of monthly readings, never above 5.0 NTU (Title 22 table 64653). Federal SWTR allows 1.0 NTU; California is stricter.`},
     {id:74, deck:"swtr", q:`Individual filter effluent (IFE) turbidity triggers and follow-up actions? (California, systems serving 10,000+)`, a:`Returning a filter to service (after backwash or interruption):
 - 0.3 NTU after 60+ min of continuous operation → filter profile within 7 days if cause is unknown
 - 0.5 NTU once it has been running 4 hours → take the filter out of service, inspect, don't return until fixed
@@ -3535,7 +3538,6 @@ Any filter in normal operation:
     {id:89, deck:"tcr", q:`Public notice tier for an E. coli MCL violation?`, a:`Tier 1.`},
     {id:91, deck:"tcr", q:`Why is an E. coli MCL violation serious?`, a:`E. coli indicates an actual pathogen is present — an acute hazard that can cause gastrointestinal illness or death.`},
     {id:92, deck:"tcr", q:`Who may collect TCR samples?`, a:`Certified operators, laboratory personnel, or persons trained by a state-approved program.`},
-    {id:93, deck:"tcr", q:`Maximum hold time from taking a TCR sample to starting analysis?`, a:`30 hours.`},
     {id:94, deck:"tcr", q:`What analysis must also be run at the time of coliform sample collection?`, a:`Disinfectant residual.`},
     {id:192, deck:"tcr", q:`Under the RTCR, what must a total coliform-positive sample be analyzed for?`, a:`E. coli. Any total coliform-positive routine or repeat sample is tested for E. coli, the fecal indicator that carries the MCL.`},
 
@@ -3551,34 +3553,34 @@ Any filter in normal operation:
     {id:101, deck:"lcr", q:`Health effects of lead and copper in tap water?`, a:`Lead: neurological and developmental harm, worst in children. Copper: gastrointestinal distress, and liver/kidney effects at high exposure.`},
 
     // --- Inorganics & treatment quick facts (added) ---
-    {id:102, deck:"primarystds", q:`California MCL for perchlorate?`, a:`6 ppb.`},
     {id:103, deck:"nitrate", q:`MCL for nitrate?`, a:`10 mg/L as nitrogen (N).`},
-    {id:104, deck:"nitrate", q:`What does "anthropogenic" mean, and what are nitrate's two main groundwater sources?`, a:`Man-made in origin; the main groundwater sources are agricultural fertilizer and sewage.`},
-    {id:105, deck:"nitrate", q:`Three best available technologies (BATs) for nitrate, and their drawbacks?`, a:`Ion exchange (brine disposal), reverse osmosis (high water waste), and electrodialysis (complex, small-scale only).`},
+    {id:104, deck:"nitrate", q:`What are nitrate's two main groundwater sources?`, a:`Agricultural fertilizer and wastewater.`},
+    {id:105, deck:"nitrate", q:`Three BATs for nitrate, and their drawbacks?`, a:`1. Ion exchange (brine disposal)
+2. Reverse Osmosis (high water waste)
+3. Electrodialysis (complex, small-scale only)`},
     {id:106, deck:"treatment", q:`What is chromatographic peaking in anion exchange?`, a:`A preferred contaminant accumulates on the media and can later dump into the effluent at high concentration if not monitored.`},
     {id:107, deck:"arsenic", q:`Why does the arsenic oxidation state matter for ion removal?`, a:`As+3 is uncharged and won't ion-exchange; As+5 is an anion and removes readily, so systems pre-oxidize to As+5.`},
     {id:108, deck:"treatment", q:`Two most common regulated primary inorganics in California groundwater?`, a:`Nitrate and arsenic. (Iron and manganese show up more often but are secondary/aesthetic standards, not primary.)`},
-    {id:109, deck:"treatment", q:`California MCL for 1,2,3-trichloropropane (1,2,3-TCP), and its BAT?`, a:`5 ppt (0.005 µg/L); granular activated carbon (GAC) is the best available technology.`},
 
     // --- Radionuclides, GAC, air stripping quick facts (added) ---
-    {id:110, deck:"radio", q:`What does the gross alpha test measure?`, a:`Radioactive decay of alpha particles in the water.`},
-    {id:111, deck:"radio", q:`What is the uranium decay chain?`, a:`The step-by-step radioactive breakdown of uranium-238 down to stable lead-206.`},
     {id:112, deck:"treatment", q:`Three source materials for granular activated carbon (GAC)?`, a:`Anthracite (coal), coconut shell, and wood.`},
     {id:113, deck:"treatment", q:`What is empty bed contact time (EBCT)?`, a:`The theoretical detention time of water in the volume of the GAC bed at a given flow.`},
     {id:114, deck:"radio", q:`Biggest long-term operating concern with single-pass uranium ion-exchange media?`, a:`Tracking the uranium mass on the media — too much and the spent media becomes high-level radioactive waste, very costly to dispose of.`},
     {id:115, deck:"treatment", q:`What is Henry's constant, and its use?`, a:`A measure of how readily a contaminant leaves water for air; high values (roughly >25) make a compound a good air-stripping candidate.`},
-    {id:116, deck:"treatment", q:`What measure tells you if air stripping will efficiently remove a compound?`, a:`The air-to-water ratio.`},
+    {id:116, deck:"treatment", q:`What measurement tells you if air stripping will efficiently remove a compound?`, a:`The air-to-water ratio.`},
 
     // --- PFAS quick facts (added) ---
     {id:117, deck:"pfas", q:`⚠ Federal MCLs for PFOA and PFOS?`, a:`4 ppt each — finalized April 2024, with compliance proposed (2026) to extend to 2031; verify current status near your exam.`},
-    {id:118, deck:"pfas", q:`Three best available technologies for PFAS?`, a:`Granular activated carbon (GAC), ion exchange, and reverse osmosis.`},
-    {id:119, deck:"pfas", q:`⚠ What is the PFAS Hazard Index?`, a:`The sum of fractions for a mixture of two or more of PFHxS, PFNA, PFBS, and HFPO-DA, where each PFAS's measured level is divided by its health-based limit; the mixture complies if the total stays below 1. EPA has proposed (2026) to rescind the Hazard Index and the individual MCLs for PFHxS, PFNA, and HFPO-DA; verify current status.`},
+    {id:118, deck:"pfas", q:`Three best available technologies for PFAS?`, a:`1. Granular Activated Carbon (GAC)
+2. Ion Exchange
+3. Reverse Osmosis.`},
+    {id:119, deck:"pfas", q:`⚠ What is the PFAS Hazard Index?`, a:`The sum of fractions for a mixture of multiple PFAS types, where each measured level is divided by its health-based limit.`},
 
     // --- Public notice, MCL concepts, sanitary survey quick facts (added) ---
-    {id:120, deck:"pn", q:`Tier 1 Public Notification time.`, a:`Notify within 24 hours using the fastest direct methods (TV/radio, door hangers, reverse 911). Tier 1 notifications are for acute conditions.`},
+    {id:120, deck:"pn", q:`Tier 1 Public Notification time.`, a:`Notify within 24 hours`},
     {id:121, deck:"pn", q:`Tier 2 Public Notification Time.`, a:`Notify within 30 days (Typically by mail). Tier 2 notifications are for chronic conditions.`},
     {id:122, deck:"pn", q:`Tier 3 public notice — trigger and timing?`, a:`Monitoring and administrative violations; notify within 12 months and repeat annually while unresolved. The annual Consumer Confidence Report (CCR) may serve as the notice if the 12-month timing is met.`},
-    {id:123, deck:"primarystds", q:`Definition of a maximum contaminant level (MCL)?`, a:`The highest level of a contaminant allowed in water delivered to any user of a public water system.`},
+    {id:123, deck:"primarystds", q:`MCL definition.`, a:`Maximum Contaminant Level - The maximum allowable level a contaminant may be before reaching a consumer.`},
     {id:126, deck:"mgmt", q:`What is a sanitary survey?`, a:`An on-site review of a system's source, facilities, equipment, and operation/maintenance to judge its ability to deliver safe water.`},
     {id:127, deck:"mgmt", q:`Who is subject to sanitary surveys and who conducts them?`, a:`All public water systems are subject to sanitary surveys. DDW conducts them.`},
 
@@ -3589,7 +3591,7 @@ Any filter in normal operation:
     {id:131, deck:"mgmt", q:`Who do you notify for a suspected cyber-attack on plant controls?`, a:`FBI, EPA, and CISA, plus DDW for abnormal operations.`},
     {id:132, deck:"mgmt", q:`Who is the on-site Incident Commander during a plant emergency?`, a:`The Chief Operator, under NIMS, until relieved by a higher authority.`},
     {id:133, deck:"treatment", q:`Water quality challenges from a harmful algal bloom (HAB)?`, a:`DBPs (when reacting with chlorine), Cyanotoxins, taste and odor, filter fouling, and daily (diurnal) pH and oxygen swings.`},
-    {id:134, deck:"arsenic", q:`Is arsenic an acute or chronic contaminant, and does MCL exceedance require immediate shutdown?`, a:`Chronic — action is needed but immediate plant shutdown is not warranted unless the result is 10x the MCL.`},
+    {id:134, deck:"arsenic", q:`Arsenic MCL exceedance Public Notification type.`, a:`Tier 2 Public Notification - 30 days`},
     {id:135, deck:"lcr", q:`Treatment change behind the lead crises in Washington DC, Flint, and Newark?`, a:`DC switched to chloramines; Flint changed its source; Newark changed corrosion-control chemical without adequate testing.`},
     {id:136, deck:"mgmt", q:`First step with an operator who consistently makes data-entry errors?`, a:`Determine whether it's a skills problem (fix with training) or an attitude problem — try incentives before discipline.`},
 
@@ -3605,7 +3607,7 @@ Any filter in normal operation:
     {id:141, deck:"mgmt", q:`For any public-health risk in an operational answer, what's the first thing to decide?`, a:`Whether it's acute or chronic — that call drives whether you shut the plant down.`},
     {id:142, deck:"mgmt", q:`Which violations or events count as acute public-health hazards for an operational answer?`, a:`A serious treatment-technique violation (e.g., failing to disinfect or filter), plus nitrate, E. coli, chlorite, or perchlorate MCL violations, a waterborne-illness outbreak, or a spill/unknown substance.`},
     {id:143, deck:"mgmt", q:`Are treatment-technique violations acute or chronic for your operational response?`, a:`Treat them as acute and respond immediately — that's about REACT urgency, not the public-notice tier. For PN purposes a TT violation is generally Tier 2 unless a specific rule elevates it (e.g., an SWTR disinfection/filtration failure).`},
-    {id:145, deck:"dbpr", q:`Do you shut down the plant for high TTHMs?`, a:`No — chronic event.`},
+    {id:145, deck:"dbpr", q:`TTHM/HAA5 MCL exceedance Public Notification type.`, a:`Tier 2 Public Notification - 30 days`},
 
     // --- Diagnosis & recovery nuggets (added) ---
     {id:146, deck:"swtr", q:`One filter's individual effluent (IFE) turbidity is high — where's the problem?`, a:`That specific filter — investigate it directly.`},
@@ -3615,8 +3617,6 @@ Any filter in normal operation:
     {id:150, deck:"mgmt", q:`Who has the authority to lift a boil-water or do-not-drink order?`, a:`Only the Division of Drinking Water (DDW).`},
 
     // --- Test-taking discipline (added) ---
-    {id:152, deck:"exam", q:`What's one of the most common ways candidates fail the oral exam?`, a:`Over-answering — dumping everything tangentially related instead of covering the main points cleanly and stopping.`},
-    {id:153, deck:"exam", q:`How long should your opening self-introduction be?`, a:`About 60–90 seconds — it's the one question you know is coming, so have it ready.`},
 
     // --- Additional operator knowledge (added) ---
     {id:154, deck:"swtr", q:`What is CT in disinfection?`, a:`Concentration Time - Disinfectant residual concentration (C - mg/L) times contact time (T - minutes).`},
@@ -3640,8 +3640,8 @@ Match the device to the degree of hazard, and test assemblies at least annually.
 3. Corrective actions when system deficiencies are identified or there is source water fecal contamination.
 4. Compliance monitoring to ensure treatment technology reliably achieves 4-log inactivation of viruses (when used).`},
     {id:176, deck:"lcr", q:`Under the LCRI, what will the new Lead AL be?`, a:`10 ppb`},
-    {id:177, deck:"lcr", q:`Under the LCRI, exceedance of the Lead AL is what level of Public Notification?`, a:`Tier 1 - 24 hours`},
-    {id:178, deck:"lcr", q:`Under the LCRI, when must a system have fully replaced its lead and galvanized requiring replacement service lines?`, a:`Generally, within 10 years.`},
+    {id:177, deck:"lcr", q:`Under the LCRR and LCRI, exceedance of the Lead AL is what level of Public Notification?`, a:`Tier 1 - 24 hours`},
+    {id:178, deck:"lcr", q:`Under the LCRI, when must a system have fully replaced its lead and galvanized requiring replacement service lines?`, a:`Generally, within 10 years (2037).`},
     {id:179, deck:"lcr", q:`When does the LCRI become effective?`, a:`November of 2027`},
     {id:180, deck:"lcr", q:`In general, what could the "next steps" entail if your system exceeds the Lead AL?`, a:`• Increased monitoring
 • Public Education programs
@@ -3669,6 +3669,36 @@ Match the device to the degree of hazard, and test assemblies at least annually.
 • A second Level 1 Assessment trigger within a rolling 12-month period.`},
     {id:189, deck:"tcr", q:`Who performs a Level 1 Assessment?`, a:`The Public Water System.`},
     {id:190, deck:"tcr", q:`Who performs a Level 2 Assessment?`, a:`The State, or a State-approved third party.`},
+
+    // --- 2026-08-21 sync: additions ---
+    {id:193, deck:"arsenic", q:`What arsenic result requires the source be immediately taken out of service?`, a:`A result 10x the MCL requires the source be removed from service.`},
+    {id:194, deck:"arsenic", q:`Arsenic MCL compliance determination.`, a:`Running Annual Average (RAA)`},
+    {id:195, deck:"arsenic", q:`What non-treatment option exists for Arsenic compliance?`, a:`Blending with a cleaner source.`},
+    {id:196, deck:"primarystds", q:`MCLG definition.`, a:`Maximum Contaminant Level Goal - The level at which no known health risks occur.`},
+    {id:197, deck:"manganese", q:`Manganese treatment`, a:`Oxidation (chlorine, potassium permanganate) followed by filtration (greensand)`},
+    {id:198, deck:"manganese", q:`What is greensand?`, a:`A glauconite-based filtration media.`},
+    {id:199, deck:"nitrate", q:`MCL for nitrite?`, a:`1 mg/L as nitrogen (N).`},
+    {id:200, deck:"nitrate", q:`MCL for nitrate + nitrite?`, a:`10 mg/L as nitrogen (N).`},
+    {id:201, deck:"nitrate", q:`What are the health risks associated with nitrate? What group is most vulnerable?`, a:`Circulatory problems leading to methemoglobinemia (MetHb). Formula-fed infants under 6-months are highly susceptible (Blue Baby Syndrome)`},
+    {id:202, deck:"nitrate", q:`A single nitrate sample exceeds the MCL. What is the next step to confirm MCL exceedance?`, a:`Collect a follow-up sample within 24 hours. If the average of those two samples exceeds the MCL, a violation has occurred.`},
+    {id:203, deck:"nitrate", q:`What non-treatment option exists for Nitrate compliance?`, a:`Blending with a cleaner source.`},
+    {id:204, deck:"pn", q:`Methods for Tier 1 distribution.`, a:`TV, Radio, door to door, social media, reverse 911`},
+    {id:205, deck:"pn", q:`What are the 10 requirements of a Public Notification?`, a:`1. Description of the violation/situation, contaminant(s), and levels
+2. When it occurred
+3. Potential health effects
+4. Population at risk, including vulnerable subpopulations
+5. Whether alternate water should be used
+6. Actions consumers should take, including when to seek medical help
+7. What the PWS is doing to correct it
+8. When the PWS expects to return to compliance
+9. PWS (or designee) name, business address, and phone
+10. Statement encouraging recipients to distribute the notice, where applicable
+Remember PARCH
+P - Problem (what & when)
+A - Actions (alternate water, what to do)
+R - Response by Utility (corrective measure, timeline for compliance)
+C - Contact & Circulate (PWS contact info, share the notice with others)
+H - Health (potential health effects and vulnerable peoples)`},
   ];
 
   var STORAGE_KEY = "t5_flashcards_progress_v1";
@@ -3972,215 +4002,274 @@ Match the device to the degree of hazard, and test assemblies at least annually.
   "use strict";
   var EXAM = [
     // ============ A. REGULATORY FOUNDATIONS ============
-    {id:"A1", cat:"reg", topic:"Regulatory Foundations", q:`Explain the Safe Drinking Water Act: what it does, who enforces it in California, and how it reaches your plant floor.`, a:`• The SDWA sets the federal floor; EPA writes the National Primary Drinking Water Regulations — MCLs, MCLGs, and treatment techniques.
-• California holds primacy through the Division of Drinking Water (DDW); Title 22 adopts the federal rules and is more stringent in places.
-• How it reaches you: your monitoring schedule, reporting, public notification, and operator-certification duties all trace back to it.
-• Your role — the responsible operator, accountable for compliance and, first, public health.`},
-    {id:"A2", cat:"reg", topic:"Regulatory Foundations", q:`A board member asks you to explain, in plain terms, what an MCL is and how one gets set. Work in MCLG, MRDL, and "treatment technique" while you're at it.`, a:`• MCL = the enforceable ceiling delivered to any user; MCLG = the health goal (no known or expected risk), often set below the MCL.
-• How an MCL is set: the contaminant occurs in water, poses a health risk, is feasible to detect and remove, and is set as close to the MCLG as feasible considering cost and benefit.
-• Carcinogens: MCLG is set at zero; the MCL is set as close to zero as feasible.
-• MRDL = the ceiling on a disinfectant itself; a treatment technique is a required process used when measuring a contaminant directly isn't practical (SWTR, LCR).`},
-    {id:"A3", cat:"reg", topic:"Regulatory Foundations", q:`Explain the Standardized Monitoring Framework and the sanitary survey — how does a system know what to sample and how often, and how does the state verify the whole operation is sound?`, a:`• The Standardized Monitoring Framework organizes chemical monitoring into standard compliance periods and cycles so schedules are predictable; frequency is keyed to the contaminant group (IOC/VOC/SOC), results history, and any waivers.
-• Sanitary survey: an on-site state review of source, treatment, distribution, storage, pumping, monitoring, management, and operator compliance — meant to find vulnerabilities before they cause a problem.
-• All public water systems are subject to sanitary surveys; the Revised Total Coliform Rule adds Level 1 (system-run) and Level 2 (state-run) assessments after coliform triggers.
-• Point to the Standardized Monitoring Framework panel for the schedule detail.`},
+    {id:"A1", cat:"reg", topics:["Regulatory Foundations"], q:`Explain the Safe Drinking Water Act. What does it allow, who enforces it in California, and how does it affect your treatment plant?`, a:`• SDWA = the 1974 federal law protecting public drinking water; lets EPA set enforceable, science-based national standards (the National Primary Drinking Water Regulations — MCLs and treatment techniques), not just guidelines.
+• What it allows: requires public water systems to meet the NPDWRs; lets a state hold primacy and run the program itself if its rules are at least as strict as federal and it can and will enforce them.
+• California enforcement: CA holds primacy through the State Water Board's Division of Drinking Water (DDW); DDW enforces Title 22, which is at least as strict as federal and stricter on several contaminants.
+• Reaches my plant through: my DDW Water Supply Permit, every MCL/TT I run to, monitoring & reporting (SMF), sanitary surveys & records, the annual CCR, public notification — and the operator-certification requirement behind this exam itself.`},
+    {id:"A2", cat:"reg", topics:["Regulatory Foundations","Consumer Confidence Report"], q:`You are currently presenting the draft Consumer Confidence Report at your facility's Board of Supervisors meeting. At the conclusion of your presentation, a board member asks you to explain, in plain terms, what an MCL is, how it gets set and how it's different from a Treatment Technique. How do you respond?`, a:`• MCL = maximum contaminant level, the enforceable ceiling delivered to any customer; over it is a violation and triggers public notification. MCLG = the health goal (no known/expected risk), non-enforceable, usually below the MCL; zero for carcinogens.
+• How it's set: contaminant occurs in water, poses a health risk, is feasible to measure and remove; MCL set as close to the health goal as technologically and economically feasible.
+• California ladder: OEHHA sets the Public Health Goal, DDW sets the MCL as close to it as feasible — why several CA limits beat federal.
+• Treatment Technique = a required process instead of a number, used where a numeric MCL isn't practical to measure directly (Lead & Copper corrosion control; SWTR filtration + disinfection). MCL = a number you can't exceed; TT = a process you must run.`},
+    {id:"A3", cat:"reg", topics:["Regulatory Foundations"], q:`Explain the Standardized Monitoring Framework. How does a system know what to sample and how often, and how does the state verify the whole operation is sound?`, a:`• Standardized Monitoring Framework (SMF) = synchronizes chemical and radiological monitoring into a repeating 9-year compliance cycle of three 3-year compliance periods, so schedules are predictable and consolidated across contaminant groups.
+• What to sample: the contaminant groups — inorganics (IOCs), synthetic organics (SOCs), volatiles (VOCs), and radionuclides; nitrate/nitrite sit outside the cycle and are monitored more often.
+• How often: keyed to the group, your results history, and any state-granted waiver. Clean history dials frequency down; a result over the MCL drives it up to quarterly until you're back in control.
+• State verification — the sanitary survey: periodic on-site DDW review of source, treatment, distribution, storage, pumping, monitoring, management, and operator compliance, meant to catch vulnerabilities before they become violations. Point to the SMF panel for the schedule grid.`},
 
     // ============ B. SURFACE WATER TREATMENT RULES ============
-    {id:"B1", cat:"reg", topic:"Surface Water Treatment", q:`Give the panel your understanding of the Surface Water Treatment Rule family and how the later rules build on the original.`, a:`• Core idea: surface water gets a multi-barrier treatment technique — filtration plus disinfection — instead of testing finished water for every pathogen (pathogens are particles, unevenly distributed, slow and costly to assay).
-• Turbidity as the surrogate: conventional/direct filtration ≤ 0.3 NTU in ≥ 95% of readings each month and never above 1 NTU; continuous individual- and combined-filter monitoring.
-• Disinfection credit: Giardia 3-log, viruses 4-log, Cryptosporidium 2-log (removal); CT ties residual, contact time, pH, and temperature together.
-• The family: IESWTR/LT1 pushed Crypto removal and individual-filter monitoring to systems large then small; LT2 added source Crypto monitoring and bins; the Filter Backwash Recycling Rule requires recycle streams to return ahead of the primary treatment.`},
-    {id:"B2", cat:"ops", topic:"Surface Water Treatment", q:`You operate a 45-MGD conventional plant. About an hour after one of your filters returns from a backwash, its individual-filter turbidity climbs and settles around 0.45 NTU while the rest of the filters sit near 0.05 NTU. Combined effluent is still well under 0.3 NTU. Is this a violation, and what do you do?`, a:`• Frame it: this is an individual-filter trigger exceedance, not a combined-filter treatment-technique violation — the plant is still compliant, but the rule requires you to act.
-• Verify it's real (instrument vs. grab), then take the filter offline and investigate: run a filter profile, see where in the run the spike occurred, compare to the two prior runs for a progressive trend.
-• Look upstream: coagulant/polymer feed, jar tests, backwash quality, media condition (mudballs, breakthrough, ripening).
-• Reporting: the trigger requires a filter self-assessment/profile and a report to DDW within the required window (7 days); correct, backwash, return to service, and add controls if it recurs.`},
-    {id:"B3", cat:"ops", topic:"Surface Water Treatment", q:`You operate a 20-MGD conventional plant that runs unmanned overnight. You arrive to find the online turbidimeter faulted and the recorded combined-filter turbidity has been reading well above 1 NTU for roughly seven hours. What do you do?`, a:`• Recognize a possible treatment-technique exceedance with a real pathogen-breakthrough concern — public health first.
-• Confirm reality: pull a benchtop/grab reading and check particle counts before concluding the finished water was actually that turbid.
-• Assess exposure: how much of this water reached the clearwell/distribution, and over what window; consider isolating it, boosting disinfection/CT, and increasing sampling.
-• Fix and notify: recalibrate/replace the meter, check coagulation and filter performance; notify DDW within the required timeframe and prepare the applicable notification tier.
-• Prevention: alarms and redundancy on continuous turbidimeters, defined night-shift checks, and an instrument-failure SOP with a grab-sample fallback.`},
-    {id:"B4", cat:"ops", topic:"Surface Water Treatment", q:`Your source is a reservoir with a documented history of Cryptosporidium. Explain how LT2 shapes what you have to do, and what you do to keep the plant compliant.`, a:`• Why it matters: conventional treatment earns only 2-log Crypto removal, so a source with elevated oocysts can still pass unsafe numbers — LT2's whole point.
-• Bin classification from source monitoring sets whether you owe additional Crypto treatment.
-• The microbial toolbox: watershed control, pre-sedimentation, bank filtration, tighter individual/combined-filter performance, bag/cartridge/membrane filtration, and inactivation by ozone, chlorine dioxide, or UV.
-• Day-to-day: optimize and monitor coagulation/filtration, jar-test routinely, backwash properly, train staff on why filtration performance is Crypto control, and document everything.`},
+    {id:"B1", cat:"reg", topics:["Surface Water Treatment"], q:`Explain your understanding of the Surface Water Treatment Rules and how the later rules build on the original.`, a:`• Core idea: surface water (and groundwater under its direct influence) gets a multi-barrier treatment technique — filtration plus disinfection — instead of testing finished water for every pathogen. Turbidity is the surrogate the plant runs to daily.
+• The original 1989 SWTR set the floor: 3-log Giardia and 4-log virus removal/inactivation, combined-filter turbidity limits, and a disinfectant residual entering and detectable throughout distribution.
+• The later rules layer on Cryptosporidium: IESWTR added 2-log Crypto removal plus individual-filter monitoring for large systems; LT1 pushed those same requirements down to small systems; LT2 added source-water Crypto monitoring and the bin framework, requiring more removal where source risk is higher.
+• Filter Backwash Recycling Rule (FBRR) closes a loophole — recycle streams must return ahead of the primary treatment so backwash solids can't bypass the barriers.`},
+    {id:"B2", cat:"ops", topics:["Surface Water Treatment"], q:`You operate a 45 MGD conventional plant. About an hour after one of your filters returns from a backwash, its individual-filter turbidity climbs and settles around 0.45 NTU while the rest of the filters sit near 0.05 NTU. Combined effluent is still well under 0.3 NTU. Is this a violation, and what do you do?`, a:`• Frame it first: not a violation. The treatment-technique standard is combined-filter effluent (≤0.3 NTU, 95% / 1 NTU max), and I'm well under. This is an individual-filter trigger — the rule tells me to act, but public health is protected right now.
+• Where 0.45 lands: over the 0.3 NTU post-backwash trigger (two consecutive 15-min readings after ≥60 min of run), but under the 0.5 NTU out-of-service threshold. So I stay in service and investigate, not pull the filter — unless it climbs.
+• Verify and diagnose: confirm it's real (instrument check vs. grab), then run a filter profile to see the ripening curve; classic post-backwash turbidity spike that didn't fully settle points to coagulation, backwash technique, or return-to-service rate.
+• Fix the likely cause: California requires bringing a filter back gradually (slow-start / filter-to-waste) after backwash; check coagulant dose and the backwash itself. If it crosses 0.5 NTU, pull it, inspect, and don't return until corrected.`},
+    {id:"B3", cat:"ops", topics:["Surface Water Treatment"], q:`You operate a 20 MGD conventional filtration plant that runs unmanned overnight. You arrive in the morning to find the combined filter effluent turbidimeter has faulted and is displaying a reading of 2.2 NTU. What do you do?`, a:`• First move: don't trust a faulted instrument either way. 2.2 NTU on a meter I know has faulted isn't a confirmed reading — but I can't assume the water was fine either. Verify with a grab/benchtop sample and check particle counts before concluding anything.
+• Reconstruct the overnight window: pull the recorded trend and see when the fault started, whether turbidity was actually climbing before it faulted, and how the filters and coagulation looked. Determine how much water reached the clearwell and distribution.
+• If it turns out real: this is a possible treatment-technique exceedance — public health first. A CFE-max exceedance (over 1 NTU) triggers DDW consultation within 24 hours; failure to consult can escalate to Tier 1 public notification. Consider isolating suspect water, boosting disinfection/CT, and increasing sampling.
+• Fix and prevent: recalibrate or replace the meter, correct any coagulation/filter issue. Then close the gap that let this run unseen — turbidimeter alarms and redundancy, an instrument-failure SOP with grab-sample fallback, and defined remote/night monitoring so an unmanned plant isn't blind.`},
+    {id:"B4", cat:"ops", topics:["Surface Water Treatment"], q:`Your source is a reservoir with a documented history of Cryptosporidium. Explain how LT2 shapes what you must do, and what you do to keep the plant compliant.`, a:`• Why it matters here: conventional treatment earns only 2-log Crypto removal baseline. A source with a Crypto history can still pass unsafe oocyst numbers on that baseline alone — that's exactly the gap LT2 was written to close.
+• What LT2 requires: source monitoring places me in a bin based on average oocyst concentration. A documented Crypto history means I'm likely in a higher bin (3 or 4), owing additional log-credit on top of the 2-log baseline. Bins get revisited on a later round, so a worsening source can move me up.
+• How I meet the added credit — the microbial toolbox: I combine credited options to reach my bin's requirement. UV is the practical workhorse — low dose, high Crypto inactivation, no disinfection byproducts. Other levers: watershed control at the source, running filters tight for treatment-performance credit, or ozone/chlorine dioxide.
+• Keeping it compliant day to day: run to my bin credit continuously, keep the UV reactor validated and monitored, watch turbidity as my ongoing surrogate, and hold the source-monitoring records that back my bin classification.`},
 
     // ============ C. DISINFECTION & DBP ============
-    {id:"C1", cat:"reg", topic:"Disinfection & DBP", q:`Explain the Disinfection/Disinfection By-Products Rule: what these by-products are, what's regulated, and how a system stays under the limits.`, a:`• Why they exist: disinfectants react with natural organic matter to form by-products that carry their own health risk — the rule balances killing pathogens against that risk.
-• Regulated: TTHM and HAA5 (the two groups), plus bromate at ozone plants and chlorite at chlorine-dioxide plants; MRDLs cap the disinfectants themselves. Marker values live on the DBP panel.
-• Stage 1 to Stage 2: compliance moved from a system-wide average to a locational running annual average, so a single hot spot can't hide; Operational Evaluation Levels flag a rising trend before it becomes a violation.
-• Control levers: remove precursors before you chlorinate (enhanced coagulation — the TOC-removal matrix keyed to source TOC and alkalinity), use an alternate disinfectant, or strip/aerate by-products already formed.`},
-    {id:"C2", cat:"ops", topic:"Disinfection & DBP", q:`You operate a 60-MGD plant using enhanced coagulation. The newest quarter pushes the locational running annual average for TTHM at your longest-detention monitoring site past the MCL. What do you do?`, a:`• Confirm the data with the lab, then recognize this as a Tier 2 public-notification event (30 days) — coordinate the notice with your PIO and DDW.
-• Because you run enhanced coagulation, audit recent performance: source TOC and alkalinity monitoring, achieved TOC removal, coagulation/filtration, and whether you're overdosing chlorine.
-• Attack the precursor and contact-time side: move or split the chlorine application point, manage storage-tank turnover/residence time, consider aeration or a distribution-residual change.
-• Note the OEL logic — you should have seen the trend coming; the operational evaluation examines storage, flushing, source, and treatment. Don't manipulate operations just to game a sample — that isn't allowed.`},
-    {id:"C3", cat:"ops", topic:"Disinfection & DBP", q:`Your distribution TTHM numbers spike every summer and someone suggests switching the distribution residual to chloramine. What do you do — and what would you watch for?`, a:`• Upside: chloramine forms far less TTHM/HAA5 and holds a more stable residual across a large system.
-• Downsides to name: nitrification risk (especially warm water, long detention), weaker primary disinfection, and NDMA formation.
-• Nitrification management: monitor for it (residual loss, nitrite/nitrate rise, HPC), reduce water age, turn tanks over, hold the chlorine-to-ammonia ratio, and breakpoint/flush when it starts.
-• Round it out with the disinfectant menu — chlorine (strong, cheap, forms THM/HAA), chloramine (persistent, weak, nitrification), ozone (excellent, no residual, bromate), chlorine dioxide (good on Giardia, chlorite/chlorate) — pick for the job.`},
+    {id:"C1", cat:"reg", topics:["Disinfection & DBP"], q:`Explain the Disinfectant/Disinfection By-Products Rules. What are the byproducts? How do you monitor? How do you control formation?`, a:`• Why they exist: disinfectants react with natural organic matter in the water to form byproducts that carry their own health risk. The rules balance killing pathogens against not creating a chemical hazard in the process. Stage 1 (1998) set the MCLs; Stage 2 (2006) kept the same numbers but tightened where and how compliance is proven.
+• The byproducts: total trihalomethanes (TTHM) at 0.080 mg/L and haloacetic acids (HAA5) at 0.060 mg/L are the two regulated groups. The rules also cap the disinfectants themselves — maximum residual disinfectant levels (MRDLs) for chlorine, chloramines, and chlorine dioxide — plus chlorite and bromate as byproducts of alternative disinfectants.
+• How you monitor: quarterly, at distribution sites set by system type and population. Stage 2's key change — compliance is a locational running annual average (LRAA) at each site, not a system-wide average, so a single hot spot at the far end of the system can't hide behind a good plant-wide number.
+• How you control formation: attack the precursors and the contact. Enhanced coagulation to strip organic matter before disinfection; manage residual and detention time; move the chlorination point or switch to chloramines for the distribution residual; and tank/main management to cut water age where byproducts build.`},
+    {id:"C2", cat:"ops", topics:["Disinfection & DBP"], q:`You operate a 60-MGD plant using enhanced coagulation. The newest quarter pushes the locational running annual average for TTHM at your longest-detention monitoring site past the MCL. What do you do?`, a:`• Confirm first, then own the violation: verify the quarter's result with the lab (resample if warranted). Once confirmed, the LRAA over the MCL is a violation — a single quarter high enough to pull the average over counts.
+• Notify: TTHM MCL violation is Tier 2 public notification — 30 days, repeated every 3 months until resolved. Coordinate the notice with DDW and my public information officer; the health-effects language is prescribed.
+• Read the clue in the site: it's my longest-detention location, so this is a water-age problem at the far end, not necessarily a plant-precursor problem — I'm already running enhanced coagulation up front. The byproducts are forming in distribution over time.
+• Fix the age and the residual: cut water age at that end — tank turnover, flushing dead-ends, main looping, adjust storage operation. Consider moving the chlorination point or the distribution residual strategy. Verify precursor removal (TOC) is still hitting its enhanced-coagulation target, and watch the Operational Evaluation Level as my early warning going forward.`},
+    {id:"C3", cat:"ops", topics:["Disinfection & DBP"], q:`Your distribution TTHM numbers spike every summer. Your GM has asked you to analyze switching the distribution system chlorine residual to chloramines. How would you respond?`, a:`• Frame it as a real analysis, not a yes/no: I'd tell the GM it's a legitimate option worth studying — chloramines form far less TTHM/HAA5 and hold a more stable residual across a large system, which directly targets our summer spike. But it's a significant treatment change with tradeoffs I need to lay out before we commit.
+• The costs to name: nitrification risk — especially in warm water and long-detention areas — where excess ammonia feeds bacteria and drives nitrite/nitrate up and residual down. Chloramine is a weaker primary disinfectant. And it carries its own byproduct, NDMA. It also affects some customers directly: dialysis centers and aquarium/fish owners must be notified.
+• The corrosion-control warning: this is the one I'd flag hardest to the GM. Changing distribution chemistry can disturb pipe scale and mobilize lead — Washington D.C.'s lead crisis traced to a chloramine switch. Any change has to be evaluated against our corrosion control, with DDW involved, before it goes system-wide.
+• If we proceed, how I'd manage it: a Nitrification Action Plan — monitor for residual loss, nitrite/nitrate rise, and bacterial growth; hold the chlorine-to-ammonia ratio; reduce water age and turn tanks over; and breakpoint-chlorinate/flush when nitrification starts. I'd recommend piloting and consulting DDW rather than flipping the whole system at once.`},
 
     // ============ D. TOTAL COLIFORM / RTCR (+ GWR crossover) ============
-    {id:"D1", cat:"reg", topic:"Total Coliform / GWR", q:`Explain the Total Coliform Rule and what changed when it was revised.`, a:`• The monitoring backbone: routine samples on a state-approved site plan (BSSP), repeat samples triggered by a positive, replacement samples for invalid ones; 30-hour hold time; samples run for total coliform and E. coli.
+    {id:"D1", cat:"reg", topics:["Total Coliform / GWR"], q:`Explain the Total Coliform Rule and what changed when it was revised.`, a:`• The monitoring backbone: routine samples on a state-approved site plan (BSSP), repeat samples triggered by a positive, replacement samples for invalid ones; 30-hour hold time; samples run for total coliform and E. coli.
 • What total coliform tells you (an indicator/sanitary sentinel) vs. E. coli (evidence of actual fecal contamination and an acute concern).
 • The revision's big move: dropped the total-coliform MCL and replaced it with a find-and-fix approach — Level 1 assessments the system runs, Level 2 the state runs, triggered by coliform patterns or an E. coli hit.
 • Public notification: an E. coli MCL violation is Tier 1; a treatment-technique/assessment violation is Tier 2; results land in the CCR.`},
-    {id:"D2", cat:"ops", topic:"Total Coliform / GWR", q:`You operate a system that blends surface water with groundwater; the groundwater sources are disinfected but do not carry 4-log virus treatment credit. A routine distribution sample comes back total-coliform positive, E. coli absent. What do you do?`, a:`• Confirm with the lab and make sure the sample was also run for E. coli — not testing would itself create an E. coli MCL violation.
-• TCR side: flush and collect the repeat set on schedule — the original tap plus an upstream and a downstream location within five service connections — checking residuals (target > 0.2 mg/L).
-• GWR side: a total-coliform-positive routine sample is also a trigger — sample your active groundwater sources for E. coli (in California, within 24 hours) to find whether a source is the origin.
-• Look for a cause (treatment performance, storage, cross-connection, pressure event); notify the local DDW office of the positive and both sets of samples.
-— PANEL FOLLOW-UP: the repeat set comes back E. coli positive, and one groundwater source is also E. coli positive. Now what? —
-• This is an E. coli MCL violation — Tier 1 public notification within 24 hours and a Level 2 assessment; a boil-water notice is very likely.
-• Notify DDW immediately; map the affected area; ramp up sampling; coordinate the boil-water notice with the PIO across every channel.
-• GWR corrective action: the implicated source is fecally contaminated — take it offline, or provide 4-log virus removal/inactivation with continuous residual monitoring before it returns to service; fix the underlying deficiency.
-• Isolate and disinfect affected mains per AWWA, test before return to service, provide bottled water to anyone cut off, keep accelerated monitoring going, and coordinate with DDW/PIO on lifting the notice.`},
+    {id:"D2", cat:"ops", topics:["Total Coliform / GWR","Public Notification"], q:`A routine distribution sample comes back total-coliform positive, E. coli absent. One of your repeat samples then comes back E. coli positive. How do you respond?`, a:`• Recognize what just happened: a TC+ routine followed by an EC+ repeat is an E. coli MCL violation — acute, public-health first. This isn't a paperwork item; E. coli means possible fecal contamination in distribution.
+• Immediate notification: an EC+ result goes to DDW by the end of the day I'm notified. The violation itself is a Tier 1 public notification — within 24 hours, all channels — coordinated with DDW and my public information officer. A boil-water notice is very likely.
+• The RTCR response: an E. coli MCL violation triggers a Level 2 assessment (state or state-approved party, but I'm responsible for ensuring it happens) — find and correct the sanitary defect that created the pathway. Assessment form within 30 days, corrections on that timeline or a state-approved one.
+• On the ground: check residuals and hunt the cause — storage, cross-connection, pressure event, main break. Isolate and disinfect the affected area per AWWA, ramp up sampling, and keep accelerated monitoring going until I've confirmed the system is clean and coordinated lifting the notice with DDW.`},
 
     // ============ E. GROUND WATER RULE ============
-    {id:"E1", cat:"reg", topic:"Ground Water Rule", q:`Explain the Ground Water Rule and how it protects a groundwater system.`, a:`• Risk-targeted, not blanket treatment: it leans on sanitary surveys to find significant deficiencies and on monitoring to catch fecal contamination.
-• Triggered source-water monitoring: a total-coliform-positive distribution sample means you sample your active sources for E. coli (in California, within 24 hours).
-• If a source is fecally contaminated: fix the deficiency or provide 4-log virus removal/inactivation, with continuous residual monitoring where treatment is the fix.
-• California layers on a minimum quarterly source E. coli monitoring expectation and the sanitary-survey program.`},
-    {id:"E2", cat:"ops", topic:"Ground Water Rule", q:`One of your wells keeps coming back total-coliform and E. coli positive. You need it for peak-season demand, but it's chlorinated with only about 20 feet of pipe between the injection point and the first customer. What do you do?`, a:`• The well is failing the E. coli standard and, to stay in service, owes 4-log virus inactivation.
-• Do the CT math: can 4-log be achieved in that 20 feet of contact at your flow, residual, pH, and temperature? Very likely not.
-• Provide the missing contact time (a contact tank or loop) or added inactivation, and add continuous residual monitoring with alarms and automatic shutoff so a low-residual event can't send untreated water to that first customer.
-• Investigate and correct the contamination source; coordinate with DDW.`},
+    {id:"E1", cat:"reg", topics:["Ground Water Rule"], q:`Explain the Ground Water Rule and how it protects a groundwater system.`, a:`• Core approach: risk-targeted, not blanket treatment. Rather than requiring every groundwater system to filter and disinfect like surface water, the GWR finds the systems susceptible to fecal contamination and fixes the specific problem. Its whole aim is reducing illness from microbial contamination in groundwater systems.
+• The two protective legs: sanitary surveys to find significant deficiencies before they cause harm, and triggered source-water monitoring to catch fecal contamination when it shows up. A total-coliform-positive distribution sample (under TCR/RTCR) triggers source sampling of the active sources — analyzed for a fecal indicator (E. coli, enterococci, or coliphage).
+• The 4-log alternative: a system can opt out of triggered monitoring by providing 4-log virus treatment before or at the first customer, then monitoring continuously to prove it. That treatment technique defines everything the system does under the rule.
+• If a source is fecally contaminated, or a survey finds a significant deficiency: take corrective action — fix the deficiency, take the source offline, provide an alternate source, or install 4-log virus treatment with continuous residual monitoring.`},
+    {id:"E2", cat:"ops", topics:["Ground Water Rule"], q:`One of your wells keeps coming back total-coliform and E. coli positive. You need it for peak-season demand, but it's chlorinated with only about 20 feet of pipe between the injection point and the first customer. What do you do?`, a:`• Name the problem: repeated E. coli-positive means this source is failing the E. coli standard — likely fecal contamination. Public health first. To keep it in service under the Ground Water Rule it owes 4-log virus inactivation before or at the first customer.
+• Do the CT math: can I actually achieve 4-log virus inactivation in ~20 feet of contact at my peak flow, residual, pH, and temperature? Almost certainly not — that's not enough contact time. I can't just turn up the chlorine and call it done.
+• Provide the missing contact time: add a contact tank, a pipeline loop, or a baffled clearwell to buy the CT — or add another inactivation barrier (e.g., UV). Then run continuous residual monitoring with alarms and automatic shutoff so a low-residual moment can't send under-treated water to that first customer.
+• Fix the root cause, not just treat past it: investigate why the well keeps going positive — wellhead integrity, sanitary seal, casing, nearby contamination pathway, grouting. Coordinate with DDW throughout; a well that repeatedly fails E. coli has a source problem to correct, not just a disinfection gap to paper over.`},
 
     // ============ F. LEAD & COPPER ============
-    {id:"F1", cat:"reg", topic:"Lead & Copper", q:`Explain the Lead and Copper Rule: why it's built on a treatment technique rather than an MCL, where the lead comes from, and what the newer revisions changed.`, a:`• No MCL for lead; instead action levels that trigger action — lead 0.015 mg/L (15 ppb), copper 1.3 mg/L — measured at the 90th percentile of at-the-tap samples.
-• Sampling design: first-draw, after ≥ 6 hours of stagnation, at the most vulnerable taps (lead service lines, then lead-solder/brass), because that's where corrosion shows up.
-• The lead comes from corrosion of plumbing and service lines — so the core fix is corrosion control treatment (adjusting chemistry so the water stops dissolving lead).
-• Revisions to name: the LCRR added a lead-service-line inventory, a 10-ppb lead trigger level, accelerated LSL replacement, and school/childcare sampling; the LCRI lowers the lead action level to 0.010 mg/L — as of 2026 that begins in late 2027; verify the current date before the exam.`},
-    {id:"F2", cat:"reg", topic:"Lead & Copper", q:`Your latest round of at-the-tap sampling puts the 90th-percentile lead result above the action level. What do you do?`, a:`• Frame it correctly: an action-level exceedance isn't an MCL violation — it triggers a set of treatment-technique actions, not an automatic MCL notice.
-• The actions: Tier 1 public notification within 24 hours (a lead action-level exceedance is a Tier 1 notice, even though the exceedance itself is not an MCL violation), a public-education program, a corrosion-control study and treatment (or optimize existing CCT), water-quality-parameter monitoring to prove the CCT is working, and stepped-up lead-service-line replacement.
-• Coordinate messaging with the PIO and DDW; keep the public-education and CCR lead statements accurate.`},
+    {id:"F1", cat:"reg", topics:["Lead & Copper"], q:`Explain the Lead and Copper Rule: why it's built on a treatment technique rather than an MCL, where the lead comes from, and what the newer revisions changed.`, a:`• Why a treatment technique, not an MCL: most contaminants I can measure and remove at the plant, so they get a numeric MCL. Lead and copper are different — they enter the water after it leaves my plant, so there's no single point where I can test finished water and be done. The rule instead requires a process: control corrosion so the water doesn't dissolve lead and copper out of the plumbing.
+• Where the lead comes from: corrosion of lead- and copper-containing plumbing the utility often doesn't own — lead service lines, old lead solder, brass fixtures, copper pipe. That's why compliance is measured at the customer's tap, as the 90th percentile of tap samples, with action levels of 15 ppb lead and 1.3 mg/L copper.
+• The key framing: an action-level exceedance is not a violation. It's a trigger. Exceed it and I owe a cascade of responses — corrosion control, source treatment, service-line replacement — but I haven't broken a limit the way an MCL exceedance breaks one.
+• What the revisions changed: the LCRR (2021) added a service-line inventory, notice to anyone on a lead/galvanized/unknown line, made a lead exceedance a Tier 1 public notice, and started school/child-care sampling. The LCRI (effective Dec 30, 2024; compliance date November 1, 2027) lowers the lead action level to 10 ppb and requires replacing all lead and galvanized service lines within about ten years. As of now the original LCR framework governs, with LCRI taking over Nov 1, 2027.`},
+    {id:"F2", cat:"reg", topics:["Lead & Copper"], q:`Your latest round of at-the-tap sampling puts the 90th-percentile lead result above the action level. What do you do?`, a:`• Frame it right first: an action-level exceedance is not a violation — it's a trigger. I haven't broken a limit; I've triggered a set of required responses. Confirm the data with the lab, then act on it. Public health first throughout.
+• Notify and educate: a lead AL exceedance requires a Tier 1 public notice to all consumers within 24 hours, plus lead-specific public education materials within 60 days, repeated while the exceedance continues. (Copper-only doesn't carry the education piece.) Coordinate with DDW and my public information officer.
+• Work the cascade in cost order: it climbs from cheapest/least disruptive to most. Water quality parameter monitoring to characterize my chemistry; corrosion control treatment — pH/alkalinity adjustment or an orthophosphate inhibitor to build a protective film; source water treatment if the source is contributing lead; and lead service line replacement only if I'm still over after treatment.
+• Confirm and stop: run the required monitoring rounds to prove the treatment is holding the state-set water quality targets. I can step back the outreach and replacement once the 90th percentile stays at or below the action level for two consecutive six-month periods — and resume if it climbs again.`},
 
     // ============ G. INORGANIC CONTAMINANTS ============
-    {id:"G1", cat:"reg", topic:"Inorganics", q:`You run a California system on both groundwater and surface water. For the inorganics where California sets a stricter or different standard than the federal rule — hexavalent chromium, perchlorate, and fluoride — state California's limits and explain why, as chief operator, you comply with the California number.`, a:`• Hexavalent chromium: California MCL 0.010 mg/L (10 ppb); there is no directly matching federal Cr(VI) MCL — the federal number is for total chromium.
-• Perchlorate: California MCL 0.006 mg/L (6 ppb); no federal MCL — California regulates it where EPA has not.
-• Fluoride: California's primary MCL is 2.0 mg/L, below the federal 4.0 mg/L.
-• The principle the panel wants: a California system follows Title 22; where state and federal differ, the stricter/California standard governs, and you should be able to say which is which. (Cr(VI) compliance dates are phased — as of 2026, verify current dates.)`},
-    {id:"G2", cat:"ops", topic:"Inorganics", q:`You operate an 8-MGD groundwater plant that removes iron with continuously regenerated greensand filters, fed by four wells. The lab tells you the blended raw-water arsenic running average has climbed just over the MCL after years sitting comfortably below it. What do you do?`, a:`• Because arsenic is chronic, this needs action but not an emergency shutdown.
+    {id:"G1", cat:"reg", topics:["Inorganics"], q:`Your latest lab results show elevated manganese levels. Your operator says "Who cares? It's just a secondary standard anyways." How do you respond?`, a:`• Correct the premise, respectfully: the 0.05 mg/L manganese standard is a secondary MCL for aesthetics (staining, discoloration) — but in California secondary MCLs are enforceable, not just guidance like the federal version. "Just secondary" doesn't mean ignore it.
+• The health angle he's missing: manganese is a neurotoxin, and formula-fed infants are the susceptible group. That's why DDW issued revised levels in 2026 — a notification level of 0.05 mg/L and a response level of 0.20 mg/L, with the response level tied to an infant-formula advisory.
+• Where it's heading: OEHHA has been asked to set a Public Health Goal — the first step toward a primary, health-based MCL. This is a live rulemaking, so I treat manganese as a health parameter now, not a nuisance.
+• What we actually do: verify against the current notification/response levels (not just the secondary MCL), check treated-water performance if we're removing it, and be ready to notify the governing body and advise on infant formula if we hit the response level.`},
+    {id:"G2", cat:"ops", topics:["Inorganics"], q:`You operate an 8-MGD groundwater plant that is fed by four wells. The lab tells you the blended waters arsenic RAA has climbed just over the MCL. What do you do?`, a:`• Because arsenic is chronic, this needs action but not an emergency shutdown.
 • Confirm with check samples; sample each wellhead to find whether one source is driving the average — isolating a single bad well may be the fast fix.
 • Treatment chemistry: arsenic removal depends on oxidation state — oxidize As(III) to As(V) so it carries a charge, then remove by iron coprecipitation/adsorption (your greensand may already be doing much of this) or dedicated media; adjust pH and pre-oxidation contact.
 • Notify DDW of the trend; aim to bring the groundwater blend back under the MCL.`},
-    {id:"G3", cat:"ops", topic:"Inorganics", q:`Nitrate in your primary well field climbs to roughly one-and-a-half times the MCL during irrigation season. What do you do?`, a:`• Nitrate is acute (methemoglobinemia / "blue-baby" risk) — this can't ride out a long compliance clock; it's a Tier 1 public-notification contaminant, and you may need to take the source offline fast.
+    {id:"G3", cat:"ops", topics:["Inorganics","Public Notification"], q:`Nitrate in your primary well field climbs to roughly one-and-a-half times the MCL during irrigation season. What do you do?`, a:`• Nitrate is acute (methemoglobinemia / "blue-baby" risk) — this can't ride out a long compliance clock; it's a Tier 1 public-notification contaminant, and you may need to take the source offline fast.
 • Immediate options: pull or blend down the high well, lean on cleaner sources or interties.
 • Treatment BATs and their costs: ion exchange (brine disposal, and watch chromatographic peaking dumping nitrate), reverse osmosis (large reject-water loss), electrodialysis (small-scale/complex).
 • Confirm with a check sample, notify DDW, and coordinate the acute notice with the PIO.`},
 
     // ============ H. ORGANIC CONTAMINANTS ============
-    {id:"H1", cat:"reg", topic:"Organics", q:`Explain how you'd handle volatile and synthetic organic contaminants — the limits, the monitoring logic, and the two workhorse treatments.`, a:`• VOCs/SOCs are regulated individually with their own MCLs; the Standardized Monitoring Framework sets the schedule (baseline, then reduced with clean history or waivers).
+    {id:"H1", cat:"reg", topics:["Organics"], q:`Explain how you'd handle volatile and synthetic organic contaminants. What are the limits, the monitoring logic, and the two primary treatments.`, a:`• VOCs/SOCs are regulated individually with their own MCLs; the Standardized Monitoring Framework sets the schedule (baseline, then reduced with clean history or waivers).
 • Two workhorse treatments: air stripping (packed-tower aeration) and granular activated carbon adsorption.
 • Choosing between them: a contaminant's Henry's constant tells you whether it'll strip out of water into air — a high value favors air stripping; low-volatility or adsorbable compounds favor GAC.
 • GAC vocabulary: empty-bed contact time (how long water sees the carbon) and the adsorption isotherm (how much a given carbon can hold) — both drive bed life.`},
-    {id:"H2", cat:"ops", topic:"Organics", q:`The lab reports a volatile organic (say, 1,2,3-trichloropropane) at twice the MCL in a well that pumps straight into distribution, and your check sample matches. What do you do?`, a:`• Take the well out of service — it feeds distribution directly, so there's no downstream treatment to lean on.
+    {id:"H2", cat:"ops", topics:["Organics"], q:`The lab reports a confirmed volatile organic result at twice the MCL in a well that pumps straight into distribution. What do you do?`, a:`• Take the well out of service — it feeds distribution directly, so there's no downstream treatment to lean on.
 • Confirm (done, via the matching check sample), notify DDW, and issue the applicable notice — a chronic-contaminant MCL exceedance is a Tier 2 (30-day) public notification.
 • Evaluate treatment to return the source: GAC is the typical best-available technology for this class; size it on EBCT and expected bed life.
 • Investigate the source of contamination and plan longer-term source management.`},
 
     // ============ I. RADIONUCLIDES ============
-    {id:"I1", cat:"reg", topic:"Radionuclides", q:`A groundwater source trips a radionuclide result. Explain what's regulated, how it's screened, and the treatment and waste angle an operator has to think about.`, a:`• What's regulated: gross alpha (15 pCi/L), combined radium-226/228 (5 pCi/L), uranium (California 20 pCi/L), and beta/photon emitters; gross alpha is the screening test that, if elevated, drives isotope-specific analysis.
+    {id:"I1", cat:"reg", topics:["Radionuclides"], q:`A groundwater source trips a radionuclide result. Explain what's regulated, how it's screened, and the treatment and waste angle an operator has to think about.`, a:`• What's regulated: gross alpha (15 pCi/L), combined radium-226/228 (5 pCi/L), uranium (California 20 pCi/L), and beta/photon emitters; gross alpha is the screening test that, if elevated, drives isotope-specific analysis.
 • The decay-chain idea — naturally occurring uranium/radium/radon series in certain geologies — explains why these show up in groundwater.
 • Treatment: ion exchange, reverse osmosis, and lime softening (radium); uranium-selective resins can run very long before regeneration.
 • The operator's catch: spent media loaded with uranium/radium can become a radioactive waste with expensive disposal — monitor the mass accumulated on the media.`},
 
     // ============ J. PFAS ============
-    {id:"J1", cat:"reg", topic:"PFAS", q:`Bring the panel up to speed on PFAS: why it's a problem, where the numbers stand, and how you'd treat it.`, a:`• Why it matters: "forever chemicals" — persistent, mobile, widespread, and a health concern at very low levels.
+    {id:"J1", cat:"reg", topics:["PFAS"], q:`How are you planning to comply with pending PFAS regulations?`, a:`• Why it matters: "forever chemicals" — persistent, mobile, widespread, and a health concern at very low levels.
 • The numbers, as of 2026 (verify against EPA and the State Water Board before the exam): federal MCLs of 4.0 ppt for PFOA and PFOS and 10 ppt for several others, plus a Hazard Index for the mixture; California runs its own notification and response levels that don't match the federal numbers one-for-one.
 • The Hazard Index concept (exam-testable): sum the ratios of each measured PFAS to its health-based value; the mixture is a concern when the sum exceeds 1.
 • Treatment: granular activated carbon, ion exchange, and reverse osmosis are the recognized options; pursue funding, monitor, and coordinate messaging.`},
-    {id:"J2", cat:"ops", topic:"PFAS", q:`First-round PFAS sampling across your wells comes back with a couple of wells sitting right around the limits. What do you do?`, a:`• Don't act on one round — check lab method/QA and resample to confirm.
+    {id:"J2", cat:"ops", topics:["PFAS"], q:`First-round PFAS sampling across your wells comes back with a couple of wells sitting right around the limits. What do you do?`, a:`• Don't act on one round — check lab method/QA and resample to confirm.
 • Compare each result to the current federal MCL and the California notification/response levels — and say out loud that these numbers move, so you verify them against primary sources rather than memory.
 • Know the difference between a notification-level response (inform) and a response-level action (take a source offline, blend, or treat).
 • Evaluate treatment (GAC/IX/RO), blending, and source management; pursue funding; issue the applicable public notice and loop in the PIO.`},
 
     // ============ K. PUBLIC NOTIFICATION ============
-    {id:"K1", cat:"reg", topic:"Public Notification", q:`Lay out the public-notification system: the three tiers, what puts a violation in each, how fast you have to notify, and how.`, a:`• Tier 1 — acute risk (E. coli, nitrate/nitrite, waterborne outbreak, a turbidity/treatment failure DDW elevates): notify within 24 hours by the fastest reaching methods (broadcast, hand delivery, reverse-911).
+    {id:"K1", cat:"reg", topics:["Public Notification"], q:`Explain the Public Notification Rule.`, a:`• Tier 1 — acute risk (E. coli, nitrate/nitrite, waterborne outbreak, a turbidity/treatment failure DDW elevates): notify within 24 hours by the fastest reaching methods (broadcast, hand delivery, reverse-911).
 • Tier 2 — non-acute MCL or treatment-technique violations: within 30 days, typically by mail, repeated while it continues.
 • Tier 3 — monitoring and reporting violations, or operating under a variance/exemption: within 12 months, and it can ride in the annual CCR.
 • Content: notices must carry the required elements — don't memorize all of them; use DDW's templates, fill in, and submit for approval.`},
-    {id:"K2", cat:"reg", topic:"Public Notification", q:`A clerical slip means your April monthly operating report doesn't reach DDW until mid-May. What do you do?`, a:`• Name it accurately: a monitoring/reporting violation, not a water-quality problem — no acute risk.
-• That makes it a Tier 3 notice (it can go in the CCR); notify DDW of the lapse.
-• Fix the process — put a managerial control in place (calendar, checklist, backup submitter) so it doesn't recur.
-• The teaching point is tier discrimination: contrast this with the 24-hour acute case so the panel hears that you match the notice to the risk.`},
+    {id:"K2", cat:"reg", topics:["Public Notification"], q:`A sample result confirms the need for a Tier 1 Public Notification. Explain your next steps.`, a:`• Name it: a confirmed Tier 1 means an acute, immediate health risk (E. coli, nitrate/nitrite over the MCL, a waterborne outbreak, or a treatment failure DDW elevates). Public health first, and the clock is 24 hours.
+• Notify the public within 24 hours by the fastest methods that reach everyone affected — broadcast media, hand delivery, reverse-911, posting — not mail. Use DDW's template and the prescribed health-effects language; coordinate with my public information officer.
+• Notify and coordinate with DDW immediately; consult on the notice content and the affected area. Depending on the contaminant, a boil-water or do-not-drink advisory may ride with it.
+• Work the underlying event in parallel — confirm extent, isolate, sample — and keep the notice going until it's resolved, then issue the all-clear through the same channels.`},
 
     // ============ L. CONSUMER CONFIDENCE REPORT ============
-    {id:"L1", cat:"reg", topic:"Consumer Confidence Report", q:`What is the Consumer Confidence Report, what has to be in it, and when does it go out?`, a:`• It's the annual water-quality report to customers — transparency about what's in their water and how the system performed.
+    {id:"L1", cat:"reg", topics:["Consumer Confidence Report"], q:`Explain the Consumer Confidence Report Rule.`, a:`• It's the annual water-quality report to customers — transparency about what's in their water and how the system performed.
 • Contents: detected contaminants and their levels vs. MCLs/MCLGs, violations and health-effect language, source information, and required educational statements (for example, lead).
 • Timing: delivered annually by July 1, with certification to the state that it went out.
 • It also serves as the Tier 3 vehicle for certain monitoring/reporting notices.`},
 
     // ============ M. RECORD KEEPING ============
-    {id:"M1", cat:"reg", topic:"Record Keeping", q:`What records does a water system have to keep, and for how long?`, a:`• Microbiological results and related records for about 5 years; chemical results for about 10 years.
+    {id:"M1", cat:"reg", topics:["Record Keeping"], q:`What records does a water system have to keep, and for how long?`, a:`• Microbiological results and related records for about 5 years; chemical results for about 10 years.
 • Sanitary-survey reports and any corrective-action records for the longer state-specified period.
 • Copies of public notices for 3 years; variance/exemption records for their duration plus follow-up.
 • The point for the panel: retention proves compliance over time and supports the CCR and sanitary survey — refer to the Record Keeping panel for the exact periods.`},
 
     // ============ N. MANAGEMENT & SUPERVISORY ============
-    {id:"N1", cat:"mgmt", topic:"Management & Supervisory", q:`Open us up: what does holding a T5 mean, and why are you the right person for it? Touch on where the certification fits, what your district needs, and what you give back.`, a:`• The T5 is the top treatment-operator grade — the person with overall day-to-day responsibility for a plant of any size and type, and the accountable party for compliance and public health.
+    {id:"N1", cat:"mgmt", topics:["Management & Supervisory"], q:`What does being a T5 Operator mean to you, and how have you prepared yourself professionally for becoming a Chief Operator?`, a:`• The T5 is the top treatment-operator grade — the person with overall day-to-day responsibility for a plant of any size and type, and the accountable party for compliance and public health.
 • Meet the criteria out loud: experience across treatment (and adjacent fields), education/coursework and continuing hours, lower-grade progression, and supervisory/management experience — SOPs, training, working with regulators.
 • District needs and the industry's near-term challenges — aging infrastructure, workforce/succession, source-water and emerging contaminants (PFAS), cybersecurity, funding, climate impacts — and how you contribute (mentoring, professional involvement, best practices).`},
-    {id:"N2", cat:"mgmt", topic:"Management & Supervisory", q:`A solid operator's attendance has slipped — a pattern of Monday absences and lateness. Then he comes to you and discloses a personal medical/substance issue and that he's started a treatment program. What do you do?`, a:`• Separate the two tracks: the documented performance/attendance pattern (which predates the disclosure) from the protected personal/medical matter.
+    {id:"N2", cat:"mgmt", topics:["Management & Supervisory"], q:`A solid operator's attendance has slipped — a pattern of Monday absences and lateness. Then he comes to you and discloses a personal medical/substance issue and that he's started a treatment program. What do you do?`, a:`• Separate the two tracks: the documented performance/attendance pattern (which predates the disclosure) from the protected personal/medical matter.
 • Once a medical condition or substance-use disorder and treatment are on the table, coordinate with HR before acting — possible ADA/FMLA-CFRA and EAP obligations; keep the disclosure confidential.
 • Safety-sensitive role: consider fitness-for-duty, but document observed behaviors and performance, not diagnoses.
 • Path forward: progressive, consistent handling of the attendance facts plus a support-and-expectations plan (EAP, attendance plan, follow-up), applied the same way you'd apply it to anyone.`},
-    {id:"N3", cat:"mgmt", topic:"Management & Supervisory", q:`During an argument on shift, one of your operators throws a punch and hits a coworker. What do you do?`, a:`• Treat it as a serious safety incident and possible workplace violence — not routine discipline.
+    {id:"N3", cat:"mgmt", topics:["Management & Supervisory"], q:`During an argument on shift, one of your operators throws a punch and hits a coworker. What do you do?`, a:`• Treat it as a serious safety incident and possible workplace violence — not routine discipline.
 • Immediate: get medical attention for the person who was hit, secure the area, separate the two, and preserve evidence (witness statements, any video).
 • Process: administrative leave for the aggressor pending investigation; loop in HR/risk/legal; handle any injury reporting (workers' comp, Cal/OSHA).
 • Give due process (Skelly) before disciplining a permanent employee — but safety and legal urgency can move ahead of the normal resolution steps; then address the underlying conflict so it doesn't reignite.`},
-    {id:"N4", cat:"mgmt", topic:"Management & Supervisory", q:`You discover records have been faked — an operator entering chlorine readings he never took, or a lab quietly invalidating positive samples, or someone working on an expired or borrowed certificate. What do you do?`, a:`• Two problems, kept separate: the public-health question (is the water actually safe?) and the personnel/legal question (the falsification itself).
+    {id:"N4", cat:"mgmt", topics:["Management & Supervisory"], q:`You discover records have been falsified by one of your operators. What do you do?`, a:`• Two problems, kept separate: the public-health question (is the water actually safe?) and the personnel/legal question (the falsification itself).
 • Public health first: immediately re-sample and verify true water quality; if real exceedances were hidden, a notification (up to Tier 1) may be owed.
 • Notifications: DDW, and ELAP if it's a certified lab; verify certification status through the state for a licensing question.
 • Personnel: investigate scope and duration, apply progressive discipline per policy, and fix the process controls that let it happen — falsification is a serious violation, not a coaching moment.`},
-    {id:"N5", cat:"mgmt", topic:"Management & Supervisory", q:`As chief operator, what are your legal duties, and what are the main health-and-safety hazards you're responsible for controlling in the plant?`, a:`• Legal duty: you're the person with overall responsibility for day-to-day operation and for keeping the system in compliance — the accountable operator of record.
+    {id:"N5", cat:"mgmt", topics:["Management & Supervisory"], q:`As chief operator, what are your legal duties, and what are the main health-and-safety hazards you're responsible for controlling in the plant?`, a:`• Legal duty: you're the person with overall responsibility for day-to-day operation and for keeping the system in compliance — the accountable operator of record.
 • The core hazards and controls: hazardous/toxic chemicals (chlorine, chlorine dioxide, ammonia, ozone) — containment, scrubbers, sensors, PPE, process-safety programs; confined spaces — an entry program; falls — fall protection; electrical — code equipment and lockout/tagout.
 • The through-line: engineering controls plus managerial controls (training, SOPs, compliant programs) — you own both.`},
-    {id:"N6", cat:"mgmt", topic:"Management & Supervisory", q:`Budget pressure lands on you: the board wants to cut round-the-clock staffing to two shifts, leaving the plant unmanned part of the day, and your operators are unhappy enough to talk about a job action. What do you do?`, a:`• Lead with the constraint you can't trade away: whatever the staffing model, the plant must stay compliant and safe — unmanned hours need alarming, remote monitoring, a response plan, and someone certified accountable.
+    {id:"N6", cat:"mgmt", topics:["Management & Supervisory"], q:`Your Board of Supervisors wants to cut round-the-clock staffing to two shifts, leaving the plant unstaffed for part of the day. What do you do?`, a:`• Lead with the constraint you can't trade away: whatever the staffing model, the plant must stay compliant and safe — unmanned hours need alarming, remote monitoring, a response plan, and someone certified accountable.
 • Work the options: propose a staffing model that meets the board's number without a public-health gap; be honest with the board about what's not safe to cut.
 • Labor and change management: communicate early and straight, engage staff and any bargaining unit, address the resentment/uncertainty directly, keep it fair and consistent.
 • Escalate the risk in writing if a directive would put compliance or safety at risk — that's part of the job.`},
+    {id:"N7", cat:"mgmt", topics:["Management & Supervisory"], q:`An operator reports that they overheard one of the other operators talking about a DUI they received over the weekend. What do you do?`, a:`• Separate rumor from job impact: a secondhand, off-duty DUI is hearsay about someone's personal life. I don't discipline on gossip. The question is whether there's any nexus to work — a safety-sensitive role, driving on the job, or a licensing condition.
+• Protect privacy and due process: don't broadcast it, don't interrogate based on overheard talk. If the operator drives agency vehicles or holds a commercial endorsement, there may be a legitimate fitness-for-duty or reporting angle — handle that through HR and policy, not hallway rumor.
+• Watch for the real signal: if it ever surfaces as a pattern (attendance, performance, on-shift impairment), I document observed behavior — not diagnoses — and act on that. Off-duty conduct alone generally isn't mine to police.
+• Offer support, not judgment: make sure the person knows the Employee Assistance Program exists. If a substance-use issue is disclosed, that shifts into ADA/FMLA-CFRA territory and I coordinate with HR before acting.`},
 
     // ============ O. EMERGENCY & INCIDENT RESPONSE ============
-    {id:"O1", cat:"emerg", topic:"Emergency Response", q:`Middle of the night: a tanker truck has left the highway and dumped an unknown load into the reservoir that feeds your intake. What do you do?`, a:`• Assume worst case until the contaminant is identified — treat it as a source-contamination event.
+    {id:"O1", cat:"emerg", topics:["Emergency Response"], q:`You receive a call in the middle of the night. The caller states a truck has left the highway and dumped an unknown load into the reservoir that feeds your treatment plant. What do you do?`, a:`• Assume worst case until the contaminant is identified — treat it as a source-contamination event.
 • First moves: isolate/close the affected intake, switch to an alternate source, or draw on storage — know your buffer and options.
 • Identify the material with first responders (CHP/OES/hazmat) via the cargo manifest; don't treat-and-distribute something you can't confirm you remove.
 • Sample source and finished water for the specific contaminant; notify DDW, OES, downstream users, and your PIO; prepare public notification. Prevention: source protection, spill-notification agreements, intake isolation.`},
-    {id:"O2", cat:"emerg", topic:"Emergency Response", q:`During a ton-container change-out the chlorine leak alarm goes off, the room sensors peg at maximum, the scrubber shows FAIL, and the two operators who were doing the swap can't be reached. What do you do?`, a:`• Three simultaneous problems: a toxic release with possible off-site exposure, injured/missing staff, and a likely loss of disinfection capacity.
+    {id:"O2", cat:"emerg", topics:["Emergency Response"], q:`During a one-ton-container change-out the chlorine leak alarm goes off, the room sensors peg at maximum, the scrubber shows FAIL, and the two operators who were doing the swap can't be reached. What do you do?`, a:`• Three simultaneous problems: a toxic release with possible off-site exposure, injured/missing staff, and a likely loss of disinfection capacity.
 • People and public first: 911/HazMat, evacuate and stage upwind, take a headcount, don't send anyone into an IDLH atmosphere; shut the plant down to stop under-disinfected water leaving.
 • Notifications: California OES, county CUPA, National Response Center; DDW for the shutdown/abnormal operation; treat a loss of required disinfection as a treatment-technique violation (potential Tier 1).
 • Command and recovery: you're the on-scene Incident Commander under NIMS until relieved; work the Chlorine Risk Management Plan; line up alternate supply; inspect/repair/test before restart.`},
-    {id:"O3", cat:"emerg", topic:"Emergency Response", q:`Your graveyard operator reports the plant's disinfection residual "dropped out" for an unknown stretch — the online analyzer looked normal, but a 3 a.m. grab showed essentially no residual. What do you do?`, a:`• Recognize a possible loss of disinfection/CT and pathogen pass-through — public health first.
+    {id:"O3", cat:"emerg", topics:["Emergency Response"], q:`Your graveyard operator reports the plant's disinfection residual "dropped out" for an unknown time period. The online analyzer looked normal, but a 3 a.m. grab showed essentially no residual. What do you do?`, a:`• Recognize a possible loss of disinfection/CT and pathogen pass-through — public health first.
 • Scope it: how long, how much reached distribution vs. was held, and what the analyzer was doing vs. reality (calibrate against grabs); check entry-point and distribution residuals.
 • Respond: restore dosing, slow flow or raise dose to recover CT, check distribution residuals, and consider recapturing/flushing non-compliant water back toward the plant.
 • Notify DDW; decide whether a reporting/violation threshold was crossed and whether a boil-water notice is warranted; if an operator was unresponsive for a medical reason, that's 911 first. Prevention: continuous monitoring with alarms, redundancy, handoff/log discipline.`},
-    {id:"O4", cat:"emerg", topic:"Emergency Response", q:`A strong earthquake hits near your unmanned plant overnight, and you can't raise anyone there. What do you do?`, a:`• This is emergency response and infrastructure integrity, not routine water quality — and the safety of people comes before the building.
+    {id:"O4", cat:"emerg", topics:["Emergency Response"], q:`A strong earthquake hits near your treatment plant overnight, and you can't make contact with anyone there. What do you do?`, a:`• This is emergency response and infrastructure integrity, not routine water quality — and the safety of people comes before the building.
 • Assess: don't send staff into an unsafe structure; account for personnel; coordinate with emergency services; check structural, chemical/gas, pipe/tank, power, pressure, and SCADA status.
 • Protect the public: pressure loss can mean backflow/contamination — a precautionary boil-water advisory; maintain disinfection; secure chemicals.
 • Activate the ERP/ICS, request mutual aid (for example CalWARN), run on backup power; notify DDW, OES, and local emergency management. The same frame fits a wildfire at the fence line or a record atmospheric-river turbidity spike — protect staff, protect the barrier, coordinate through the EOC.`},
-    {id:"O5", cat:"emerg", topic:"Emergency Response", q:`Power fails plant-wide; the generator carries the plant, but the SCADA system is down and won't come back, and no one on shift can reach IT. You're mid-heat-wave and can't just stop. What do you do?`, a:`• Frame it: a plant-equipment/monitoring failure, not (yet) a water-quality violation — the job is to keep operational control and keep recording compliance data.
+    {id:"O5", cat:"emerg", topics:["Emergency Response"], q:`A power failure has occurred plant-wide. The emergency generator has started up, but the SCADA system is down and won't come back, and no one on shift can reach IT. You're mid-heat-wave and can't shut the plant down. What do you do?`, a:`• Frame it: a plant-equipment/monitoring failure, not (yet) a water-quality violation — the job is to keep operational control and keep recording compliance data.
 • Run manual: bring in enough certified staff to operate and to record water-quality and flow data at the required interval; for a system over 10,000 people, manual operation is bounded (about 48 hours) — plan around it.
 • Consider cause: if there's no obvious proximal reason for the SCADA loss, treat cybersecurity as a possibility.
 • Notify DDW of the abnormal operation; if a cyberattack is suspected, notify the FBI, EPA, and CISA; recover/repair SCADA (validate instruments to displays), and consider UPS/air-gap fixes to prevent recurrence.`},
-    {id:"O6", cat:"emerg", topic:"Emergency Response", q:`Your primary reservoir is deep into a harmful algal bloom. What are your concerns, and what do you do?`, a:`• Concerns: cyanotoxins (the public-health one), taste-and-odor (geosmin/MIB), filter fouling and short runs, and diurnal pH/dissolved-oxygen swings.
+    {id:"O6", cat:"emerg", topics:["Emergency Response"], q:`Your primary reservoir is experiencing an algae bloom. What are your concerns, and what do you do?`, a:`• Concerns: cyanotoxins (the public-health one), taste-and-odor (geosmin/MIB), filter fouling and short runs, and diurnal pH/dissolved-oxygen swings.
 • Protect the public: if cyanotoxins are possible, know the applicable health-advisory/notification/response thresholds and whether your treatment removes or oxidizes them; watch intake depth (not below the thermocline).
 • Treatment care: pre-oxidation can lyse cells and release intracellular toxins — handle oxidants carefully; PAC/GAC and enhanced coagulation for extracellular toxins and taste-and-odor; optimize/shorten filter runs.
 • Sample for toxins and TOC; notify DDW and shut down if toxins exceed the response level; involve the PIO. Prevention: source monitoring/early warning, watershed nutrient control.`},
-    {id:"O7", cat:"emerg", topic:"Emergency Response", q:`Two situations, same skill: (a) at a public board meeting a customer says your water made her sick weeks ago; and (b) you arrive to find a "THIS WATER IS POISONED" banner on the elevated tank. What do you do in each case?`, a:`• Sick-customer: take it seriously and kindly — gather symptoms, timing, others affected, recent travel or water changes; offer to sample the home and interview neighbors; check area sampling, treatment performance, cross-connections, pressure events; loop in local public health and DDW; communicate through the PIO.
-• Threat: treat it as credible until disproven — take the tank out of service, secure it as a possible crime scene, sample in and around it, flush, involve DDW and law enforcement, and notify the public in coordination with them.
-• The common thread the panel wants: public health first, don't freelance with the press (PIO leads), document, and coordinate externally.`},
-    {id:"O8", cat:"emerg", topic:"Emergency Response", q:`Three alarms hit at once: a customer reports a main break, raw-water turbidity spikes, and effluent chlorine goes low — plus one of your two operators is out in the field. What do you do, and in what order?`, a:`• State the ranking rule first: protect public health, then protect the system — the low disinfectant/turbidity (finished-water quality) outranks the main break for immediate risk.
-• Disinfection/turbidity: verify the readings, restore residual and coagulation, slow the plant if needed, hold non-compliant water out of distribution.
-• Main break: dispatch/secure it, watch pressure and backflow risk (a contamination pathway), isolate as needed.
-• Manage the thin staffing: call in help, keep the field operator safe, don't let one operator try to be two; document, and notify DDW if any threshold is crossed.`}
+    {id:"O7", cat:"emerg", topics:["Emergency Response"], q:`At a public board meeting a customer says your water made her sick weeks ago. How do you respond?`, a:`• Take it seriously and kindly: gather symptoms, timing, how many others, recent travel or water changes. One report isn't an outbreak, but I treat it as a real lead, not a nuisance.
+• Investigate on two fronts: check my own data — area sampling, treatment performance, residuals, any pressure events or cross-connection reports near her — and offer to sample her home and canvass neighbors.
+• Bring in the right partners: loop in the local health department and DDW; an illness cluster is their jurisdiction as much as mine. Communicate through my public information officer — I don't freelance a medical claim at a public meeting.
+• Close the loop: document everything, follow up with her personally, and if anything real turns up, escalate to the appropriate notification.`},
+    {id:"O8", cat:"emerg", topics:["Emergency Response"], q:`A field operator calls you during the day. They arrived at a tank site to collect samples and found a "THIS WATER IS POISONED" banner posted to the tank. What do you do?`, a:`• Treat it as credible until disproven: a "poisoned" banner on a tank is a potential tampering or contamination threat, not a prank. Public health first.
+• Secure and isolate: take the tank out of service, isolate it from distribution, and treat the site as a possible crime scene — don't let staff disturb evidence.
+• Sample and assess: sample in and around the tank for likely contaminants, check tank integrity and access (hatch, vents, security), and flush as appropriate before any return to service.
+• Coordinate externally: notify DDW and law enforcement immediately; keep the field operator safe and out of the area; and handle public messaging through the PIO with law enforcement — a credible threat can drive an acute (Tier 1) notice if contamination can't be ruled out.`}
   ];
   var workingSet = [];
   var currentIndex = 0;
   var revealed = false;
   var els = {};
-  function buildWorkingSet(){ workingSet = EXAM.slice(); currentIndex = 0; revealed = false; }
+  var CAT_OPTIONS = [
+    {id:"reg", label:"Regulatory"},
+    {id:"ops", label:"Operational"},
+    {id:"mgmtemerg", label:"Management / Emergency"}
+  ];
+  var CAT_GROUPS = { reg:["reg"], ops:["ops"], mgmtemerg:["mgmt","emerg"] };
+  var EXAM_TOPICS = (function(){
+    var seen = [];
+    for(var i=0;i<EXAM.length;i++){ var ts = EXAM[i].topics || []; for(var j=0;j<ts.length;j++){ if(ts[j] && seen.indexOf(ts[j]) === -1) seen.push(ts[j]); } }
+    return seen;
+  })();
+  var selectedCats = [];
+  var selectedTopics = [];
+  function catInSelection(card){
+    if(!selectedCats.length) return true;
+    for(var i=0;i<selectedCats.length;i++){
+      var group = CAT_GROUPS[selectedCats[i]] || [selectedCats[i]];
+      if(group.indexOf(card.cat) !== -1) return true;
+    }
+    return false;
+  }
+  function topicInSelection(card){
+    if(!selectedTopics.length) return true;
+    var ts = card.topics || [];
+    for(var i=0;i<ts.length;i++){ if(selectedTopics.indexOf(ts[i]) !== -1) return true; }
+    return false;
+  }
+  function refreshPillGroup(container, selected){
+    if(!container) return;
+    var buttons = container.querySelectorAll(".fc-pill");
+    for(var i=0;i<buttons.length;i++){
+      var b = buttons[i];
+      var isAll = b.dataset.val === "all";
+      var active = isAll ? selected.length === 0 : selected.indexOf(b.dataset.val) !== -1;
+      b.classList.toggle("fc-pill-active", active);
+      b.setAttribute("aria-pressed", active ? "true" : "false");
+    }
+  }
+  function populatePills(container, options){
+    if(!container) return;
+    container.innerHTML = "";
+    var allBtn = document.createElement("button");
+    allBtn.type = "button";
+    allBtn.className = "fc-pill";
+    allBtn.dataset.val = "all";
+    allBtn.textContent = "All";
+    container.appendChild(allBtn);
+    options.forEach(function(opt){
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "fc-pill";
+      b.dataset.val = opt.id;
+      b.textContent = opt.label;
+      container.appendChild(b);
+    });
+  }
+  function buildWorkingSet(){
+    workingSet = EXAM.filter(function(c){ return catInSelection(c) && topicInSelection(c); });
+    currentIndex = 0; revealed = false;
+  }
   function shuffleArray(a){ for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
   function renderCard(){
     var card = workingSet[currentIndex];
     if(!card){
-      els.question.textContent = "";
+      els.question.textContent = "No prompts match this filter. Try a different category or topic.";
       els.answerWrap.hidden = true;
       els.revealBtn.hidden = true;
       return;
@@ -4193,7 +4282,7 @@ Match the device to the degree of hazard, and test assemblies at least annually.
   function renderNav(){
     var has = workingSet.length > 0;
     var card = has ? workingSet[currentIndex] : null;
-    var label = (card && card.topic) ? (card.topic + " · ") : "";
+    var label = (card && card.topics && card.topics.length) ? (card.topics[0] + " · ") : "";
     els.position.textContent = has ? (label + "Prompt " + (currentIndex+1) + " of " + workingSet.length) : "Prompt 0 of 0";
     els.prevBtn.disabled = !has || currentIndex <= 0;
     els.nextBtn.disabled = !has || currentIndex >= workingSet.length - 1;
@@ -4208,6 +4297,36 @@ Match the device to the degree of hazard, and test assemblies at least annually.
   }
   function attachEvents(){
     els.shuffleBtn.addEventListener("click", function(){ shuffleArray(workingSet); currentIndex = 0; revealed = false; render(); });
+    if(els.catPills){
+      els.catPills.addEventListener("click", function(e){
+        var btn = e.target.closest(".fc-pill");
+        if(!btn) return;
+        var val = btn.dataset.val;
+        if(val === "all"){ selectedCats = []; }
+        else {
+          var idx = selectedCats.indexOf(val);
+          if(idx === -1){ selectedCats.push(val); } else { selectedCats.splice(idx, 1); }
+        }
+        refreshPillGroup(els.catPills, selectedCats);
+        buildWorkingSet();
+        render();
+      });
+    }
+    if(els.topicPills){
+      els.topicPills.addEventListener("click", function(e){
+        var btn = e.target.closest(".fc-pill");
+        if(!btn) return;
+        var val = btn.dataset.val;
+        if(val === "all"){ selectedTopics = []; }
+        else {
+          var idx = selectedTopics.indexOf(val);
+          if(idx === -1){ selectedTopics.push(val); } else { selectedTopics.splice(idx, 1); }
+        }
+        refreshPillGroup(els.topicPills, selectedTopics);
+        buildWorkingSet();
+        render();
+      });
+    }
     els.revealBtn.addEventListener("click", reveal);
     els.cardFront.addEventListener("click", function(){ if(!revealed) reveal(); });
     els.cardFront.addEventListener("keydown", function(e){
@@ -4236,7 +4355,13 @@ Match the device to the degree of hazard, and test assemblies at least annually.
     els.prevBtn    = document.getElementById("eqPrevBtn");
     els.nextBtn    = document.getElementById("eqNextBtn");
     els.position   = document.getElementById("eqPosition");
+    els.catPills   = document.getElementById("eqCatPills");
+    els.topicPills = document.getElementById("eqTopicPills");
     if(!els.shuffleBtn || !els.cardFront) return; // panel not present
+    populatePills(els.catPills, CAT_OPTIONS);
+    populatePills(els.topicPills, EXAM_TOPICS.map(function(t){ return {id:t, label:t}; }));
+    refreshPillGroup(els.catPills, selectedCats);
+    refreshPillGroup(els.topicPills, selectedTopics);
     buildWorkingSet();
     attachEvents();
     render();
