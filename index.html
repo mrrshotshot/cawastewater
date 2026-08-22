@@ -352,6 +352,10 @@
   .footnote{font-size:11.5px;color:var(--muted);border-top:1px solid var(--line);margin-top:26px;padding-top:12px}
   .callout.purpose{background:var(--ok-bg);border-color:var(--ok-border);color:var(--heading)}
   .callout.purpose .ttl{color:var(--ok-deep)}
+  .callout.mem{background:var(--orange-bg);border-color:var(--orange-border);color:var(--heading)}
+  .callout.mem .ttl{color:var(--orange)}
+  .callout .acro-list{margin-top:4px}
+  .callout .acro-list li{padding:6px 0}
   /* ---------- Flash cards ---------- */
   .fc-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:4px 0 18px}
   .fc-toolbar-stacked{flex-direction:column;align-items:flex-start;gap:8px}
@@ -559,6 +563,9 @@
   .v-flow{color:var(--ok);font-weight:600}
   .v-conc{color:var(--orange);font-weight:600}
   .v-vol{color:var(--violet);font-weight:600}
+  .v-lbs{color:var(--violet);font-weight:600}
+  .v-sg{color:var(--blue);font-weight:600}
+  .v-pct{color:var(--alarm);font-weight:600}
   .v-const{color:var(--muted);font-weight:600}
   .v-result{color:var(--teal);font-weight:600}
   .v-dimL{color:var(--ok);font-weight:600}
@@ -658,6 +665,8 @@
   .calc-field label.lbl-flow{color:var(--ok)}
   .calc-field label.lbl-conc{color:var(--orange)}
   .calc-field label.lbl-vol{color:var(--violet)}
+  .calc-field label.lbl-lbs{color:var(--violet)}
+  .calc-field label.lbl-sg{color:var(--blue)}
   .calc-step{
     background:var(--ink);border:1px solid var(--line);border-radius:8px;
     padding:12px 14px;margin:0 0 10px;
@@ -761,6 +770,7 @@
       <button type="button" class="navlink" data-calc-target="area">Area</button>
       <button type="button" class="navlink" data-calc-target="volume">Volume</button>
       <button type="button" class="navlink" data-calc-target="pounds">The Pounds Formula</button>
+      <button type="button" class="navlink" data-calc-target="chemfeed">Chemical Feed Rate</button>
       <button type="button" class="navlink" data-calc-target="removal">Percent Removal</button>
       <p class="group-label">Secondary System</p>
       <button type="button" class="navlink" data-calc-target="mcrt">Mean Cell Residence Time (MCRT)</button>
@@ -806,21 +816,31 @@
         <div class="calc-head">
           <h3 class="sec">The Pounds Formula</h3>
           <p class="calc-sub">The pounds formula is very likely the single most important formula you will use in your career. It is used to calculate data such as chemical use, Solids Retention Time (SRT), organic loading rates, F:M, wasting rates, and more.</p>
-          <p class="calc-note">The constant this formula uses is <span class="v-const">8.34</span> pounds per gallon which turns a concentration in milligrams per liter (or ppm) into pounds when your flow is in million gallons per day (MGD). One mg/L in one million gallons weighs 8.34 pounds.</p>
+
+          <p class="calc-note">The constant this formula uses is <span class="v-const">8.34</span> pounds per gallon which turns a concentration in ppm (or mg/L) into pounds when your flow is in million gallons per day (MGD or MG). One ppm in one million gallons weighs 8.34 pounds.</p>
+
+          <div class="callout op">
+            <p class="ttl">Why don't my units line up?</p>
+            <p>8.34 lbs/gal is the weight of a gallon of water. ppm means "1 lb of substance per 1,000,000 lbs water." The "ppm" unit carries a hidden "&divide;1,000,000" step.</p>
+            <p>When you multiply the two together the "lbs water" cancels, but that hidden "&divide;1,000,000" stays. When you finally incorporate the flow in "million" gallons, the hidden "&divide;1,000,000" finally cancels out.</p>
+          </div>
+
+          <p class="calc-note">At times, you may need to solve for flow or concentration. By knowing any two of the three you can find the third. Pick what you're solving for below, then enter the other two.</p>
         </div>
 
-        <div class="calc-eq-static">
-          <span class="v-flow">Flow, MGD</span>
-          <span class="op">&times;</span>
-          <span class="v-const">8.34 lbs/gal</span>
-          <span class="op">&times;</span>
-          <span class="v-conc">Concentration, mg/L</span>
-          <span class="op">=</span>
-          <span class="v-result">Pounds per day</span>
+        <div class="calc-shape-row">
+          <label>Solve for</label>
+          <select data-pf="solve">
+            <option value="pounds">Pounds per day</option>
+            <option value="flow">Flow</option>
+            <option value="conc">Concentration</option>
+          </select>
         </div>
+
+        <div class="calc-eq-static" data-pf-eq></div>
 
         <div class="calc-inputs">
-          <div class="calc-field">
+          <div class="calc-field" data-pf-field="flow">
             <label class="lbl-flow">Flow</label>
             <div class="calc-input-row">
               <input type="text" inputmode="decimal" autocomplete="off" data-pf="flow" placeholder="0">
@@ -831,17 +851,106 @@
               </select>
             </div>
           </div>
-          <div class="calc-field">
+          <div class="calc-field" data-pf-field="conc">
             <label class="lbl-conc">Concentration</label>
             <div class="calc-input-row">
               <input type="text" inputmode="decimal" autocomplete="off" data-pf="conc" placeholder="0">
-              <span class="calc-unit">mg/L</span>
+              <span class="calc-unit">ppm</span>
+            </div>
+          </div>
+          <div class="calc-field" data-pf-field="pounds" hidden>
+            <label class="lbl-lbs">Pounds per day</label>
+            <div class="calc-input-row">
+              <input type="text" inputmode="decimal" autocomplete="off" data-pf="pounds" placeholder="0">
+              <span class="calc-unit">lbs/day</span>
             </div>
           </div>
         </div>
 
         <div class="calc-conv" data-pf-conv hidden></div>
         <div class="calc-work" data-pf-work aria-live="polite"></div>
+      </section>
+
+      <!-- ===== Panel: Chemical Feed Rate ===== -->
+      <section class="calc calc-panel" id="cp-chemfeed">
+        <div class="calc-head">
+          <h3 class="sec">Chemical Feed Rate</h3>
+          <p class="calc-sub">The chemical dose formula looks oddly similar to the pounds formula. While it essentially functions the same way, it is designed to yield a more reasonable answer when calculating chemical feed rates.</p>
+
+          <p class="calc-note">While you could use the regular pounds formula, it would require three additional conversion steps to derive your answer:</p>
+          <ul class="tight calc-note">
+            <li>Multiplying the chemical concentration in % by 10,000 mg/L per % to yield a ppm concentration</li>
+            <li>Multiplying your flow rate times 1,000,000 to yield gallons per day. No chemical is fed by the millions into a process.</li>
+          </ul>
+
+          <p class="calc-note">Both the above steps introduce the potential for making a mistake in your calculation.</p>
+
+          <p class="calc-note">By following the calculation below and utilizing the percent of the chemical without any conversions, your answer will always yield a feed rate in gpd (which may need further reduction into gph or gpm). Regardless, seeing a value of 100 gpd is far better than seeing a value of 0.0001 MGD.</p>
+
+          <p class="calc-note">The formula utilizes a new input called specific gravity. Specific gravity is used as a multiplier to establish the chemicals weight per gallon. A specific gravity of 1.5 means the chemical is one-and-a-half times heavier than water (8.34 lbs/gal x 1.5 = 12.51 lbs/gal), since 8.34 lbs/gal is only accurate for water itself. A chemicals specific gravity is often located in that chemicals Safety Data Sheet (SDS). If a specific gravity is not given, use a value of 1.0 which yields 8.34 lbs/gal.</p>
+
+          <p class="calc-note">On more advanced exams (Grade III and up) you may be required to use both the pounds formula and the chemical feed formula in one problem.</p>
+
+          <p class="calc-note">The pounds formula gives you the amount of chemical needed at 100% strength. But chemicals are often diluted to a much lower concentration. For example, household bleach is only about 6% chlorine. That's where the chemical feed formula comes in. It figures out how much of your actual, diluted chemical is needed to deliver that same 100%-strength dose.</p>
+
+          <p class="calc-note">Use the pounds formula first to find the pounds of chemical needed at 100% strength based on the desired dose, then the chemical feed rate formula to find the liquid feed rate of your actual product needed to deliver that amount. The lbs/day from the first calculation becomes your input for the second.</p>
+
+          <p class="calc-note">At times, you may need to solve for flow, concentration, or pounds. By knowing any two of the three you can find the third. Pick what you're solving for below, then enter the other two.</p>
+        </div>
+
+        <div class="calc-shape-row">
+          <label>Solve for</label>
+          <select data-cf="solve">
+            <option value="pounds">Pounds per day</option>
+            <option value="flow" selected>Flow</option>
+            <option value="conc">Concentration</option>
+          </select>
+          <label class="calc-shape-out" data-cf-outwrap hidden>Desired output</label>
+          <select data-cf="outunit" data-cf-outwrap hidden>
+            <option value="gpd">gpd</option>
+            <option value="gph">gph</option>
+            <option value="gpm">gpm</option>
+          </select>
+        </div>
+
+        <div class="calc-eq-static" data-cf-eq></div>
+
+        <div class="calc-inputs">
+          <div class="calc-field" data-cf-field="flow">
+            <label class="lbl-flow">Flow</label>
+            <div class="calc-input-row">
+              <input type="text" inputmode="decimal" autocomplete="off" data-cf="flow" placeholder="0">
+              <select data-cf="flowunit">
+                <option value="gpd">gpd</option>
+                <option value="gph">gph</option>
+                <option value="gpm">gpm</option>
+              </select>
+            </div>
+          </div>
+          <div class="calc-field" data-cf-field="sg">
+            <label class="lbl-sg">Specific Gravity</label>
+            <div class="calc-input-row">
+              <input type="text" inputmode="decimal" autocomplete="off" data-cf="sg" placeholder="0" value="1.0">
+            </div>
+          </div>
+          <div class="calc-field" data-cf-field="conc">
+            <label class="lbl-conc">Concentration</label>
+            <div class="calc-input-row">
+              <input type="text" inputmode="decimal" autocomplete="off" data-cf="conc" placeholder="0">
+              <span class="calc-unit">%</span>
+            </div>
+          </div>
+          <div class="calc-field" data-cf-field="pounds" hidden>
+            <label class="lbl-lbs">Pounds per day</label>
+            <div class="calc-input-row">
+              <input type="text" inputmode="decimal" autocomplete="off" data-cf="pounds" placeholder="0">
+              <span class="calc-unit">lbs/day</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-conv" data-cf-conv hidden></div>
+        <div class="calc-work" data-cf-work aria-live="polite"></div>
       </section>
 
       <!-- ===== Panel: Percent Removal ===== -->
@@ -852,21 +961,21 @@
         </div>
 
         <div class="calc-eq-static calc-eq-frac">
+          <span class="v-result">Percent Removal, %</span>
+          <span class="op">=</span>
           <div class="frac">
             <span class="frac-num">
-              <span class="v-flow">In, mg/L</span>
+              <span class="v-flow">In, ppm</span>
               <span class="op">&minus;</span>
-              <span class="v-conc">Out, mg/L</span>
+              <span class="v-conc">Out, ppm</span>
             </span>
             <span class="frac-bar"></span>
             <span class="frac-den">
-              <span class="v-flow">In, mg/L</span>
+              <span class="v-flow">In, ppm</span>
             </span>
           </div>
           <span class="op">&times;</span>
           <span class="lbl">100</span>
-          <span class="op">=</span>
-          <span class="v-result">Percent Removal, %</span>
         </div>
 
         <div class="calc-inputs">
@@ -874,14 +983,14 @@
             <label class="lbl-flow">In</label>
             <div class="calc-input-row">
               <input type="text" inputmode="decimal" autocomplete="off" data-pr="in" placeholder="0">
-              <span class="calc-unit">mg/L</span>
+              <span class="calc-unit">ppm</span>
             </div>
           </div>
           <div class="calc-field">
             <label class="lbl-conc">Out</label>
             <div class="calc-input-row">
               <input type="text" inputmode="decimal" autocomplete="off" data-pr="out" placeholder="0">
-              <span class="calc-unit">mg/L</span>
+              <span class="calc-unit">ppm</span>
             </div>
           </div>
         </div>
@@ -959,6 +1068,8 @@
         </div>
 
         <div class="calc-eq-static calc-eq-frac">
+          <span class="v-result">MCRT, days</span>
+          <span class="op">=</span>
           <div class="frac">
             <span class="frac-num">
               <span class="v-result">Solids in secondary system, lbs</span>
@@ -970,8 +1081,6 @@
               <span class="v-result">WAS, lbs/day</span>
             </span>
           </div>
-          <span class="op">=</span>
-          <span class="v-result">MCRT, days</span>
         </div>
 
         <div class="calc-inputs calc-inputs-grid">
@@ -1001,7 +1110,7 @@
               <label class="lbl-conc">MLSS concentration</label>
               <div class="calc-input-row">
                 <input type="text" inputmode="decimal" autocomplete="off" data-mc="mlss" placeholder="0">
-                <span class="calc-unit">mg/L</span>
+                <span class="calc-unit">ppm</span>
               </div>
             </div>
           </div>
@@ -1023,7 +1132,7 @@
               <label class="lbl-conc">Secondary Clarifier Eff TSS</label>
               <div class="calc-input-row">
                 <input type="text" inputmode="decimal" autocomplete="off" data-mc="efftss" placeholder="0">
-                <span class="calc-unit">mg/L</span>
+                <span class="calc-unit">ppm</span>
               </div>
             </div>
             <div class="calc-field">
@@ -1041,7 +1150,7 @@
               <label class="lbl-conc">WAS TSS</label>
               <div class="calc-input-row">
                 <input type="text" inputmode="decimal" autocomplete="off" data-mc="wastss" placeholder="0">
-                <span class="calc-unit">mg/L</span>
+                <span class="calc-unit">ppm</span>
               </div>
             </div>
           </div>
@@ -1059,6 +1168,8 @@
         </div>
 
         <div class="calc-eq-static calc-eq-frac">
+          <span class="v-result">SVI, mL/g</span>
+          <span class="op">=</span>
           <div class="frac">
             <span class="frac-num">
               <span class="v-vol">Sludge Volume<sub>30 min</sub>, mL/L</span>
@@ -1067,11 +1178,9 @@
             </span>
             <span class="frac-bar"></span>
             <span class="frac-den">
-              <span class="v-conc">MLSS, mg/L</span>
+              <span class="v-conc">MLSS, ppm</span>
             </span>
           </div>
-          <span class="op">=</span>
-          <span class="v-result">SVI, mL/g</span>
         </div>
 
         <div class="calc-inputs">
@@ -1086,7 +1195,7 @@
             <label class="lbl-conc">MLSS</label>
             <div class="calc-input-row">
               <input type="text" inputmode="decimal" autocomplete="off" data-svi="mlss" placeholder="0">
-              <span class="calc-unit">mg/L</span>
+              <span class="calc-unit">ppm</span>
             </div>
           </div>
         </div>
@@ -1098,9 +1207,9 @@
       <section class="calc calc-panel" id="cp-chlorine">
         <div class="calc-head">
           <h3 class="sec">Chlorine Dose, Demand &amp; Residual</h3>
-          <p class="calc-sub">Chlorine Dose is the amount of chlorine applied in the disinfection process measured in mg/L.</p>
-          <p class="calc-sub">Chlorine Demand is the amount of chlorine used from the initial chlorine dose to disinfect the water measured in mg/L.</p>
-          <p class="calc-sub">Chlorine Residual is the amount of chlorine left over after the chlorine demand has been met measured in mg/L.</p>
+          <p class="calc-sub">Chlorine Dose is the amount of chlorine applied in the disinfection process measured in ppm.</p>
+          <p class="calc-sub">Chlorine Demand is the amount of chlorine used from the initial chlorine dose to disinfect the water measured in ppm.</p>
+          <p class="calc-sub">Chlorine Residual is the amount of chlorine left over after the chlorine demand has been met measured in ppm.</p>
           <p class="calc-note">Know any two of the three and you can find the third. Pick what you're solving for below, then enter the other two.</p>
         </div>
 
@@ -1120,21 +1229,21 @@
             <label class="lbl-flow">Chlorine Dose</label>
             <div class="calc-input-row">
               <input type="text" inputmode="decimal" autocomplete="off" data-chl="dose" placeholder="0">
-              <span class="calc-unit">mg/L</span>
+              <span class="calc-unit">ppm</span>
             </div>
           </div>
           <div class="calc-field" data-chl-field="demand" hidden>
             <label class="lbl-conc">Chlorine Demand</label>
             <div class="calc-input-row">
               <input type="text" inputmode="decimal" autocomplete="off" data-chl="demand" placeholder="0">
-              <span class="calc-unit">mg/L</span>
+              <span class="calc-unit">ppm</span>
             </div>
           </div>
           <div class="calc-field" data-chl-field="residual">
             <label class="lbl-vol">Chlorine Residual</label>
             <div class="calc-input-row">
               <input type="text" inputmode="decimal" autocomplete="off" data-chl="residual" placeholder="0">
-              <span class="calc-unit">mg/L</span>
+              <span class="calc-unit">ppm</span>
             </div>
           </div>
         </div>
@@ -1150,6 +1259,8 @@
         </div>
 
         <div class="calc-eq-static calc-eq-frac">
+          <span class="v-result">F:M, lbs BOD/lb MLVSS/day</span>
+          <span class="op">=</span>
           <div class="frac">
             <span class="frac-num">
               <span class="v-result">Pri Eff BOD, lbs/day</span>
@@ -1159,8 +1270,6 @@
               <span class="v-result">MLVSS under aeration, lbs</span>
             </span>
           </div>
-          <span class="op">=</span>
-          <span class="v-result">F:M, lbs BOD/lb MLVSS/day</span>
         </div>
 
         <div class="calc-shape-row">
@@ -1189,7 +1298,7 @@
               <label class="lbl-conc">Pri Eff BOD</label>
               <div class="calc-input-row">
                 <input type="text" inputmode="decimal" autocomplete="off" data-fm="bod" placeholder="0">
-                <span class="calc-unit">mg/L</span>
+                <span class="calc-unit">ppm</span>
               </div>
             </div>
           </div>
@@ -1210,14 +1319,14 @@
               <label class="lbl-conc">MLVSS</label>
               <div class="calc-input-row">
                 <input type="text" inputmode="decimal" autocomplete="off" data-fm="mlvss" placeholder="0">
-                <span class="calc-unit">mg/L</span>
+                <span class="calc-unit">ppm</span>
               </div>
             </div>
             <div class="calc-field" data-fm-field="mlss" hidden>
               <label class="lbl-conc">MLSS</label>
               <div class="calc-input-row">
                 <input type="text" inputmode="decimal" autocomplete="off" data-fm="mlss" placeholder="0">
-                <span class="calc-unit">mg/L</span>
+                <span class="calc-unit">ppm</span>
               </div>
             </div>
             <div class="calc-field" data-fm-field="pctvss" hidden>
@@ -1269,6 +1378,28 @@
       </div>
 
       <section class="block">
+        <h3 class="sec">About the T5 Exam</h3>
+        <p>The T5 exam is arguably California's most unique water or wastewater exam. Unlike the other exams, which are written and follow the standard true/false, multiple choice, and math format, the T5 exam is a 30-minute oral interview.</p>
+        <p>Candidates are tasked with placing themselves into varying operational, emergency, or management scenarios and detailing to the panel their response. The exam is six questions in total: two regulatory, two utility management and emergency, and two operational (see the T5 Examination Description for the full breakdown). Candidates must prove to the panel that they can serve as Chief Operator by:</p>
+        <ul class="tight">
+          <li>Understanding the regulations that drive treatment plant processes</li>
+          <li>Understanding how to monitor, troubleshoot, and correct treatment systems within a plant</li>
+          <li>Understanding emergency operations as they relate to safety and public health</li>
+          <li>Understanding how to manage personnel, including disciplinary processes</li>
+        </ul>
+        <p>For a candidate, understanding the rules, requirements, and practices that define a Chief Operator is important, but more important is the candidate's ability to navigate a given question and provide a complete, satisfactory answer. To that end, this study guide leans heavily on the REACT lens:</p>
+        <ul class="acro-list" style="margin-bottom:22px">
+          <li><span class="letter">R</span><span class="dash">-</span><span class="desc">Recognize the Issue</span></li>
+          <li><span class="letter">E</span><span class="dash">-</span><span class="desc">Ensure Public Health</span></li>
+          <li><span class="letter">A</span><span class="dash">-</span><span class="desc">Act to Address</span></li>
+          <li><span class="letter">C</span><span class="dash">-</span><span class="desc">Communicate Clearly</span></li>
+          <li><span class="letter">T</span><span class="dash">-</span><span class="desc">Transform for Prevention</span></li>
+        </ul>
+        <p>By approaching a question from the REACT angle, a candidate can naturally navigate the entirety of the scenario and create a thorough answer.</p>
+        <p>While the REACT lens is helpful, the successful candidate will drill the material not only by studying, but by recording themselves reciting their answer. THAT is the exam. Taking the knowledge and experience you have, placing yourself in a fictitious plant with processes you may have no personal experience with, and verbally describing "how do you respond?" It is important that you incorporate this practice into your study habits.</p>
+      </section>
+
+      <section class="block">
         <h3 class="sec">How it's organized</h3>
         <ul class="tight">
           <li><strong>Study Guides</strong> — one page per rule or topic area containing purpose, rule evolution, key numbers (MCLs/MCLGs/MRDLs), monitoring &amp; compliance mechanics, notification tiers, and California-specific requirements where they diverge from the federal rule. Listed alphabetically.</li>
@@ -1288,6 +1419,7 @@
           <li>Click any Study Guide in the sidebar to jump straight to that rule's page.</li>
           <li>Use the Flash Cards deck to drill recall. Track accuracy and filter by "missed only" or by category for targeted review.</li>
           <li>Use Sample Exam Questions to rehearse verbal answers using the REACT (operations) and CARES (management) lenses.</li>
+          <li>Use the Scripts to create strong memory tools for passive studying.</li>
           <li>Click <strong>"CA SWRCB T5 Exam Dashboard"</strong> at the top of the sidebar anytime to return to this page.</li>
           <li>Switch between the Dark and Light buttons under the title anytime.</li>
         </ul>
@@ -2656,6 +2788,17 @@
           <li>Required educational information — contaminants in drinking &amp; bottled water; vulnerable-population <em>Cryptosporidium</em> info; nitrate, arsenic, and lead statements</li>
         </ul>
       </section>
+      <div class="callout mem">
+        <p class="ttl">Memory Tool — MASTER</p>
+        <ul class="acro-list">
+          <li><span class="letter">M</span><span class="dash">-</span><span class="desc">Monitoring info (crypto, lead, etc.)</span></li>
+          <li><span class="letter">A</span><span class="dash">-</span><span class="desc">Analytes (detected contaminants)</span></li>
+          <li><span class="letter">S</span><span class="dash">-</span><span class="desc">System Info (Contact + Sources)</span></li>
+          <li><span class="letter">T</span><span class="dash">-</span><span class="desc">Terms Defined (MCL, MCLG, etc.)</span></li>
+          <li><span class="letter">E</span><span class="dash">-</span><span class="desc">Educational/Health Info</span></li>
+          <li><span class="letter">R</span><span class="dash">-</span><span class="desc">Regulatory (Compliance + Variances)</span></li>
+        </ul>
+      </div>
       <section class="block">
         <h3 class="sec">Reporting &amp; recordkeeping</h3>
         <ul class="tight">
@@ -2754,6 +2897,16 @@
           <li>Statement encouraging recipients to distribute the notice, where applicable</li>
         </ul>
       </section>
+      <div class="callout mem">
+        <p class="ttl">Memory Tool — PARCH</p>
+        <ul class="acro-list">
+          <li><span class="letter">P</span><span class="dash">-</span><span class="desc">Problem (what &amp; when)</span></li>
+          <li><span class="letter">A</span><span class="dash">-</span><span class="desc">Actions (consumer actions, alternate water)</span></li>
+          <li><span class="letter">R</span><span class="dash">-</span><span class="desc">Response by Utility (corrective measures, timeline for compliance)</span></li>
+          <li><span class="letter">C</span><span class="dash">-</span><span class="desc">Contact &amp; Circulate (PWS info + share notice w/ others)</span></li>
+          <li><span class="letter">H</span><span class="dash">-</span><span class="desc">Health (effects and susceptible populations)</span></li>
+        </ul>
+      </div>
 
       <div class="callout op">
         <p class="ttl">Chief Operator lens</p>
@@ -4620,15 +4773,22 @@ H - Health (potential health effects and vulnerable peoples)`},
     gpd: '1,000,000 gal/day = 1 MGD  (divide gal/day by 1,000,000 to get MGD)',
     gal: '1,000,000 gal = 1 MG  (divide gallons by 1,000,000 to get MG)'
   };
+  // Chemical Feed Rate targets gpd (not MGD), so gpm/gph carry different facts
+  // than the MGD-targeted CONV_FACTS above — passed explicitly to renderConversions.
+  var CONV_FACTS_GPD = {
+    gpm: '1,440 min/day  (multiply gal/min by 1,440 to get gal/day)',
+    gph: '24 hr/day  (multiply gal/hr by 24 to get gal/day)'
+  };
   // Given a list of currently-selected unit strings, render the box (or hide it if none need converting).
-  function renderConversions(box, units){
+  function renderConversions(box, units, facts){
+    facts = facts || CONV_FACTS;
     var needed = [];
     units.forEach(function(u){
-      if(CONV_FACTS[u] && needed.indexOf(u) === -1) needed.push(u);
+      if(facts[u] && needed.indexOf(u) === -1) needed.push(u);
     });
     if(needed.length === 0){ box.hidden = true; box.innerHTML = ''; return; }
     var html = '<p class="conv-ttl">Conversion Values Needed</p><ul>';
-    needed.forEach(function(u){ html += '<li>' + CONV_FACTS[u] + '</li>'; });
+    needed.forEach(function(u){ html += '<li>' + facts[u] + '</li>'; });
     html += '</ul>';
     box.innerHTML = html;
     box.hidden = false;
@@ -4652,6 +4812,46 @@ H - Health (potential health effects and vulnerable peoples)`},
       span('v-flow', fmt(mgd2) + ' MGD');
     return {mgd:mgd2, step:step2};
   }
+  // Flow -> gpd (for Chemical Feed Rate, which works in gpd rather than MGD).
+  // Returns {gpd, step} where step is a teaching line (or null if already gpd).
+  function flowToGPD(value, unit){
+    if(unit === 'gpd') return {gpd:value, step:null};
+    if(unit === 'gpm'){
+      var gpd = round2(value * 1440);
+      var step = span('v-flow', fmt(value) + ' gal/min') + ' ' + op('&times;') +
+        ' <span class="lbl">1,440 min/day</span> ' + op('=') + ' ' +
+        span('v-flow', fmt(gpd) + ' gpd');
+      return {gpd:gpd, step:step};
+    }
+    // gph
+    var gpd2 = round2(value * 24);
+    var step2 = span('v-flow', fmt(value) + ' gal/hr') + ' ' + op('&times;') +
+      ' <span class="lbl">24 hr/day</span> ' + op('=') + ' ' +
+      span('v-flow', fmt(gpd2) + ' gpd');
+    return {gpd:gpd2, step:step2};
+  }
+  // gpd -> gpm/gph, for displaying a solved-for Chemical Feed Rate flow in the
+  // unit the user asked for. Reverse of flowToGPD (divide instead of multiply).
+  var CONV_FACTS_FROM_GPD = {
+    gpm: '1,440 min/day  (divide gal/day by 1,440 to get gal/min)',
+    gph: '24 hr/day  (divide gal/day by 24 to get gal/hr)'
+  };
+  function gpdToOut(gpd, unit){
+    if(unit === 'gpd') return {value:gpd, unit:'gpd', step:null};
+    if(unit === 'gpm'){
+      var v = round2(gpd / 1440);
+      var step = span('v-result', fmt(gpd) + ' gpd') + ' ' + op('&divide;') +
+        ' <span class="lbl">1,440 min/day</span> ' + op('=') + ' ' +
+        span('v-result', fmt(v) + ' gpm');
+      return {value:v, unit:'gpm', step:step};
+    }
+    // gph
+    var v2 = round2(gpd / 24);
+    var step2 = span('v-result', fmt(gpd) + ' gpd') + ' ' + op('&divide;') +
+      ' <span class="lbl">24 hr/day</span> ' + op('=') + ' ' +
+      span('v-result', fmt(v2) + ' gph');
+    return {value:v2, unit:'gph', step:step2};
+  }
   // Volume -> MG. Returns {mg, step}. mg is round2'd, same reasoning as flowToMGD.
   function volToMG(value, unit){
     if(unit === 'MG') return {mg:value, step:null};
@@ -4665,31 +4865,312 @@ H - Health (potential health effects and vulnerable peoples)`},
   // ---- Pounds formula panel ----
   var pfWork = document.querySelector('[data-pf-work]');
   var pfConv = document.querySelector('[data-pf-conv]');
-  function runPounds(){
-    var flow = num(document.querySelector('[data-pf="flow"]'));
-    var unit = document.querySelector('[data-pf="flowunit"]').value;
-    var conc = num(document.querySelector('[data-pf="conc"]'));
-    renderConversions(pfConv, [unit]);
-    if(!isFinite(flow) || !isFinite(conc)){ pfWork.innerHTML = ''; return; }
+  var pfEq = document.querySelector('[data-pf-eq]');
 
-    var html = '';
-    var conv = flowToMGD(flow, unit);
-    var stepNo = 1;
-    if(conv.step){
-      html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo + ' — Get the flow to MGD</p>' +
-        line(conv.step) + '</div>';
-      stepNo++;
+  // Each mode solves for one quantity from the other two. show = the input fields to
+  // reveal. Colors: flow=v-flow, concentration=v-conc, the 8.34 constant=v-const,
+  // pounds=v-lbs (purple) whenever it's an input; whatever's being solved for is v-result.
+  var PF_MODES = { pounds:{show:['flow','conc']}, flow:{show:['pounds','conc']}, conc:{show:['pounds','flow']} };
+  function pfMode(){ var el = document.querySelector('[data-pf="solve"]'); return el ? el.value : 'pounds'; }
+
+  function renderPFEq(){
+    if(!pfEq) return;
+    var mode = pfMode();
+    pfEq.classList.toggle('calc-eq-frac', mode !== 'pounds');
+    if(mode === 'pounds'){
+      pfEq.innerHTML =
+        span('v-result','Pounds per day') + ' ' + op('=') + ' ' +
+        span('v-flow','Flow, MGD') + ' ' + op('&times;') + ' ' +
+        span('v-const','8.34 lbs/gal') + ' ' + op('&times;') + ' ' +
+        span('v-conc','Concentration, ppm');
+    } else if(mode === 'flow'){
+      pfEq.innerHTML =
+        span('v-result','Flow, MGD') + ' ' + op('=') +
+        ' <div class="frac"><span class="frac-num">' + span('v-lbs','Pounds per day') + '</span>' +
+        '<span class="frac-bar"></span><span class="frac-den">' +
+        span('v-const','8.34 lbs/gal') + ' ' + op('&times;') + ' ' + span('v-conc','Concentration, ppm') +
+        '</span></div>';
+    } else {
+      pfEq.innerHTML =
+        span('v-result','Concentration, ppm') + ' ' + op('=') +
+        ' <div class="frac"><span class="frac-num">' + span('v-lbs','Pounds per day') + '</span>' +
+        '<span class="frac-bar"></span><span class="frac-den">' +
+        span('v-const','8.34 lbs/gal') + ' ' + op('&times;') + ' ' + span('v-flow','Flow, MGD') +
+        '</span></div>';
     }
-    var lb = round2(conv.mgd * LB * conc);
-    html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo + ' — Apply the pounds formula</p>' +
-      line(
-        span('v-flow', fmt(conv.mgd) + ' MGD') + ' ' + op('&times;') + ' ' +
-        span('v-const', LB + ' lbs/gal') + ' ' + op('&times;') + ' ' +
-        span('v-conc', fmt(conc) + ' mg/L') + ' ' + op('=') + ' ' +
-        span('v-result', fmt(lb) + ' lbs/day')
+  }
+
+  function syncPFFields(){
+    var m = PF_MODES[pfMode()];
+    ['flow','conc','pounds'].forEach(function(k){
+      var f = document.querySelector('[data-pf-field="' + k + '"]');
+      if(f) f.hidden = (m.show.indexOf(k) === -1);
+    });
+    renderPFEq();
+    runPounds();
+  }
+
+  function runPounds(){
+    var mode = pfMode();
+    if(mode === 'pounds'){
+      var flow = num(document.querySelector('[data-pf="flow"]'));
+      var unit = document.querySelector('[data-pf="flowunit"]').value;
+      var conc = num(document.querySelector('[data-pf="conc"]'));
+      renderConversions(pfConv, [unit]);
+      if(!isFinite(flow) || !isFinite(conc)){ pfWork.innerHTML = ''; return; }
+
+      var html = '';
+      var conv = flowToMGD(flow, unit);
+      var stepNo = 1;
+      if(conv.step){
+        html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo + ' — Get the flow to MGD</p>' +
+          line(conv.step) + '</div>';
+        stepNo++;
+      }
+      var lb = round2(conv.mgd * LB * conc);
+      html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo + ' — Apply the pounds formula</p>' +
+        line(
+          span('v-flow', fmt(conv.mgd) + ' MGD') + ' ' + op('&times;') + ' ' +
+          span('v-const', LB + ' lbs/gal') + ' ' + op('&times;') + ' ' +
+          span('v-conc', fmt(conc) + ' ppm') + ' ' + op('=') + ' ' +
+          span('v-result', fmt(lb) + ' lbs/day')
+        ) + '</div>';
+      html += '<div class="calc-answer">Answer: ' + span('big', fmt(lb)) + ' lbs/day</div>';
+      pfWork.innerHTML = html;
+    } else if(mode === 'flow'){
+      pfConv.hidden = true; pfConv.innerHTML = '';
+      var lbs = num(document.querySelector('[data-pf="pounds"]'));
+      var concIn = num(document.querySelector('[data-pf="conc"]'));
+      if(!isFinite(lbs) || !isFinite(concIn)){ pfWork.innerHTML = ''; return; }
+
+      var html2 = '<div class="calc-step"><p class="calc-step-ttl">Step 1 — Multiply the constant by the concentration</p>' +
+        line(
+          span('v-const', LB + ' lbs/gal') + ' ' + op('&times;') + ' ' +
+          span('v-conc', fmt(concIn) + ' ppm') + ' ' + op('=') + ' ' +
+          span('v-const', fmt(round2(LB * concIn)))
+        ) + '</div>';
+      html2 += '<div class="calc-step"><p class="calc-step-ttl">Step 2 — Divide pounds per day by that result</p>';
+      var denom = round2(LB * concIn);
+      if(denom === 0){
+        html2 += line('<span class="lbl">The concentration is zero, so flow is undefined (you can\'t divide by zero).</span>') + '</div>';
+        pfWork.innerHTML = html2;
+        return;
+      }
+      var flowResult = round2(lbs / denom);
+      html2 += line(
+        span('v-lbs', fmt(lbs) + ' lbs/day') + ' ' + op('&divide;') + ' ' +
+        span('v-const', fmt(denom)) + ' ' + op('=') + ' ' +
+        span('v-result', fmt(flowResult) + ' MGD')
       ) + '</div>';
-    html += '<div class="calc-answer">Answer: ' + span('big', fmt(lb)) + ' lbs/day</div>';
-    pfWork.innerHTML = html;
+      html2 += '<div class="calc-answer">Answer: ' + span('big', fmt(flowResult)) + ' MGD</div>';
+      pfWork.innerHTML = html2;
+    } else {
+      pfConv.hidden = true; pfConv.innerHTML = '';
+      var lbs2 = num(document.querySelector('[data-pf="pounds"]'));
+      var flowIn = num(document.querySelector('[data-pf="flow"]'));
+      if(!isFinite(lbs2) || !isFinite(flowIn)){ pfWork.innerHTML = ''; return; }
+
+      var html3 = '<div class="calc-step"><p class="calc-step-ttl">Step 1 — Multiply the constant by the flow</p>' +
+        line(
+          span('v-const', LB + ' lbs/gal') + ' ' + op('&times;') + ' ' +
+          span('v-flow', fmt(flowIn) + ' MGD') + ' ' + op('=') + ' ' +
+          span('v-const', fmt(round2(LB * flowIn)))
+        ) + '</div>';
+      html3 += '<div class="calc-step"><p class="calc-step-ttl">Step 2 — Divide pounds per day by that result</p>';
+      var denom2 = round2(LB * flowIn);
+      if(denom2 === 0){
+        html3 += line('<span class="lbl">The flow is zero, so concentration is undefined (you can\'t divide by zero).</span>') + '</div>';
+        pfWork.innerHTML = html3;
+        return;
+      }
+      var concResult = round2(lbs2 / denom2);
+      html3 += line(
+        span('v-lbs', fmt(lbs2) + ' lbs/day') + ' ' + op('&divide;') + ' ' +
+        span('v-const', fmt(denom2)) + ' ' + op('=') + ' ' +
+        span('v-result', fmt(concResult) + ' ppm')
+      ) + '</div>';
+      html3 += '<div class="calc-answer">Answer: ' + span('big', fmt(concResult)) + ' ppm</div>';
+      pfWork.innerHTML = html3;
+    }
+  }
+
+  // ---- Chemical Feed Rate panel ----
+  // Same shape as the Pounds Formula panel, but with a required Specific Gravity
+  // factor and a Concentration given in % (rather than ppm) — so the % gets
+  // converted to a decimal first, mirroring how F:M converts %VSS to a fraction.
+  var cfWork = document.querySelector('[data-cf-work]');
+  var cfEq = document.querySelector('[data-cf-eq]');
+  var cfConv = document.querySelector('[data-cf-conv]');
+  var CF_MODES = { pounds:{show:['flow','sg','conc']}, flow:{show:['pounds','sg','conc']}, conc:{show:['pounds','flow','sg']} };
+  function cfMode(){ var el = document.querySelector('[data-cf="solve"]'); return el ? el.value : 'flow'; }
+
+  function renderCFEq(){
+    if(!cfEq) return;
+    var mode = cfMode();
+    cfEq.classList.toggle('calc-eq-frac', mode !== 'pounds');
+    if(mode === 'pounds'){
+      cfEq.innerHTML =
+        span('v-result','Pounds per day') + ' ' + op('=') + ' ' +
+        span('v-flow','Flow, gpd') + ' ' + op('&times;') + ' ' +
+        span('v-const','8.34 lbs/gal') + ' ' + op('&times;') + ' ' +
+        span('v-sg','Specific Gravity') + ' ' + op('&times;') + ' ' +
+        span('v-conc','Concentration, %');
+    } else if(mode === 'flow'){
+      cfEq.innerHTML =
+        span('v-result','Flow, gpd') + ' ' + op('=') +
+        ' <div class="frac"><span class="frac-num">' + span('v-lbs','Pounds per day') + '</span>' +
+        '<span class="frac-bar"></span><span class="frac-den">' +
+        span('v-const','8.34 lbs/gal') + ' ' + op('&times;') + ' ' + span('v-sg','Specific Gravity') +
+        ' ' + op('&times;') + ' ' + span('v-conc','Concentration, %') +
+        '</span></div>';
+    } else {
+      cfEq.innerHTML =
+        span('v-result','Concentration, %') + ' ' + op('=') +
+        ' <div class="frac"><span class="frac-num">' + span('v-lbs','Pounds per day') + '</span>' +
+        '<span class="frac-bar"></span><span class="frac-den">' +
+        span('v-const','8.34 lbs/gal') + ' ' + op('&times;') + ' ' + span('v-sg','Specific Gravity') +
+        ' ' + op('&times;') + ' ' + span('v-flow','Flow, gpd') +
+        '</span></div>';
+    }
+  }
+
+  function syncCFFields(){
+    var mode = cfMode();
+    var m = CF_MODES[mode];
+    ['flow','sg','conc','pounds'].forEach(function(k){
+      var f = document.querySelector('[data-cf-field="' + k + '"]');
+      if(f) f.hidden = (m.show.indexOf(k) === -1);
+    });
+    document.querySelectorAll('[data-cf-outwrap]').forEach(function(el){ el.hidden = (mode !== 'flow'); });
+    renderCFEq();
+    runChemFeed();
+  }
+
+  function runChemFeed(){
+    var mode = cfMode();
+    if(mode === 'pounds'){
+      var flowRaw = num(document.querySelector('[data-cf="flow"]'));
+      var flowUnit = document.querySelector('[data-cf="flowunit"]').value;
+      var sg = num(document.querySelector('[data-cf="sg"]'));
+      var pct = num(document.querySelector('[data-cf="conc"]'));
+      renderConversions(cfConv, [flowUnit], CONV_FACTS_GPD);
+      if(!(isFinite(flowRaw) && isFinite(sg) && isFinite(pct))){ cfWork.innerHTML = ''; return; }
+
+      var html = '';
+      var conv = flowToGPD(flowRaw, flowUnit);
+      var stepNo = 1;
+      if(conv.step){
+        html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo + ' — Get the flow to gpd</p>' +
+          line(conv.step) + '</div>';
+        stepNo++;
+      }
+      var dec = round2(pct / 100);
+      html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo + ' — Convert the percent strength to a decimal</p>' +
+        line(
+          span('v-conc', fmt(pct) + '%') + ' ' + op('&divide;') + ' ' +
+          '<span class="lbl">100</span> ' + op('=') + ' ' + span('v-pct', fmt(dec))
+        ) + '</div>';
+      stepNo++;
+      var lb = round2(conv.gpd * LB * sg * dec);
+      html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo + ' — Apply the chemical feed formula</p>' +
+        line(
+          span('v-flow', fmt(conv.gpd) + ' gpd') + ' ' + op('&times;') + ' ' +
+          span('v-const', LB + ' lbs/gal') + ' ' + op('&times;') + ' ' +
+          span('v-sg', fmt(sg)) + ' ' + op('&times;') + ' ' +
+          span('v-pct', fmt(dec)) + ' ' + op('=') + ' ' +
+          span('v-result', fmt(lb) + ' lbs/day')
+        ) + '</div>';
+      html += '<div class="calc-answer">Answer: ' + span('big', fmt(lb)) + ' lbs/day</div>';
+      cfWork.innerHTML = html;
+    } else if(mode === 'flow'){
+      var outUnit = document.querySelector('[data-cf="outunit"]').value;
+      renderConversions(cfConv, [outUnit], CONV_FACTS_FROM_GPD);
+      var lbs = num(document.querySelector('[data-cf="pounds"]'));
+      var sgIn = num(document.querySelector('[data-cf="sg"]'));
+      var pctIn = num(document.querySelector('[data-cf="conc"]'));
+      if(!(isFinite(lbs) && isFinite(sgIn) && isFinite(pctIn))){ cfWork.innerHTML = ''; return; }
+
+      var decIn = round2(pctIn / 100);
+      var html2 = '<div class="calc-step"><p class="calc-step-ttl">Step 1 — Convert the percent strength to a decimal</p>' +
+        line(
+          span('v-conc', fmt(pctIn) + '%') + ' ' + op('&divide;') + ' ' +
+          '<span class="lbl">100</span> ' + op('=') + ' ' + span('v-pct', fmt(decIn))
+        ) + '</div>';
+      var denom = round2(LB * sgIn * decIn);
+      html2 += '<div class="calc-step"><p class="calc-step-ttl">Step 2 — Multiply the constant, specific gravity, and decimal concentration together</p>' +
+        line(
+          span('v-const', LB + ' lbs/gal') + ' ' + op('&times;') + ' ' +
+          span('v-sg', fmt(sgIn)) + ' ' + op('&times;') + ' ' +
+          span('v-pct', fmt(decIn)) + ' ' + op('=') + ' ' +
+          span('v-const', fmt(denom))
+        ) + '</div>';
+      html2 += '<div class="calc-step"><p class="calc-step-ttl">Step 3 — Divide pounds per day by that result</p>';
+      if(denom === 0){
+        html2 += line('<span class="lbl">That result is zero, so flow is undefined (you can\'t divide by zero).</span>') + '</div>';
+        cfWork.innerHTML = html2;
+        return;
+      }
+      var flowResult = round2(lbs / denom);
+      html2 += line(
+        span('v-lbs', fmt(lbs) + ' lbs/day') + ' ' + op('&divide;') + ' ' +
+        span('v-const', fmt(denom)) + ' ' + op('=') + ' ' +
+        span('v-result', fmt(flowResult) + ' gpd')
+      ) + '</div>';
+      var out = gpdToOut(flowResult, outUnit);
+      if(out.step){
+        html2 += '<div class="calc-step"><p class="calc-step-ttl">Step 4 — Convert gpd to the desired output unit</p>' +
+          line(out.step) + '</div>';
+      }
+      html2 += '<div class="calc-answer">Answer: ' + span('big', fmt(out.value)) + ' ' + out.unit + '</div>';
+      cfWork.innerHTML = html2;
+    } else {
+      var lbs2 = num(document.querySelector('[data-cf="pounds"]'));
+      var flowRaw2 = num(document.querySelector('[data-cf="flow"]'));
+      var flowUnit2 = document.querySelector('[data-cf="flowunit"]').value;
+      var sgIn2 = num(document.querySelector('[data-cf="sg"]'));
+      renderConversions(cfConv, [flowUnit2], CONV_FACTS_GPD);
+      if(!(isFinite(lbs2) && isFinite(flowRaw2) && isFinite(sgIn2))){ cfWork.innerHTML = ''; return; }
+
+      var html3 = '';
+      var conv2 = flowToGPD(flowRaw2, flowUnit2);
+      var stepNo3 = 1;
+      if(conv2.step){
+        html3 += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo3 + ' — Get the flow to gpd</p>' +
+          line(conv2.step) + '</div>';
+        stepNo3++;
+      }
+      var denom2 = round2(LB * sgIn2 * conv2.gpd);
+      html3 += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo3 + ' — Multiply the constant, specific gravity, and flow together</p>' +
+        line(
+          span('v-const', LB + ' lbs/gal') + ' ' + op('&times;') + ' ' +
+          span('v-sg', fmt(sgIn2)) + ' ' + op('&times;') + ' ' +
+          span('v-flow', fmt(conv2.gpd) + ' gpd') + ' ' + op('=') + ' ' +
+          span('v-const', fmt(denom2))
+        ) + '</div>';
+      stepNo3++;
+      html3 += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo3 + ' — Divide pounds per day by that result</p>';
+      if(denom2 === 0){
+        html3 += line('<span class="lbl">That result is zero, so concentration is undefined (you can\'t divide by zero).</span>') + '</div>';
+        cfWork.innerHTML = html3;
+        return;
+      }
+      var decResult = round2(lbs2 / denom2);
+      html3 += line(
+        span('v-lbs', fmt(lbs2) + ' lbs/day') + ' ' + op('&divide;') + ' ' +
+        span('v-const', fmt(denom2)) + ' ' + op('=') + ' ' +
+        span('v-pct', fmt(decResult))
+      ) + '</div>';
+      stepNo3++;
+      var pctResult = round2(decResult * 100);
+      html3 += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo3 + ' — Multiply by 100 to convert to percent</p>' +
+        line(
+          span('v-pct', fmt(decResult)) + ' ' + op('&times;') + ' ' +
+          '<span class="lbl">100</span> ' + op('=') + ' ' +
+          span('v-result', fmt(pctResult) + ' %')
+        ) + '</div>';
+      html3 += '<div class="calc-answer">Answer: ' + span('big', fmt(pctResult)) + ' %</div>';
+      cfWork.innerHTML = html3;
+    }
   }
 
   // ---- MCRT panel ----
@@ -4716,7 +5197,7 @@ H - Health (potential health effects and vulnerable peoples)`},
     html += line(
       span('v-flow', fmt(conv.mgd) + ' MGD') + ' ' + op('&times;') + ' ' +
       span('v-const', LB + ' lbs/gal') + ' ' + op('&times;') + ' ' +
-      span('v-conc', fmt(tss) + ' mg/L') + ' ' + op('=') + ' ' +
+      span('v-conc', fmt(tss) + ' ppm') + ' ' + op('=') + ' ' +
       span('v-result', fmt(lb) + ' lbs/day')
     ) + '</div>';
     return {html:html, lb:lb};
@@ -4758,7 +5239,7 @@ H - Health (potential health effects and vulnerable peoples)`},
       line(
         span('v-vol', fmt(totalMG) + ' MG') + ' ' + op('&times;') + ' ' +
         span('v-const', LB + ' lbs/gal') + ' ' + op('&times;') + ' ' +
-        span('v-conc', fmt(mlss) + ' mg/L') + ' ' + op('=') + ' ' +
+        span('v-conc', fmt(mlss) + ' ppm') + ' ' + op('=') + ' ' +
         span('v-result', fmt(sysLb) + ' lbs')
       ) + '</div>';
 
@@ -4843,7 +5324,7 @@ H - Health (potential health effects and vulnerable peoples)`},
     html += line(
       span('v-flow', fmt(fconv.mgd) + ' MGD') + ' ' + op('&times;') + ' ' +
       span('v-const', LB + ' lbs/gal') + ' ' + op('&times;') + ' ' +
-      span('v-conc', fmt(bod) + ' mg/L') + ' ' + op('=') + ' ' +
+      span('v-conc', fmt(bod) + ' ppm') + ' ' + op('=') + ' ' +
       span('v-result', fmt(bodLb) + ' lbs/day')
     ) + '</div>';
 
@@ -4859,9 +5340,9 @@ H - Health (potential health effects and vulnerable peoples)`},
       mlvssConc = round2(mlss * vssFrac);
       html += subttl('Step 2.' + s2sub + ' — Convert the MLSS to MLVSS using the percent volatile solids') +
         line(
-          span('v-conc', fmt(mlss) + ' mg/L') + ' ' + op('&times;') + ' ' +
+          span('v-conc', fmt(mlss) + ' ppm') + ' ' + op('&times;') + ' ' +
           '<span class="lbl">' + fmt(vssFrac) + ' (' + fmt(pctvss) + '% VSS)</span> ' + op('=') + ' ' +
-          span('v-conc', fmt(mlvssConc) + ' mg/L')
+          span('v-conc', fmt(mlvssConc) + ' ppm')
         );
       s2sub++;
     }
@@ -4877,7 +5358,7 @@ H - Health (potential health effects and vulnerable peoples)`},
     html += line(
       span('v-vol', fmt(bconv.mg) + ' MG') + ' ' + op('&times;') + ' ' +
       span('v-const', LB + ' lbs/gal') + ' ' + op('&times;') + ' ' +
-      span('v-conc', fmt(mlvssConc) + ' mg/L') + ' ' + op('=') + ' ' +
+      span('v-conc', fmt(mlvssConc) + ' ppm') + ' ' + op('=') + ' ' +
       span('v-result', fmt(mlvssLb) + ' lbs')
     ) + '</div>';
 
@@ -4912,19 +5393,19 @@ H - Health (potential health effects and vulnerable peoples)`},
   //   title = the Step 1 wording. Colors: dose=v-flow, demand=v-conc, residual=v-vol.
   var CHL_MODES = {
     demand:   { show:['dose','residual'], a:'dose', b:'residual', add:false,
-                eqA:'Chlorine Dose, mg/L', eqAcls:'v-flow',
-                eqB:'Chlorine Residual, mg/L', eqBcls:'v-vol',
-                eqR:'Chlorine Demand, mg/L',
+                eqA:'Chlorine Dose, ppm', eqAcls:'v-flow',
+                eqB:'Chlorine Residual, ppm', eqBcls:'v-vol',
+                eqR:'Chlorine Demand, ppm',
                 title:'Subtract the chlorine residual from the chlorine dose' },
     dose:     { show:['residual','demand'], a:'residual', b:'demand', add:true,
-                eqA:'Chlorine Residual, mg/L', eqAcls:'v-vol',
-                eqB:'Chlorine Demand, mg/L', eqBcls:'v-conc',
-                eqR:'Chlorine Dose, mg/L',
+                eqA:'Chlorine Residual, ppm', eqAcls:'v-vol',
+                eqB:'Chlorine Demand, ppm', eqBcls:'v-conc',
+                eqR:'Chlorine Dose, ppm',
                 title:'Add the chlorine demand to the chlorine residual' },
     residual: { show:['dose','demand'], a:'dose', b:'demand', add:false,
-                eqA:'Chlorine Dose, mg/L', eqAcls:'v-flow',
-                eqB:'Chlorine Demand, mg/L', eqBcls:'v-conc',
-                eqR:'Chlorine Residual, mg/L',
+                eqA:'Chlorine Dose, ppm', eqAcls:'v-flow',
+                eqB:'Chlorine Demand, ppm', eqBcls:'v-conc',
+                eqR:'Chlorine Residual, ppm',
                 title:'Subtract the chlorine demand from the chlorine dose' }
   };
 
@@ -4938,9 +5419,9 @@ H - Health (potential health effects and vulnerable peoples)`},
     });
     if(chlEq){
       chlEq.innerHTML =
+        span('v-result', m.eqR) + ' ' + op('=') + ' ' +
         span(m.eqAcls, m.eqA) + ' ' + op(m.add ? '+' : '&minus;') + ' ' +
-        span(m.eqBcls, m.eqB) + ' ' + op('=') + ' ' +
-        span('v-result', m.eqR);
+        span(m.eqBcls, m.eqB);
     }
   }
 
@@ -4955,16 +5436,16 @@ H - Health (potential health effects and vulnerable peoples)`},
 
     var html = '<div class="calc-step"><p class="calc-step-ttl">Step 1 — ' + m.title + '</p>' +
       line(
-        span(m.eqAcls, fmt(a) + ' mg/L') + ' ' + op(m.add ? '+' : '&minus;') + ' ' +
-        span(m.eqBcls, fmt(b) + ' mg/L') + ' ' + op('=') + ' ' +
-        span('v-result', fmt(result) + ' mg/L')
+        span(m.eqAcls, fmt(a) + ' ppm') + ' ' + op(m.add ? '+' : '&minus;') + ' ' +
+        span(m.eqBcls, fmt(b) + ' ppm') + ' ' + op('=') + ' ' +
+        span('v-result', fmt(result) + ' ppm')
       ) + '</div>';
 
     if(!m.add && result < 0){
       html += line('<span class="lbl">A negative result means the amount subtracted is larger than the chlorine dose — re-check your inputs.</span>');
     }
 
-    html += '<div class="calc-answer">Chlorine ' + solveLabel + ' = ' + span('big', fmt(result)) + ' mg/L</div>';
+    html += '<div class="calc-answer">Chlorine ' + solveLabel + ' = ' + span('big', fmt(result)) + ' ppm</div>';
     chlWork.innerHTML = html;
   }
 
@@ -4982,9 +5463,9 @@ H - Health (potential health effects and vulnerable peoples)`},
     var removed = round2(inV - outV);
     html += '<div class="calc-step"><p class="calc-step-ttl">Step 1 — Find the amount removed by subtracting the outlet concentration from the inlet concentration</p>' +
       line(
-        span('v-flow', fmt(inV) + ' mg/L') + ' ' + op('&minus;') + ' ' +
-        span('v-conc', fmt(outV) + ' mg/L') + ' ' + op('=') + ' ' +
-        span('v-result', fmt(removed) + ' mg/L')
+        span('v-flow', fmt(inV) + ' ppm') + ' ' + op('&minus;') + ' ' +
+        span('v-conc', fmt(outV) + ' ppm') + ' ' + op('=') + ' ' +
+        span('v-result', fmt(removed) + ' ppm')
       ) + '</div>';
 
     // Step 2 — percent removal (amount removed / In x 100)
@@ -4996,8 +5477,8 @@ H - Health (potential health effects and vulnerable peoples)`},
     }
     var pct = round2(removed / inV * 100);
     html += line(
-      span('v-result', fmt(removed) + ' mg/L') + ' ' + op('&divide;') + ' ' +
-      span('v-flow', fmt(inV) + ' mg/L') + ' ' + op('&times;') + ' ' +
+      span('v-result', fmt(removed) + ' ppm') + ' ' + op('&divide;') + ' ' +
+      span('v-flow', fmt(inV) + ' ppm') + ' ' + op('&times;') + ' ' +
       '<span class="lbl">100</span> ' + op('=') + ' ' +
       span('v-result', fmt(pct) + ' %')
     ) + '</div>';
@@ -5028,7 +5509,7 @@ H - Health (potential health effects and vulnerable peoples)`},
     html += line(
       span('v-vol', fmt(sv30) + ' mL/L') + ' ' + op('&times;') + ' ' +
       '<span class="lbl">1,000 mg/g</span> ' + op('&divide;') + ' ' +
-      span('v-conc', fmt(mlss) + ' mg/L') + ' ' + op('=') + ' ' +
+      span('v-conc', fmt(mlss) + ' ppm') + ' ' + op('=') + ' ' +
       span('v-result', fmt(svi) + ' mL/g')
     ) + '</div>';
 
@@ -5128,25 +5609,25 @@ H - Health (potential health effects and vulnerable peoples)`},
   // ---- Static formula strings per shape (labels, color-coded where it helps) ----
   var AREA_EQ = {
     rectangle:
-      span('v-dimL','L, ft') + ' ' + op('&times;') + ' ' + span('v-dimW','W, ft') +
-      ' ' + op('=') + ' ' + span('v-result','Area, ft²'),
+      span('v-result','Area, ft²') + ' ' + op('=') + ' ' +
+      span('v-dimL','L, ft') + ' ' + op('&times;') + ' ' + span('v-dimW','W, ft'),
     circle:
+      span('v-result','Area, ft²') + ' ' + op('=') + ' ' +
       span('v-const','0.25') + ' ' + op('&times;') + ' ' + span('v-const','&pi;') +
-      ' ' + op('&times;') + ' ' + span('v-dimD','D², ft') +
-      ' ' + op('=') + ' ' + span('v-result','Area, ft²')
+      ' ' + op('&times;') + ' ' + span('v-dimD','D², ft')
   };
   var VOL_EQ = {
     box:
+      span('v-result','Volume, ft³') + ' ' + op('=') + ' ' +
       span('v-dimL','L, ft') + ' ' + op('&times;') + ' ' + span('v-dimW','W, ft') +
-      ' ' + op('&times;') + ' ' + span('v-dimH','H, ft') +
-      ' ' + op('=') + ' ' + span('v-result','Volume, ft³'),
+      ' ' + op('&times;') + ' ' + span('v-dimH','H, ft'),
     cylinder:
-      span('v-result','Base area, ft²') + ' ' + op('&times;') + ' ' + span('v-dimH','H, ft') +
-      ' ' + op('=') + ' ' + span('v-result','Volume, ft³'),
+      span('v-result','Volume, ft³') + ' ' + op('=') + ' ' +
+      span('v-result','Base area, ft²') + ' ' + op('&times;') + ' ' + span('v-dimH','H, ft'),
     cone:
+      span('v-result','Volume, ft³') + ' ' + op('=') + ' ' +
       span('v-const','0.3333') + ' ' + op('&times;') + ' ' + span('v-result','Base area, ft²') +
-      ' ' + op('&times;') + ' ' + span('v-dimH','H, ft') +
-      ' ' + op('=') + ' ' + span('v-result','Volume, ft³')
+      ' ' + op('&times;') + ' ' + span('v-dimH','H, ft')
   };
 
   // ---- Shared: circle base area worked substep. Returns {html, area}. ----
@@ -5310,6 +5791,16 @@ H - Health (potential health effects and vulnerable peoples)`},
     if(isTextField(el)){ el.addEventListener('input', function(){ groupInput(el); }); }
     el.addEventListener('input', runPounds); el.addEventListener('change', runPounds);
   });
+  var pfSolveSel = document.querySelector('[data-pf="solve"]');
+  if(pfSolveSel){ pfSolveSel.addEventListener('change', syncPFFields); }
+  syncPFFields();
+  document.querySelectorAll('[data-cf]').forEach(function(el){
+    if(isTextField(el)){ el.addEventListener('input', function(){ groupInput(el); }); }
+    el.addEventListener('input', runChemFeed); el.addEventListener('change', runChemFeed);
+  });
+  var cfSolveSel = document.querySelector('[data-cf="solve"]');
+  if(cfSolveSel){ cfSolveSel.addEventListener('change', syncCFFields); }
+  syncCFFields();
   document.querySelectorAll('[data-pr]').forEach(function(el){
     if(isTextField(el)){ el.addEventListener('input', function(){ groupInput(el); }); }
     el.addEventListener('input', runPR); el.addEventListener('change', runPR);
