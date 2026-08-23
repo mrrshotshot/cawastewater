@@ -1456,8 +1456,8 @@
     <nav id="mathNav">
       <button type="button" class="navlink" data-math-target="grade1">Grade I</button>
       <button type="button" class="navlink" data-math-target="grade2">Grade II</button>
-      <button type="button" class="navlink" disabled aria-disabled="true" style="opacity:.5;cursor:default">Grade III</button>
-      <button type="button" class="navlink" disabled aria-disabled="true" style="opacity:.5;cursor:default">Grades IV &amp; V</button>
+      <button type="button" class="navlink" data-math-target="grade3">Grade III</button>
+      <button type="button" class="navlink" data-math-target="grade45">Grades IV &amp; V</button>
     </nav>
   </aside>
   <div class="backdrop" id="mathBackdrop"></div>
@@ -1483,12 +1483,12 @@
           <a href="#/wastewater/math/grade2" class="grade-link" data-math-link="grade2">Grade II
             <span class="sub">Foundational math for the Grade II exam.</span>
           </a>
-          <span class="grade-link" aria-disabled="true" style="cursor:default;opacity:.55">Grade III
-            <span class="sub">Coming soon.</span>
-          </span>
-          <span class="grade-link" aria-disabled="true" style="cursor:default;opacity:.55">Grades IV &amp; V
-            <span class="sub">Coming soon.</span>
-          </span>
+          <a href="#/wastewater/math/grade3" class="grade-link" data-math-link="grade3">Grade III
+            <span class="sub">Foundational math for the Grade III exam.</span>
+          </a>
+          <a href="#/wastewater/math/grade45" class="grade-link" data-math-link="grade45">Grades IV &amp; V
+            <span class="sub">Foundational math for the Grades IV &amp; V exams.</span>
+          </a>
         </div>
       </section>
 
@@ -4823,7 +4823,7 @@ H - Health (potential health effects and vulnerable peoples)`},
   // getting their own DOM element — so token validity is checked against this list
   // rather than document.getElementById('mp-' + token). Extend this list (and the
   // math script's MATH_SERIES data) when a new grade's series goes live.
-  var MATH_TOKENS = ['home', 'grade1', 'grade2'];
+  var MATH_TOKENS = ['home', 'grade1', 'grade2', 'grade3', 'grade45'];
   function mathPanelIdFor(token){
     return MATH_TOKENS.indexOf(token) !== -1 ? token : null;
   }
@@ -6193,22 +6193,52 @@ H - Health (potential health effects and vulnerable peoples)`},
 <script>
 (function(){
   // ---- Math Videos: grade-level series with an embedded player + a part-picker rail ----
-  // Own sidebar + swappable panels (mirrors the Calculators section). Grade I and Grade
-  // II currently point at the same 4-part series, so rather than duplicate the video
-  // player + rail markup per grade, every grade token renders through one shared
-  // "watch" panel (mp-watch): showMath() looks up the token here and fills in the
-  // header, video, and rail part list. Add a grade's own entry (and, if it ever has
-  // different videos, its own `parts` array) here, plus a matching token in the
-  // router's MATH_TOKENS list, to bring a new grade online.
-  var PARTS_GRADE1_2 = [
-    {id:'qRNG-RwxIKc', label:'Part 1'},
-    {id:'7BGIOvWaTm4', label:'Part 2'},
-    {id:'CmY5DBCy46g', label:'Part 3'},
-    {id:'Ch0NMlHCvd8', label:'Part 4'}
-  ];
+  // Own sidebar + swappable panels (mirrors the Calculators section). Rather than
+  // duplicate the video player + rail markup per grade, every grade token renders
+  // through one shared "watch" panel (mp-watch): showMath() looks up the token here
+  // and fills in the header, video, and rail part list. Add a grade's own entry (with
+  // its own `parts` array) here, plus a matching token in the router's MATH_TOKENS
+  // list, to bring a new grade online.
   var MATH_SERIES = {
-    grade1: { title: 'Grade I', parts: PARTS_GRADE1_2 },
-    grade2: { title: 'Grade II', parts: PARTS_GRADE1_2 }
+    grade1: {
+      title: 'Grade I',
+      parts: [
+        {id:'qRNG-RwxIKc', label:'Part 1'},
+        {id:'7BGIOvWaTm4', label:'Part 2'},
+        {id:'CmY5DBCy46g', label:'Part 3'},
+        {id:'Ch0NMlHCvd8', label:'Part 4'}
+      ]
+    },
+    grade2: {
+      title: 'Grade II',
+      parts: [
+        {id:'TSimYeVJ1jE', label:'Part 1'},
+        {id:'hncc6PSK5u0', label:'Part 2'},
+        {id:'_UTkpUYpY9s', label:'Part 3'},
+        {id:'5h5qVfDSZgk', label:'Part 4'},
+        {id:'kQO6RM2WZhg', label:'Part 5'},
+        {id:'BtDQOLk8NXs', label:'Part 6'}
+      ]
+    },
+    grade3: {
+      title: 'Grade III',
+      parts: [
+        {id:'lXohk3RMp_k', label:'Part 1'},
+        {id:'YRKf7Av6BTM', label:'Part 2'},
+        {id:'XicdwAFYKVg', label:'Part 3'},
+        {id:'aDAtdd_UEpk', label:'Part 4'},
+        {id:'hOtwVSVQ9_s', label:'Part 5'},
+        {id:'LpFWNCLpdic', label:'Part 6'}
+      ]
+    },
+    grade45: {
+      title: 'Grades IV & V',
+      parts: [
+        {id:'LAD7KDqN3xA', label:'Part 1'},
+        {id:'A5IumbeNTYM', label:'Part 2'},
+        {id:'MLKqYhcGLMM', label:'Part 3'}
+      ]
+    }
   };
 
   var mathPanels = document.querySelectorAll('.math-panel');
