@@ -91,6 +91,7 @@
   [S] 2026-08-18 SMF "Frequency logic" split into six per-group tables. Replaced the single banded table with six <h4 class="sub"> + <table> blocks (IOCs — Ground water, IOCs — Surface water, SOCs (all sizes), VOCs — Ground water, Nitrate, Radionuclides), each with its own Status/Frequency thead. All cell text preserved verbatim; EPTDS abbr kept on first occurrence (IOC-GW). Reused existing h4.sub + tbl-wrap; no new CSS. The three-tone .grp th band rule remains in the stylesheet for file-wide use (now unused on this panel). Recurring "Quarterly — 4 quarterly samples…" repeats across four tables by design (verbose kept for exam readability). tbl-note now trails the Radionuclides table, unchanged.
   [S] 2026-08-18 SMF frequency section rebuilt to full grid fidelity (EPA 816-F-20-002 May 2020 + 40 CFR 141.23/.24/.26). Six tables -> eleven: added IOC-SW waiver row; added Asbestos; expanded SOC to 5 rows (population splits + waiver); corrected VOC-GW R&C to Annual and expanded to 5 rows; added VOC-SW; split Nitrate into GW/SW/TNCWS; added Nitrite; split Radionuclides 6/3-yr into separate rows. Prior "SOC R&C -> Annual is an error" flag WITHDRAWN — grid + 40 CFR 141.24(h)(7)(iii) confirm annual is correct. All frequencies derived from grid symbols/patterns, verified by the user. Added tbl-notes for highest-quarter sampling, waiver mechanics, no-R&C-for-surface-nitrate, 20 mg/L NCWS nitrate MCL, and radionuclide scope. All eleven tables carry the existing .twocol class (fixed first-column width) so they stay column-aligned with the Scope table above, consistent with the prior alignment fix.
   [S] 2026-08-18 SMF page polish pass. (1) Moved "How this tab is built" callout to directly follow Purpose (was after the lead paragraph); renamed to "How this page is built" and reworded to name the source explicitly ("The SMF Quick Reference Guide") and drop the "current 4th & 5th cycles" aside and the "only the presentation is condensed" close, per user-provided replacement text. (2) Scope table: PWS/CWS/NTNCWS now defined inline via the existing .gloss abbr pattern (title tooltip), matching how GWUDI/DDW/TOC/etc. are already glossed elsewhere on the site — NTNCWS expanded with standard hyphenation ("Non-Transient Non-Community Water System"). (3) "Counts & exceptions" inline sentence converted to an h4.sub heading ("Counts and Exceptions") + ul.tight bullet list, one item per contaminant-group count; considered p.ttl for the heading but that class only renders styled inside .callout/.acro-block, so used the panel's existing h4.sub sub-heading pattern instead. (4) All 19 EPTDS occurrences in the SMF panel (the one abbr-glossed instance plus 18 bare mentions) expanded to literal "entry point to the distribution system" — abbr/gloss wrapper removed since the term is no longer abbreviated. (5) Row merges (paired Status conditions that share one Frequency, combined with "w/no waiver, or"/", or" phrasing): IOC-GW rows 1+2 (≤MCL no waiver / R&C <MCL, both "once per 3-year period"); IOC-SW rows 1+2 (same pair, both annual); VOC-SW rows 1+2 (<detect no waiver / R&C <MCL, both annual); Nitrate-GW rows 1+2 (<½MCL / R&C <MCL, both annual). Table row counts now: IOC-GW 3, IOC-SW 3, Asbestos 3, SOC 5, VOC-GW 5, VOC-SW 3, Nitrate-GW 2, Nitrate-SW 2, Nitrate-TNCWS 1, Nitrite 3, Radionuclides 4. No card IDs touched; CRLF and script-tag balance confirmed intact (6/6).
+  [S] 2026-08-23 Added Biochemical Oxygen Demand (BOD) calculator under a new "Laboratory Analysis" nav group. New panel #cp-bod simulates a bench BOD setup: a dilution water blank (QC only) plus 1-3 sample dilutions, averaged into the result. Unseeded dilution formula BOD=(Init DO-Final DO)/(sample mL/300); rendered as the identical (Init-Final)x(300/sample) because the dilution factor rounds cleanly at 2 dec where the raw fraction would not (display=compute preserved). Three Standard Methods 5210 B checks, all advisory (no auto-exclude): blank depletion <=0.2 mg/L, each dilution's residual DO >=1.0 mg/L, and each dilution's DO used >=2.0 mg/L ("at least" = >=). Averages ALL completed dilutions per no-interpret convention; negative/zero-volume guarded; caution line when any check fails. Nitrification-inhibitor toggle relabels result cBOD5 vs BOD5 (math identical). 300/0.2/1.0/2.0 are fixed constants, never rounded. #bod resolves natively via calcPanelIdFor; reused helpers/classes only, no CSS/routing added. Sourced to the attached EPA volunteer-monitoring BOD doc + Standard Methods 5210 B (general wastewater knowledge, NOT the CA22/CFR drinking-water project files). Applied from spec, reviewed by reading. No flashcard/exam-card IDs touched; stores nothing.
   --------------------------------------------------------------------------
   B. CURRENCY CHECKS vs PRIMARY WEB SOURCES                   checked 2026-07-22
   (These post-date the Aug-2025 project files; re-verify before the exam.)
@@ -630,6 +631,8 @@
   :root{--calc-input-w:132px}
   .calc-inputs{display:flex;flex-wrap:wrap;gap:16px 24px;margin:18px 0 4px}
   .calc-inputs-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .calc-inputs-4col{grid-template-columns:1fr 1fr 1fr 1fr}
+  @media(max-width:980px){ .calc-inputs-4col{grid-template-columns:1fr 1fr} }
   .calc-group-ttl{
     font-family:var(--mono);font-size:var(--fs-eyebrow-sm);letter-spacing:.1em;text-transform:uppercase;
     color:var(--teal-deep);margin:0 0 10px;font-weight:600;
@@ -818,6 +821,8 @@
       <button type="button" class="navlink" data-calc-target="svi">Sludge Volume Index (SVI)</button>
       <p class="group-label">Disinfection</p>
       <button type="button" class="navlink" data-calc-target="chlorine">Chlorine Dose, Demand &amp; Residual</button>
+      <p class="group-label">Laboratory Analysis</p>
+      <button type="button" class="navlink" data-calc-target="bod">Biochemical Oxygen Demand (BOD)</button>
     </nav>
   </aside>
   <div class="backdrop" id="calcBackdrop"></div>
@@ -1438,6 +1443,148 @@
 
         <div class="calc-conv" data-fm-conv hidden></div>
         <div class="calc-work" data-fm-work aria-live="polite"></div>
+      </section>
+
+      <!-- ===== Panel: BOD (Biochemical Oxygen Demand) ===== -->
+      <section class="calc calc-panel" id="cp-bod">
+        <div class="calc-head">
+          <h3 class="sec">Biochemical Oxygen Demand (BOD)</h3>
+          <p class="calc-sub">Biochemical Oxygen Demand (BOD) measures how much oxygen microorganisms use to break down organic matter in a water sample over five days at 20 degrees Celsius. This calculator mirrors how a BOD test is set up on the bench: you run a dilution water blank plus one or more sample dilutions, check that each one is valid, and average the good dilutions for your result.</p>
+          <p class="calc-note">BOD, mg/L = (Initial DO &minus; Final DO) &divide; (sample volume &divide; 300 mL), then average the sample dilutions. A standard BOD bottle holds 300 mL; the dilution ratio is rounded to 3 decimals (every other value in the steps below rounds to 2).</p>
+          <p class="calc-note">Three checks tell you whether to trust the result. The dilution water blank should not lose more than 0.2 mg/L of dissolved oxygen (DO) on its own. Each sample dilution should still have at least 1.0 mg/L of DO left at the end, and should have used up at least 2.0 mg/L of DO. Too little DO left means the dilution was too strong; too little DO used means it was too weak. A valid dilution meets both.</p>
+        </div>
+
+        <div class="calc-eq-static calc-eq-frac">
+          <span class="v-result">BOD, mg/L</span>
+          <span class="op">=</span>
+          <span class="lbl">(</span>
+          <span class="v-flow">Initial DO, mg/L</span>
+          <span class="op">&minus;</span>
+          <span class="v-conc">Final DO, mg/L</span>
+          <span class="lbl">)</span>
+          <span class="op">&divide;</span>
+          <div class="frac">
+            <span class="frac-num"><span class="v-vol">Sample volume, mL</span></span>
+            <span class="frac-bar"></span>
+            <span class="frac-den"><span class="lbl">300 mL</span></span>
+          </div>
+        </div>
+        <p class="calc-note">Then average the sample dilutions for your final result.</p>
+
+        <div class="calc-shape-row">
+          <label>Nitrification inhibitor added</label>
+          <select data-bod="inhibitor">
+            <option value="no">no</option>
+            <option value="yes">yes</option>
+          </select>
+        </div>
+
+        <div class="calc-inputs">
+          <div class="calc-field" data-bod-field="totalbod" hidden>
+            <label class="lbl-sg">Total BOD</label>
+            <div class="calc-input-row">
+              <input type="text" inputmode="decimal" autocomplete="off" data-bod="totalbod" placeholder="0">
+              <span class="calc-unit">mg/L</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-inputs calc-inputs-grid calc-inputs-4col">
+          <div class="calc-group">
+            <p class="calc-group-ttl">Dilution water blank</p>
+            <div class="calc-field">
+              <label class="lbl-flow">Initial DO</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-bod="blankinit" placeholder="0">
+                <span class="calc-unit">mg/L</span>
+              </div>
+            </div>
+            <div class="calc-field">
+              <label class="lbl-conc">Final DO</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-bod="blankfinal" placeholder="0">
+                <span class="calc-unit">mg/L</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="calc-group">
+            <p class="calc-group-ttl">Sample dilution 1</p>
+            <div class="calc-field">
+              <label class="lbl-flow">Initial DO</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-bod="init1" placeholder="0">
+                <span class="calc-unit">mg/L</span>
+              </div>
+            </div>
+            <div class="calc-field">
+              <label class="lbl-conc">Final DO</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-bod="final1" placeholder="0">
+                <span class="calc-unit">mg/L</span>
+              </div>
+            </div>
+            <div class="calc-field">
+              <label class="lbl-vol">Sample volume</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-bod="vol1" placeholder="0">
+                <span class="calc-unit">mL</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="calc-group">
+            <p class="calc-group-ttl">Sample dilution 2</p>
+            <div class="calc-field">
+              <label class="lbl-flow">Initial DO</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-bod="init2" placeholder="0">
+                <span class="calc-unit">mg/L</span>
+              </div>
+            </div>
+            <div class="calc-field">
+              <label class="lbl-conc">Final DO</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-bod="final2" placeholder="0">
+                <span class="calc-unit">mg/L</span>
+              </div>
+            </div>
+            <div class="calc-field">
+              <label class="lbl-vol">Sample volume</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-bod="vol2" placeholder="0">
+                <span class="calc-unit">mL</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="calc-group">
+            <p class="calc-group-ttl">Sample dilution 3</p>
+            <div class="calc-field">
+              <label class="lbl-flow">Initial DO</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-bod="init3" placeholder="0">
+                <span class="calc-unit">mg/L</span>
+              </div>
+            </div>
+            <div class="calc-field">
+              <label class="lbl-conc">Final DO</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-bod="final3" placeholder="0">
+                <span class="calc-unit">mg/L</span>
+              </div>
+            </div>
+            <div class="calc-field">
+              <label class="lbl-vol">Sample volume</label>
+              <div class="calc-input-row">
+                <input type="text" inputmode="decimal" autocomplete="off" data-bod="vol3" placeholder="0">
+                <span class="calc-unit">mL</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-work" data-bod-work aria-live="polite"></div>
       </section>
 
     </div>
@@ -5840,6 +5987,228 @@ H - Health (potential health effects and vulnerable peoples)`},
     sviWork.innerHTML = html;
   }
 
+  // ---- BOD (Biochemical Oxygen Demand) panel ----
+  // Mirrors a bench BOD setup: a dilution water blank (quality check only) plus one to
+  // three sample dilutions, each broken into its own 3 numbered sub-steps (dilution
+  // calc, BOD calc, checks), then a final averaging step. Formula, per the state
+  // equivalents-sheet form:
+  //   dilution ratio = sample mL / 300 mL
+  //   BOD = (Initial DO - Final DO) / dilution ratio
+  // The ratio carries through as the violet (sample-volume-colored) value in both the
+  // dilution-calc and BOD-calc lines, unlabeled — no "P" or other symbol attached to it.
+  // It's rounded to 3 decimals (bodRound3/bodFmt3) rather than the 2 decimals every
+  // other value here uses — at 2 decimals a small sample volume (e.g. 5 mL / 300 mL =
+  // 0.02) loses enough precision to visibly skew the BOD result; still display=compute,
+  // just at one more digit for this one value.
+  // A dilution is valid per Standard Methods 5210 B when it keeps a residual DO of at
+  // least 1.0 mg/L AND uses up at least 2.0 mg/L ("at least" = >=); a dilution that
+  // fails either check (or has a negative depletion, or a ratio that rounds to 0) is
+  // excluded from the final average, so the average's divisor tracks how many
+  // dilutions actually passed rather than always being the count entered. 300 mL
+  // bottle and the 0.2 / 1.0 / 2.0 mg/L limits are fixed reference values, never
+  // rounded. A nitrification inhibitor only relabels the result cBOD5 vs BOD5.
+  var bodWork = document.querySelector('[data-bod-work]');
+  var BOD_BOTTLE = 300;         // mL, standard BOD bottle
+  var BOD_BLANK_LIMIT = 0.2;    // mg/L, max acceptable blank depletion
+  var BOD_MIN_RESIDUAL = 1.0;   // mg/L, final DO must be at least this
+  var BOD_MIN_DEPLETION = 2.0;  // mg/L, oxygen used must be at least this
+  function bodVal(k){ return num(document.querySelector('[data-bod="' + k + '"]')); }
+  function bodUnit(k){ var el = document.querySelector('[data-bod="' + k + '"]'); return el ? el.value : ''; }
+  // The dilution ratio alone rounds/displays to 3 decimals instead of the site's usual
+  // 2 (round2/fmt) — at 2 decimals, small sample volumes (e.g. 5 mL / 300 mL = 0.02)
+  // lose enough precision to visibly skew the BOD result; 3 decimals keeps that error
+  // small while every other value in this panel stays on the standard 2-decimal rule.
+  function bodRound3(n){ return isFinite(n) ? Math.round((n + Number.EPSILON) * 1000) / 1000 : n; }
+  function bodFmt3(n){
+    if(!isFinite(n)) return '';
+    return n.toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:3});
+  }
+  // Pass/fail symbol for a check. Text stays generic (the same wording either way);
+  // only this icon's color/glyph carries the satisfactory-vs-not signal.
+  function bodCheckIcon(pass){
+    return pass
+      ? '<span style="color:var(--ok);font-weight:700">&#10003;</span>'
+      : '<span style="color:var(--alarm);font-weight:700">&#10007;</span>';
+  }
+  // Show the Total BOD field only when the inhibitor toggle is "yes" (it's only
+  // meaningful alongside a cBOD5 result, to back into NBOD5). Toggled via the hidden
+  // attribute like the F:M/Chlorine panels' [data-fm-field]/[data-chl-field] fields.
+  function syncBODFields(){
+    var show = bodUnit('inhibitor') === 'yes';
+    var f = document.querySelector('[data-bod-field="totalbod"]');
+    if(f) f.hidden = !show;
+  }
+
+  function runBOD(){
+    var inhibit = bodUnit('inhibitor') === 'yes';
+    var bLabel = inhibit ? 'cBOD<sub>5</sub>' : 'BOD<sub>5</sub>';
+
+    var blankInit = bodVal('blankinit'), blankFinal = bodVal('blankfinal');
+
+    // Gather the completed sample dilutions (all three fields present).
+    var dils = [];
+    [1,2,3].forEach(function(i){
+      var v = bodVal('vol' + i), di = bodVal('init' + i), dfin = bodVal('final' + i);
+      if(isFinite(v) && isFinite(di) && isFinite(dfin)){ dils.push({n:i, vol:v, init:di, final:dfin}); }
+    });
+
+    // Require the blank (both readings) and at least one complete dilution.
+    if(!(isFinite(blankInit) && isFinite(blankFinal) && dils.length > 0)){ bodWork.innerHTML = ''; return; }
+
+    var html = '';
+    var stepNum = 1;
+    var blankFlagged = false;
+
+    // Step 1 - dilution water blank (quality check only; not part of the BOD arithmetic,
+    // and not itself averaged, so it never affects how many dilutions are included below).
+    var blankDep = round2(blankInit - blankFinal);
+    html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNum + ' — Dilution water blank</p>';
+    stepNum++;
+    html += line(
+      span('v-flow', fmt(blankInit) + ' mg/L') + ' ' + op('&minus;') + ' ' +
+      span('v-conc', fmt(blankFinal) + ' mg/L') + ' ' + op('=') + ' ' +
+      span('v-result', fmt(blankDep) + ' mg/L depleted')
+    );
+    if(blankDep < 0){
+      blankFlagged = true;
+      html += line(bodCheckIcon(false) + ' Final DO is higher than initial DO — check these readings.');
+    } else {
+      var blankPass = blankDep <= BOD_BLANK_LIMIT;
+      blankFlagged = !blankPass;
+      html += line(bodCheckIcon(blankPass) + ' Blank depletion: ' + fmt(blankDep) + ' mg/L (limit: &le; 0.2 mg/L)');
+    }
+    html += '</div>';
+
+    // Step per dilution - BOD plus both Standard Methods validity checks. Only dilutions
+    // that pass both checks (and have a non-negative depletion) go into "included".
+    var included = [];
+    var excluded = 0;
+    dils.forEach(function(d){
+      var thisStep = stepNum;
+      html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + thisStep + ' — Sample dilution ' + d.n + '</p>';
+      stepNum++;
+
+      html += subttl('Step ' + thisStep + '-1 — Dilution calculation');
+      html += subttl(fmt(d.vol) + ' mL of sample in the 300 mL bottle');
+      if(d.vol === 0){
+        excluded++;
+        html += line(span('v-conc', 'Sample volume is zero, so this dilution can\'t be calculated and is excluded from the average.'));
+        html += '</div>';
+        return;
+      }
+      // Dilution ratio = sample volume / 300 mL, per the state equivalents-sheet form
+      // (a fraction less than 1 for typical dilutions). Rounded/displayed to 3
+      // decimals (bodRound3/bodFmt3), not the site's usual 2, so small sample volumes
+      // don't lose enough precision to skew the BOD result. BOD then divides the
+      // depletion by this ratio instead of multiplying by the reciprocal (300/vol)
+      // the earlier version used.
+      var ratio = bodRound3(d.vol / BOD_BOTTLE);
+      html += line(
+        span('v-vol', fmt(d.vol) + ' mL') + ' ' + op('&divide;') + ' ' +
+        '<span class="lbl">300 mL</span> ' + op('=') + ' ' +
+        span('v-vol', bodFmt3(ratio))
+      );
+      if(ratio <= 0){
+        excluded++;
+        html += line(span('v-conc', 'Sample volume is too small for this ratio to round to a usable value, so this dilution can\'t be calculated and is excluded from the average.'));
+        html += '</div>';
+        return;
+      }
+
+      html += subttl('Step ' + thisStep + '-2 — BOD calculation');
+      var dep = round2(d.init - d.final);
+      var bod = round2(dep / ratio);
+      html += line(
+        '<span class="lbl">(</span>' + span('v-flow', fmt(d.init) + ' mg/L') + ' ' + op('&minus;') + ' ' +
+        span('v-conc', fmt(d.final) + ' mg/L') + '<span class="lbl">)</span> ' + op('&divide;') + ' ' +
+        span('v-vol', bodFmt3(ratio)) + ' ' + op('=') + ' ' +
+        span('v-result', fmt(bod) + ' mg/L')
+      );
+
+      html += subttl('Step ' + thisStep + '-3 — Check the two requirements');
+      var valid;
+      if(dep < 0){
+        valid = false;
+        html += line(bodCheckIcon(false) + ' Final DO is higher than initial DO — check these readings.');
+      } else {
+        // Residual DO check (Standard Methods: at least 1.0 mg/L left).
+        var residualPass = d.final >= BOD_MIN_RESIDUAL;
+        html += line(bodCheckIcon(residualPass) + ' Final DO: ' + fmt(d.final) + ' mg/L (minimum: &ge; 1.0 mg/L)');
+        // Depletion check (Standard Methods: at least 2.0 mg/L used).
+        var depletionPass = dep >= BOD_MIN_DEPLETION;
+        html += line(bodCheckIcon(depletionPass) + ' Oxygen used: ' + fmt(dep) + ' mg/L (minimum: &ge; 2.0 mg/L)');
+        valid = residualPass && depletionPass;
+      }
+      if(valid){
+        included.push({n: d.n, bod: bod});
+      } else {
+        excluded++;
+        html += line('<span class="lbl">This dilution did not meet both checks and is excluded from the average.</span>');
+      }
+      html += '</div>';
+    });
+
+    if(included.length === 0){
+      html += line(span('v-conc', 'No dilution met both checks — no average could be calculated.'));
+      bodWork.innerHTML = html;
+      return;
+    }
+
+    // Final step - average only the included (checks-passing) dilutions, so the
+    // divisor reflects however many actually qualified, not the count entered.
+    var sum = 0; included.forEach(function(b){ sum += b.bod; });
+    var avg = round2(sum / included.length);
+    html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNum + ' — Average the included dilutions</p>';
+    if(included.length === 1){
+      html += line('<span class="lbl">With one included dilution, the BOD is that dilution\'s result:</span> ' + span('v-result', fmt(avg) + ' mg/L'));
+    } else {
+      var addends = included.map(function(b){ return span('v-result', fmt(b.bod)); }).join(' ' + op('+') + ' ');
+      html += line(
+        '<span class="lbl">(</span>' + addends + '<span class="lbl">)</span> ' + op('&divide;') + ' ' +
+        '<span class="lbl">' + included.length + '</span> ' + op('=') + ' ' +
+        span('v-result', fmt(avg) + ' mg/L')
+      );
+    }
+    if(excluded > 0){
+      html += line('<span class="lbl">' + excluded + ' of ' + dils.length + ' sample dilution(s) excluded from the average above.</span>');
+    }
+    html += '</div>';
+
+    if(inhibit){
+      html += line('<span class="lbl">A nitrification inhibitor (such as TCMP) was added, so this is reported as cBOD5 (carbonaceous BOD) — it leaves out the oxygen demand from nitrifying bacteria and measures only the carbon-based demand.</span>');
+    }
+
+    // NBOD (nitrogenous BOD) = Total BOD - cBOD5. Only meaningful once the inhibitor
+    // toggle is on (this result is cBOD5) and a Total BOD value has been entered.
+    var totalBod = bodVal('totalbod');
+    var showNbod = inhibit && isFinite(totalBod);
+    var nbod;
+    if(showNbod){
+      nbod = round2(totalBod - avg);
+      html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNum + ' — Determine NBOD</p>';
+      stepNum++;
+      html += line(
+        span('v-sg', fmt(totalBod) + ' mg/L') + ' ' + op('&minus;') + ' ' +
+        span('v-result', fmt(avg) + ' mg/L') + ' ' + op('=') + ' ' +
+        span('v-result', fmt(nbod) + ' mg/L')
+      );
+      if(nbod < 0){
+        html += line(span('v-conc', 'Total BOD is lower than the calculated cBOD5, giving a negative NBOD. Re-check the Total BOD value.'));
+      }
+      html += '</div>';
+    }
+
+    if(blankFlagged){
+      html += line(span('v-conc', 'The dilution water blank did not meet its check. In the lab you would re-run with fresh dilution water before trusting this result.'));
+    }
+
+    html += '<div class="calc-answer">' + bLabel + ' = ' + span('big', fmt(avg)) + ' mg/L</div>';
+    if(showNbod){
+      html += '<div class="calc-answer">NBOD<sub>5</sub> = ' + span('big', fmt(nbod)) + ' mg/L</div>';
+    }
+    bodWork.innerHTML = html;
+  }
+
   // ============ Geometry: Area + Volume ============
   var PI = 3.1415;         // matches the SWRCB reference sheet
   var GAL_PER_FT3 = 7.48;  // taught conversion
@@ -6154,6 +6523,14 @@ H - Health (potential health effects and vulnerable peoples)`},
   var fmGivenSel = document.querySelector('[data-fm="mlvssgiven"]');
   if(fmGivenSel){ fmGivenSel.addEventListener('change', syncFMFields); }
   syncFMFields();
+
+  document.querySelectorAll('[data-bod]').forEach(function(el){
+    if(isTextField(el)){ el.addEventListener('input', function(){ groupInput(el); }); }
+    el.addEventListener('input', runBOD); el.addEventListener('change', runBOD);
+  });
+  var bodInhibitorSel = document.querySelector('[data-bod="inhibitor"]');
+  if(bodInhibitorSel){ bodInhibitorSel.addEventListener('change', syncBODFields); }
+  syncBODFields();
 
   // Mobile menu (reuses dashboard sidebar classes). Declared before the panel
   // switcher below because showCalc()'s initial call closes the menu on load.
