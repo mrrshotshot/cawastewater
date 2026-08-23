@@ -544,6 +544,44 @@
   #site-calculators .sidebar{top:var(--sitebar-h);height:calc(100vh - var(--sitebar-h));height:calc(100dvh - var(--sitebar-h))}
   #site-calculators .topbar{top:var(--sitebar-h)}
 
+  /* ================= MATH VIDEOS ================= */
+  /* Reuses dashboard .shell/.sidebar/.rail/.brand/.navlink/.group-label chrome, plus
+     the calculators' .calc-panel-wrap/.calc-head/.sec/.calc-sub/.calc-note classes for
+     matching prose styling. Panel show/hide gets its own .math-panel class (rather than
+     reusing .calc-panel) because the Calculators script's showCalc() does an UNSCOPED
+     document.querySelectorAll('.calc-panel') — sharing the class would let switching
+     panels in one section silently toggle "active" off on the other section's panel. */
+  #site-math .shell{min-height:calc(100vh - var(--sitebar-h));min-height:calc(100dvh - var(--sitebar-h))}
+  #site-math .sidebar{top:var(--sitebar-h);height:calc(100vh - var(--sitebar-h));height:calc(100dvh - var(--sitebar-h))}
+  #site-math .rail{top:var(--sitebar-h);height:calc(100vh - var(--sitebar-h));height:calc(100dvh - var(--sitebar-h))}
+  #site-math .topbar{top:var(--sitebar-h)}
+  /* Rail only makes sense once a specific grade's video/part list exists — hidden on
+     the grade-level landing panel (mp-home) via this class, which showMath() toggles. */
+  #mathShell.no-rail{grid-template-columns:340px 1fr}
+  #mathShell.no-rail .rail{display:none}
+  .math-panel{display:none}
+  .math-panel.active{display:block;animation:fade .22s ease}
+  .video-header{
+    font-size:var(--fs-title);line-height:1.15;margin:0 0 18px;font-weight:700;
+    letter-spacing:-.02em;color:var(--heading);
+  }
+  @media(max-width:860px){ .video-header{font-size:23px} }
+  .video-frame-wrap{
+    position:relative;width:100%;aspect-ratio:16/9;background:#000;
+    border-radius:var(--radius);overflow:hidden;margin:0 0 22px;
+  }
+  .video-frame-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .video-part-list{list-style:none;margin:0;padding:0}
+  .video-part-list li{margin:0 0 2px}
+  .grade-links{display:flex;flex-direction:column;gap:10px;margin:18px 0 0}
+  .grade-link{
+    display:block;padding:14px 16px;border:1px solid var(--line);border-radius:var(--radius);
+    background:var(--bg);color:var(--heading);text-decoration:none;font-weight:600;
+    transition:border-color .12s,background .12s;
+  }
+  .grade-link:hover{border-color:var(--teal);background:var(--ink-2)}
+  .grade-link .sub{display:block;font-weight:400;font-size:var(--fs-caption);color:var(--muted);margin-top:3px}
+
   .calc-panel-wrap{padding:30px 34px 0;max-width:1280px}
   .calc-intro{margin:0 0 26px}
 
@@ -716,6 +754,7 @@
       <button type="button" class="sitenav-btn" data-site="wastewater" aria-haspopup="true">Wastewater<span class="caret" aria-hidden="true">&#9662;</span></button>
       <div class="sitenav-dropdown">
         <a href="#/wastewater/calculators" class="sitenav-sublink" data-site-link="wastewater/calculators">Calculators</a>
+        <a href="#/wastewater/math" class="sitenav-sublink" data-site-link="wastewater/math">Math Videos</a>
       </div>
     </div>
     <div class="sitenav-item">
@@ -772,6 +811,7 @@
       <button type="button" class="navlink" data-calc-target="pounds">The Pounds Formula</button>
       <button type="button" class="navlink" data-calc-target="chemfeed">Chemical Feed Rate</button>
       <button type="button" class="navlink" data-calc-target="removal">Percent Removal</button>
+      <button type="button" class="navlink" data-calc-target="detention">Detention Time</button>
       <p class="group-label">Secondary System</p>
       <button type="button" class="navlink" data-calc-target="mcrt">Mean Cell Residence Time (MCRT)</button>
       <button type="button" class="navlink" data-calc-target="fm">Food to Microorganism Ratio (F:M)</button>
@@ -1057,6 +1097,63 @@
 
         <div class="calc-conv" data-vol-conv hidden></div>
         <div class="calc-work" data-vol-work aria-live="polite"></div>
+      </section>
+
+      <!-- ===== Panel: Detention Time ===== -->
+      <section class="calc calc-panel" id="cp-detention">
+        <div class="calc-head">
+          <h3 class="sec">Detention Time</h3>
+          <p class="calc-sub">Detention time is the average length of time a given volume of water or wastewater stays inside a tank, basin, or clarifier before it flows back out. It's what gives solids time to settle, chemicals time to react, or disinfectant time to do its job.</p>
+          <p class="calc-note">Dividing what's inside the tank (Volume) by what's moving through it each day (Flow) gives you an answer in days. If the question asks for hours instead, that result just needs one more multiplication by 24 hr/day &mdash; pick your desired output below.</p>
+        </div>
+
+        <div class="calc-shape-row">
+          <label>Desired output</label>
+          <select data-dt="out">
+            <option value="days" selected>days</option>
+            <option value="hours">hours</option>
+          </select>
+        </div>
+
+        <div class="calc-eq-static calc-eq-frac">
+          <span class="v-result">Detention Time, days</span>
+          <span class="op">=</span>
+          <div class="frac">
+            <span class="frac-num">
+              <span class="v-vol">Volume, gal</span>
+            </span>
+            <span class="frac-bar"></span>
+            <span class="frac-den">
+              <span class="v-flow">Flow, gpd</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="calc-inputs">
+          <div class="calc-field">
+            <label class="lbl-vol">Volume</label>
+            <div class="calc-input-row">
+              <input type="text" inputmode="decimal" autocomplete="off" data-dt="volume" placeholder="0">
+              <select data-dt="volunit">
+                <option value="gal" selected>gal</option>
+                <option value="MG">MG</option>
+              </select>
+            </div>
+          </div>
+          <div class="calc-field">
+            <label class="lbl-flow">Flow</label>
+            <div class="calc-input-row">
+              <input type="text" inputmode="decimal" autocomplete="off" data-dt="flow" placeholder="0">
+              <select data-dt="flowunit">
+                <option value="gpd" selected>gpd</option>
+                <option value="MGD">MGD</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-conv" data-dt-conv hidden></div>
+        <div class="calc-work" data-dt-work aria-live="polite"></div>
       </section>
 
       <!-- ===== Panel: MCRT ===== -->
@@ -1348,6 +1445,78 @@
 </div>
 </div>
 
+<!-- ---------- Math Videos (under Wastewater) ---------- -->
+<div class="site-page" id="site-math">
+<div class="shell" id="mathShell">
+  <!-- ============ MATH SIDEBAR ============ -->
+  <aside class="sidebar" id="mathSidebar">
+    <div class="brand">
+      <h1 id="mathBrandHome" role="button" tabindex="0" aria-label="Math videos home">Wastewater Math Videos</h1>
+    </div>
+    <nav id="mathNav">
+      <button type="button" class="navlink" data-math-target="grade1">Grade I</button>
+      <button type="button" class="navlink" data-math-target="grade2">Grade II</button>
+      <button type="button" class="navlink" disabled aria-disabled="true" style="opacity:.5;cursor:default">Grade III</button>
+      <button type="button" class="navlink" disabled aria-disabled="true" style="opacity:.5;cursor:default">Grades IV &amp; V</button>
+    </nav>
+  </aside>
+  <div class="backdrop" id="mathBackdrop"></div>
+
+  <!-- ============ MATH MAIN ============ -->
+  <main>
+    <div class="topbar">
+      <button class="menu-btn" id="mathMenuBtn" aria-label="Open menu">☰ Menu</button>
+    </div>
+
+    <div class="calc-panel-wrap">
+
+      <!-- ===== Panel: Home ===== -->
+      <section class="math-panel" id="mp-home">
+        <div class="calc-head">
+          <h3 class="sec">Wastewater Math Videos</h3>
+          <p class="calc-sub">Video walkthroughs of the math you'll need for your wastewater operator exam, grouped by the grade level they're aimed at. Pick a grade level from the menu on the left, or below, to start watching.</p>
+        </div>
+        <div class="grade-links">
+          <a href="#/wastewater/math/grade1" class="grade-link" data-math-link="grade1">Grade I
+            <span class="sub">Foundational math — start here.</span>
+          </a>
+          <a href="#/wastewater/math/grade2" class="grade-link" data-math-link="grade2">Grade II
+            <span class="sub">Foundational math for the Grade II exam.</span>
+          </a>
+          <span class="grade-link" aria-disabled="true" style="cursor:default;opacity:.55">Grade III
+            <span class="sub">Coming soon.</span>
+          </span>
+          <span class="grade-link" aria-disabled="true" style="cursor:default;opacity:.55">Grades IV &amp; V
+            <span class="sub">Coming soon.</span>
+          </span>
+        </div>
+      </section>
+
+      <!-- ===== Panel: Watch (reused for every grade's series — showMath() fills in
+           the header, video, and rail part list for whichever grade token routed
+           here) ===== -->
+      <section class="math-panel" id="mp-watch">
+        <h2 class="video-header" id="mathVideoHeader"></h2>
+        <div class="video-frame-wrap">
+          <iframe id="mathVideoFrame" src="" title="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ============ MATH RIGHT RAIL ============ -->
+  <aside class="rail" id="mathRail">
+    <div class="rail-head">
+      <h2 id="mathRailTitle">&nbsp;</h2>
+    </div>
+    <div class="rail-body">
+      <ul class="video-part-list" id="mathPartList"></ul>
+    </div>
+  </aside>
+</div>
+</div>
+
 <!-- ---------- Water = T5 Dashboard ---------- -->
 <div class="site-page" id="site-water">
 <div class="shell">
@@ -1372,11 +1541,6 @@
         <h2>CA SWRCB T5 Exam Dashboard</h2>
         <div class="meta"><span class="tbl-note">Last Updated — August 2026</span></div>
       </div>
-      <div class="callout purpose">
-        <p class="ttl">What this is</p>
-        <p>A self-study reference and quiz tool built for the California State Water Resources Control Board's Water Treatment Operator Grade T5 certification exam. It condenses the federal Safe Drinking Water Act rules and California's Title 22 implementation of them into exam-focused pages.</p>
-      </div>
-
       <section class="block">
         <h3 class="sec">About the T5 Exam</h3>
         <p>The T5 exam is arguably California's most unique water or wastewater exam. Unlike the other exams, which are written and follow the standard true/false, multiple choice, and math format, the T5 exam is a 30-minute oral interview.</p>
@@ -1439,6 +1603,7 @@
           <li><a href="https://www.federalregister.gov/documents/2024/10/30/2024-23549/national-primary-drinking-water-regulations-for-lead-and-copper-improvements-lcri" target="_blank" rel="noopener noreferrer">Lead and Copper Rule Improvements</a></li>
           <li><a href="https://www.waterboards.ca.gov/drinking_water/certlic/drinkingwater/pfas.html" target="_blank" rel="noopener noreferrer">CA PFAS Information</a></li>
           <li><a href="https://www.waterboards.ca.gov/drinking_water/certlic/drinkingwater/Regulations.html" target="_blank" rel="noopener noreferrer">Upcoming CA Regulations</a></li>
+          <li><a href="https://waterwisepro.com/" target="_blank" rel="noopener noreferrer">WaterWisePro</a> — This dashboard was heavily influenced by Steve's T5 prep course. I highly encourage taking it.</li>
         </ul>
       </section>
     </div>
@@ -3228,6 +3393,15 @@
       <div class="fc-progressbar"><div class="fc-progressbar-fill" id="fcProgressFill"></div></div>
       <p class="fc-progress-note" id="fcProgressNote">0 of 0 reviewed</p>
 
+      <div class="callout purpose" id="fcCompleteBanner" hidden>
+        <p class="ttl">Flash Card Review Complete</p>
+        <p>You've reviewed all <strong id="fcCompleteCount">0</strong> cards in this set.</p>
+        <div class="fc-result-row" style="margin-top:10px">
+          <button type="button" class="fc-btn fc-btn-ghost" id="fcStartOverBtn">Reset &amp; start over</button>
+          <button type="button" class="fc-btn" id="fcDismissBtn">Dismiss</button>
+        </div>
+      </div>
+
       <div class="fc-card" id="fcCard">
         <div class="fc-card-front" id="fcCardFront" tabindex="0" role="button" aria-label="Flash card — press Space or Enter to reveal the answer">
           <div class="fc-card-top">
@@ -3883,8 +4057,15 @@ H - Health (potential health effects and vulnerable peoples)`},
   var workingSet = [];
   var currentIndex = 0;
   var revealed = false;
+  var completeBannerDismissed = false;
 
   var els = {};
+
+  function allReviewed(){
+    return workingSet.length > 0 && workingSet.every(function(c){
+      return results[c.id] === "right" || results[c.id] === "wrong";
+    });
+  }
 
   function cardsForFilter(){
     return CARDS.filter(function(c){
@@ -3929,8 +4110,10 @@ H - Health (potential health effects and vulnerable peoples)`},
 
   function buildWorkingSet(){
     workingSet = cardsForFilter();
+    shuffleArray(workingSet);
     currentIndex = 0;
     revealed = false;
+    completeBannerDismissed = false;
   }
 
   function shuffleArray(arr){
@@ -4008,10 +4191,18 @@ H - Health (potential health effects and vulnerable peoples)`},
     els.nextBtn.disabled = !has || currentIndex >= workingSet.length - 1;
   }
 
+  function renderCompleteBanner(){
+    if(!els.completeBanner) return;
+    var complete = allReviewed() && !completeBannerDismissed;
+    els.completeBanner.hidden = !complete;
+    if(complete) els.completeCount.textContent = String(workingSet.length);
+  }
+
   function render(){
     renderTracker();
     renderCard();
     renderNav();
+    renderCompleteBanner();
   }
 
   function reveal(){
@@ -4077,8 +4268,25 @@ H - Health (potential health effects and vulnerable peoples)`},
       if(!ok) return;
       results = {};
       saveResults();
+      buildWorkingSet();
       render();
     });
+
+    if(els.startOverBtn){
+      els.startOverBtn.addEventListener("click", function(){
+        results = {};
+        saveResults();
+        buildWorkingSet();
+        render();
+      });
+    }
+
+    if(els.dismissBtn){
+      els.dismissBtn.addEventListener("click", function(){
+        completeBannerDismissed = true;
+        render();
+      });
+    }
 
     els.revealBtn.addEventListener("click", reveal);
 
@@ -4136,6 +4344,10 @@ H - Health (potential health effects and vulnerable peoples)`},
     els.prevBtn = document.getElementById("fcPrevBtn");
     els.nextBtn = document.getElementById("fcNextBtn");
     els.position = document.getElementById("fcPosition");
+    els.completeBanner = document.getElementById("fcCompleteBanner");
+    els.completeCount = document.getElementById("fcCompleteCount");
+    els.startOverBtn = document.getElementById("fcStartOverBtn");
+    els.dismissBtn = document.getElementById("fcDismissBtn");
 
     if(!els.cardFront) return; // flashcards panel not present
 
@@ -4597,7 +4809,7 @@ H - Health (potential health effects and vulnerable peoples)`},
   // calculators script loads after this one and registers window.__t5ShowCalcPanel
   // late, so it re-runs window.__t5Route() itself once that hook exists — otherwise a
   // direct load of #/wastewater/calculators/mcrt would resolve to Home.
-  var SECTIONS = ['home','about','wastewater','calculators','water','more'];
+  var SECTIONS = ['home','about','wastewater','calculators','math','water','more'];
 
   // Legacy bare calculator aliases from an earlier #MCRT/#lbs-style scheme — kept only
   // so old links still resolve; canonicalHash() below always emits the new nested form.
@@ -4605,6 +4817,15 @@ H - Health (potential health effects and vulnerable peoples)`},
   function calcPanelIdFor(token){
     if(CALC_ALIASES.hasOwnProperty(token)) return CALC_ALIASES[token];
     return document.getElementById('cp-' + token) ? token : null;
+  }
+  // Math Videos mirrors Calculators' nesting scheme (#/wastewater/math/grade1), but
+  // several grade tokens share one physical "watch" panel (mp-watch) instead of each
+  // getting their own DOM element — so token validity is checked against this list
+  // rather than document.getElementById('mp-' + token). Extend this list (and the
+  // math script's MATH_SERIES data) when a new grade's series goes live.
+  var MATH_TOKENS = ['home', 'grade1', 'grade2'];
+  function mathPanelIdFor(token){
+    return MATH_TOKENS.indexOf(token) !== -1 ? token : null;
   }
 
   function activeSection(){
@@ -4619,6 +4840,13 @@ H - Health (potential health effects and vulnerable peoples)`},
     var el = document.querySelector('.calc-panel.active');
     return el ? el.id.replace(/^cp-/, '') : null;
   }
+  function currentMathPanel(){
+    var el = document.querySelector('.math-panel.active');
+    if(!el) return null;
+    // mp-watch is shared by every grade's series; showMath() stamps which grade token
+    // is currently rendered into data-math-token since the element's own id can't say.
+    return el.getAttribute('data-math-token') || el.id.replace(/^mp-/, '');
+  }
 
   // The hash the address bar SHOULD show for whatever is currently on screen.
   function canonicalHash(){
@@ -4631,6 +4859,10 @@ H - Health (potential health effects and vulnerable peoples)`},
     if(sec === 'calculators'){
       var cp = currentCalcPanel();
       return (cp && cp !== 'home') ? '#/wastewater/calculators/' + cp : '#/wastewater/calculators';
+    }
+    if(sec === 'math'){
+      var mp = currentMathPanel();
+      return (mp && mp !== 'home') ? '#/wastewater/math/' + mp : '#/wastewater/math';
     }
     return '#/' + sec;
   }
@@ -4647,12 +4879,15 @@ H - Health (potential health effects and vulnerable peoples)`},
   function route(){
     var raw = (location.hash || '').replace(/^#\/?/, '');   // drop '#' and one leading '/'
     var parts = raw ? raw.split('/') : [];
-    var section, panel = null, calcPanel = null;
+    var section, panel = null, calcPanel = null, mathPanel = null;
     if(parts.length === 0){
       section = 'home';
     } else if(parts[0] === 'wastewater' && parts[1] === 'calculators'){
       section = 'calculators';    // #/wastewater/calculators[/panel] — nested under Wastewater
       if(parts[2]){ calcPanel = calcPanelIdFor(parts[2]); }
+    } else if(parts[0] === 'wastewater' && parts[1] === 'math'){
+      section = 'math';           // #/wastewater/math[/panel] — nested under Wastewater
+      if(parts[2]){ mathPanel = mathPanelIdFor(parts[2]); }
     } else if(SECTIONS.indexOf(parts[0]) !== -1){
       section = parts[0];
       if(section === 'water' && parts[1]){ panel = parts[1]; }
@@ -4662,6 +4897,9 @@ H - Health (potential health effects and vulnerable peoples)`},
     } else if(calcPanelIdFor(parts[0])){
       section = 'calculators';    // legacy bare calculator token (#area, #MCRT, #lbs, etc.)
       calcPanel = calcPanelIdFor(parts[0]);
+    } else if(mathPanelIdFor(parts[0])){
+      section = 'math';           // bare math panel token (internal link or old bookmark)
+      mathPanel = mathPanelIdFor(parts[0]);
     } else {
       section = 'home';           // unknown fragment -> Home
     }
@@ -4671,6 +4909,9 @@ H - Health (potential health effects and vulnerable peoples)`},
     }
     if(section === 'calculators' && calcPanel && window.__t5ShowCalcPanel){
       window.__t5ShowCalcPanel(calcPanel);
+    }
+    if(section === 'math' && mathPanel && window.__t5ShowMathPanel){
+      window.__t5ShowMathPanel(mathPanel);
     }
     syncUrl();
   }
@@ -4860,6 +5101,30 @@ H - Health (potential health effects and vulnerable peoples)`},
       ' <span class="lbl">1,000,000 gal per MG</span> ' + op('=') + ' ' +
       span('v-vol', fmt(mg) + ' MG');
     return {mg:mg, step:step};
+  }
+
+  // Detention Time works in gal/gpd (rather than MG/MGD), so it needs the
+  // opposite-direction conversions from volToMG/flowToMGD above — multiplying
+  // instead of dividing. Facts keyed to match, for renderConversions.
+  var CONV_FACTS_DT = {
+    MG: '1 MG = 1,000,000 gal  (multiply MG by 1,000,000 to get gallons)',
+    MGD: '1 MGD = 1,000,000 gpd  (multiply MGD by 1,000,000 to get gpd)'
+  };
+  function volToGalSimple(value, unit){
+    if(unit === 'gal') return {gal:value, step:null};
+    var gal = round2(value * 1000000);
+    var step = span('v-vol', fmt(value) + ' MG') + ' ' + op('&times;') +
+      ' <span class="lbl">1,000,000 gal per MG</span> ' + op('=') + ' ' +
+      span('v-vol', fmt(gal) + ' gal');
+    return {gal:gal, step:step};
+  }
+  function flowToGPDSimple(value, unit){
+    if(unit === 'gpd') return {gpd:value, step:null};
+    var gpd = round2(value * 1000000);
+    var step = span('v-flow', fmt(value) + ' MGD') + ' ' + op('&times;') +
+      ' <span class="lbl">1,000,000 gpd per MGD</span> ' + op('=') + ' ' +
+      span('v-flow', fmt(gpd) + ' gpd');
+    return {gpd:gpd, step:step};
   }
 
   // ---- Pounds formula panel ----
@@ -5491,6 +5756,64 @@ H - Health (potential health effects and vulnerable peoples)`},
     prWork.innerHTML = html;
   }
 
+  // ---- Detention Time panel ----
+  var dtWork = document.querySelector('[data-dt-work]');
+  var dtConv = document.querySelector('[data-dt-conv]');
+
+  function runDetention(){
+    var volRaw = num(document.querySelector('[data-dt="volume"]'));
+    var volUnit = document.querySelector('[data-dt="volunit"]').value;
+    var flowRaw = num(document.querySelector('[data-dt="flow"]'));
+    var flowUnit = document.querySelector('[data-dt="flowunit"]').value;
+    var outUnit = document.querySelector('[data-dt="out"]').value;
+
+    renderConversions(dtConv, [volUnit, flowUnit], CONV_FACTS_DT);
+    if(!(isFinite(volRaw) && isFinite(flowRaw))){ dtWork.innerHTML = ''; return; }
+
+    var html = '';
+    var stepNo = 1;
+
+    var vconv = volToGalSimple(volRaw, volUnit);
+    if(vconv.step){
+      html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo + ' — Convert the volume to gallons</p>' + line(vconv.step) + '</div>';
+      stepNo++;
+    }
+    var fconv = flowToGPDSimple(flowRaw, flowUnit);
+    if(fconv.step){
+      html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo + ' — Convert the flow to gpd</p>' + line(fconv.step) + '</div>';
+      stepNo++;
+    }
+
+    html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo + ' — Divide the volume by the flow</p>';
+    if(fconv.gpd === 0){
+      html += line('<span class="lbl">The flow is zero, so detention time is undefined (you can\'t divide by zero).</span>') + '</div>';
+      dtWork.innerHTML = html;
+      return;
+    }
+    var days = round2(vconv.gal / fconv.gpd);
+    html += line(
+      span('v-vol', fmt(vconv.gal) + ' gal') + ' ' + op('&divide;') + ' ' +
+      span('v-flow', fmt(fconv.gpd) + ' gpd') + ' ' + op('=') + ' ' +
+      span('v-result', fmt(days) + ' days')
+    ) + '</div>';
+    stepNo++;
+
+    var answer = days, answerUnit = 'days';
+    if(outUnit === 'hours'){
+      answer = round2(days * 24);
+      answerUnit = 'hr';
+      html += '<div class="calc-step"><p class="calc-step-ttl">Step ' + stepNo + ' — Convert days to hours</p>' +
+        line(
+          span('v-result', fmt(days) + ' days') + ' ' + op('&times;') + ' ' +
+          span('v-const', '24 hr/day') + ' ' + op('=') + ' ' +
+          span('v-result', fmt(answer) + ' hr')
+        ) + '</div>';
+    }
+
+    html += '<div class="calc-answer">Detention Time = ' + span('big', fmt(answer)) + ' ' + answerUnit + '</div>';
+    dtWork.innerHTML = html;
+  }
+
   // ---- SVI (Sludge Volume Index) panel ----
   var sviWork = document.querySelector('[data-svi-work]');
   function sviVal(k){ return num(document.querySelector('[data-svi="' + k + '"]')); }
@@ -5805,6 +6128,10 @@ H - Health (potential health effects and vulnerable peoples)`},
     if(isTextField(el)){ el.addEventListener('input', function(){ groupInput(el); }); }
     el.addEventListener('input', runPR); el.addEventListener('change', runPR);
   });
+  document.querySelectorAll('[data-dt]').forEach(function(el){
+    if(isTextField(el)){ el.addEventListener('input', function(){ groupInput(el); }); }
+    el.addEventListener('input', runDetention); el.addEventListener('change', runDetention);
+  });
   document.querySelectorAll('[data-mc]').forEach(function(el){
     if(isTextField(el)){ el.addEventListener('input', function(){ groupInput(el); }); }
     el.addEventListener('input', runMCRT); el.addEventListener('change', runMCRT);
@@ -5860,6 +6187,115 @@ H - Health (potential health effects and vulnerable peoples)`},
   showCalc('home');   // default panel — the "How these work" panel is the section's home page
   window.__t5ShowCalcPanel = showCalc;   // hook: lets the top-level router drive calculator panels by token (#area, #volume, #MCRT, #lbs)
   if(window.__t5Route){ window.__t5Route(); }   // re-apply the URL now that the hook exists, in case it named a calculator panel (e.g. a direct load of #area)
+})();
+</script>
+
+<script>
+(function(){
+  // ---- Math Videos: grade-level series with an embedded player + a part-picker rail ----
+  // Own sidebar + swappable panels (mirrors the Calculators section). Grade I and Grade
+  // II currently point at the same 4-part series, so rather than duplicate the video
+  // player + rail markup per grade, every grade token renders through one shared
+  // "watch" panel (mp-watch): showMath() looks up the token here and fills in the
+  // header, video, and rail part list. Add a grade's own entry (and, if it ever has
+  // different videos, its own `parts` array) here, plus a matching token in the
+  // router's MATH_TOKENS list, to bring a new grade online.
+  var PARTS_GRADE1_2 = [
+    {id:'qRNG-RwxIKc', label:'Part 1'},
+    {id:'7BGIOvWaTm4', label:'Part 2'},
+    {id:'CmY5DBCy46g', label:'Part 3'},
+    {id:'Ch0NMlHCvd8', label:'Part 4'}
+  ];
+  var MATH_SERIES = {
+    grade1: { title: 'Grade I', parts: PARTS_GRADE1_2 },
+    grade2: { title: 'Grade II', parts: PARTS_GRADE1_2 }
+  };
+
+  var mathPanels = document.querySelectorAll('.math-panel');
+  var mathLinks = document.querySelectorAll('#mathNav .navlink');
+  var videoFrame = document.getElementById('mathVideoFrame');
+  var videoHeader = document.getElementById('mathVideoHeader');
+  var watchPanel = document.getElementById('mp-watch');
+  var railTitle = document.getElementById('mathRailTitle');
+  var partList = document.getElementById('mathPartList');
+  var mathShell = document.getElementById('mathShell');
+
+  // Swaps the embedded video to one part and updates the header/title text to match —
+  // shared by the initial render and every rail button's click handler so the two
+  // never drift out of sync (e.g. "Grade I — Part 1 of 4").
+  function selectMathPart(series, part){
+    videoFrame.src = 'https://www.youtube.com/embed/' + part.id;
+    var label = series.title + ' — ' + part.label + ' of ' + series.parts.length;
+    videoFrame.title = label;
+    videoHeader.textContent = label;
+  }
+
+  // Fills the shared watch panel + rail with one series' content, defaulting to Part 1.
+  function renderMathSeries(seriesId){
+    var series = MATH_SERIES[seriesId];
+    if(!series) return;
+    watchPanel.setAttribute('data-math-token', seriesId);
+    railTitle.textContent = series.title;
+
+    partList.innerHTML = '';
+    series.parts.forEach(function(part, idx){
+      var li = document.createElement('li');
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'navlink' + (idx === 0 ? ' active' : '');
+      btn.textContent = part.label;
+      btn.addEventListener('click', function(){
+        selectMathPart(series, part);
+        partList.querySelectorAll('.navlink').forEach(function(b){ b.classList.toggle('active', b === btn); });
+      });
+      li.appendChild(btn);
+      partList.appendChild(li);
+    });
+
+    selectMathPart(series, series.parts[0]);
+  }
+
+  // The rail only has something to show once a specific grade's video/part list is on
+  // screen — collapse it (and the 3rd grid column) back to a 2-column layout on the
+  // grade-level landing panel, same as how Calculators has no rail at all.
+  function showMath(id){
+    var series = MATH_SERIES[id];
+    mathPanels.forEach(function(p){
+      p.classList.toggle('active', series ? p.id === 'mp-watch' : p.id === 'mp-' + id);
+    });
+    mathLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('data-math-target') === id); });
+    if(series){ renderMathSeries(id); }
+    if(mathShell){ mathShell.classList.toggle('no-rail', !series); }
+    closeMathMenu();
+  }
+
+  mathLinks.forEach(function(l){
+    l.addEventListener('click', function(){
+      showMath(l.getAttribute('data-math-target'));
+      if(window.__t5SyncUrl){ window.__t5SyncUrl(); }
+    });
+  });
+  // Grade-level cards on the home panel link to the same panels the sidebar does —
+  // let the hash router (a plain <a href="#/...">) drive the panel switch on click.
+
+  var mathBrand = document.getElementById('mathBrandHome');
+  if(mathBrand){
+    mathBrand.addEventListener('click', function(){ showMath('home'); if(window.__t5SyncUrl){ window.__t5SyncUrl(); } });
+    mathBrand.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); showMath('home'); if(window.__t5SyncUrl){ window.__t5SyncUrl(); } } });
+  }
+
+  // Mobile menu (reuses dashboard sidebar classes, same as Calculators).
+  var mathSidebar = document.getElementById('mathSidebar');
+  var mathBackdrop = document.getElementById('mathBackdrop');
+  var mathMenuBtn = document.getElementById('mathMenuBtn');
+  function openMathMenu(){ mathSidebar.classList.add('open'); mathBackdrop.classList.add('show'); }
+  function closeMathMenu(){ mathSidebar.classList.remove('open'); mathBackdrop.classList.remove('show'); }
+  if(mathMenuBtn){ mathMenuBtn.addEventListener('click', openMathMenu); }
+  if(mathBackdrop){ mathBackdrop.addEventListener('click', closeMathMenu); }
+
+  showMath('home');   // default panel
+  window.__t5ShowMathPanel = showMath;   // hook: lets the top-level router drive math panels by token (#/wastewater/math/grade1)
+  if(window.__t5Route){ window.__t5Route(); }   // re-apply the URL now that the hook exists, in case it named a math panel
 })();
 </script>
 </body>
