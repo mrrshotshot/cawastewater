@@ -223,7 +223,11 @@
   strong{font-weight:600}
   a{color:var(--teal-deep);text-decoration-color:color-mix(in srgb, var(--teal-deep) 45%, transparent)}
   a:hover{color:var(--teal);text-decoration-color:currentColor}
-  a:visited{color:var(--teal-deep)}
+  /* No a:visited rule, deliberately: this site has no use for indicating a link has
+     been visited before, and the omission also sidesteps the specificity trap where
+     a:visited (element+pseudo-class) would otherwise beat any single-class link
+     color override (.sitenav-sublink, .grade-link, etc.) once the browser recorded
+     that exact href as visited. */
   /* ---------- Tables ---------- */
   .tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);margin:0 0 14px;background:var(--surface)}
   table{border-collapse:collapse;width:100%;font-size:13px;min-width:440px}
@@ -485,11 +489,43 @@
   .grade-link:hover{border-color:var(--teal);background:var(--ink-2)}
   .grade-link .sub{display:block;font-weight:400;font-size:var(--fs-caption);color:var(--muted);margin-top:3px}
 
+  /* ================= T1-T4 EXAM PREP ================= */
+  /* Reuses dashboard .shell/.sidebar/.brand/.navlink/.group-label chrome, same shell-calc
+     layout as Calculators (no right rail). Same #site-<id>-scoped sitebar-h offset every
+     other shelled section (site-water/site-calculators/site-math) already carries, so this
+     section's sidebar sticks below the top site nav instead of underneath it. */
+  #site-t1t4 .shell{min-height:calc(100vh - var(--sitebar-h));min-height:calc(100dvh - var(--sitebar-h))}
+  #site-t1t4 .sidebar{top:var(--sitebar-h);height:calc(100vh - var(--sitebar-h));height:calc(100dvh - var(--sitebar-h))}
+  #site-t1t4 .topbar{top:var(--sitebar-h)}
+  /* Collapsible nav groups: each .group-label is now a clickable accordion header
+     (button, not <p>). Typography matches .sitenav-btn (the top nav bar's own
+     words) rather than .group-label's small tracked-caps style, per user request —
+     these overrides replace every type property .group-label set. NOTE the earlier
+     font:inherit here was a bug: as a same-specificity class rule declared after
+     .group-label in the stylesheet, its font shorthand (size/family/weight/line-height)
+     silently beat .group-label's explicit 10px, blowing the header text up to whatever
+     size the button inherited from its ancestor. Also missing before: an explicit
+     text-align, so the <button>'s UA-default center-alignment centered the label
+     (and any wrapped second line) instead of left-aligning it like every other
+     sidebar nav item. Caret reuses the top nav's visual (same size/transition as
+     .sitenav-btn .caret) but rotates off aria-expanded via click, not off
+     :hover/:focus-within — a sidebar accordion stays open on click, not on hover. */
+  .t14-group-toggle{
+    display:flex;align-items:center;gap:6px;width:100%;text-align:left;
+    background:none;border:none;border-radius:7px;cursor:pointer;
+    font-family:var(--sans);font-size:15px;font-weight:500;
+    letter-spacing:normal;text-transform:none;color:var(--text);line-height:1.2;
+  }
+  .t14-group-toggle:hover{background:var(--ink-2);color:var(--heading)}
+  .t14-group-toggle .caret{margin-left:auto;font-size:10px;display:inline-block;transition:transform .12s}
+  .t14-group-toggle[aria-expanded="true"] .caret{transform:rotate(180deg)}
+  .t14-group-body[hidden]{display:none}
+
   .calc-panel-wrap{padding:30px 34px 0;max-width:1280px}
 
   /* One formula panel visible at a time */
-  .calc-panel{display:none}
-  .calc-panel.active{display:block;animation:fade .22s ease}
+  .calc-panel,.t14-panel{display:none}
+  .calc-panel.active,.t14-panel.active{display:block;animation:fade .22s ease}
 
   .calc{
     background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);
@@ -660,7 +696,9 @@
     <div class="sitenav-item">
       <button type="button" class="sitenav-btn" data-site="water" aria-haspopup="true">Water<span class="caret" aria-hidden="true">&#9662;</span></button>
       <div class="sitenav-dropdown">
-        <a href="#" class="sitenav-sublink" data-t5home="true">T5 Exam Prep</a>
+        <a href="#/water/t1-t4" class="sitenav-sublink" data-site-link="water/t1-t4">T1&ndash;T4 Exam Prep</a>
+        <a href="#/water/t5" class="sitenav-sublink" data-t5home="true">T5 Exam Prep</a>
+        <a href="#/water/calculators" class="sitenav-sublink" data-site-link="water/calculators">Calculators</a>
       </div>
     </div>
     <button type="button" class="sitenav-btn" data-site="more">More</button>
@@ -695,6 +733,242 @@
     <p>Coming soon.</p>
   </div>
 </div>
+<div class="site-page" id="site-waterhome">
+  <div class="coming-soon">
+    <p class="cs-kicker">CAwastewater</p>
+    <h2>Water Exam Prep</h2>
+    <p><a href="#/water/t1-t4">T1&ndash;T4 Exam Prep</a></p>
+    <p><a href="#/water/t5">T5 Exam Prep</a></p>
+    <p><a href="#/water/calculators">Calculators</a></p>
+  </div>
+</div>
+<div class="site-page" id="site-t1t4">
+<div class="shell shell-calc">
+  <!-- ============ T1-T4 SIDEBAR ============ -->
+  <aside class="sidebar" id="t14Sidebar">
+    <div class="brand">
+      <h1 id="t14BrandHome" role="button" tabindex="0" aria-label="T1-T4 Exam Prep home">T1&ndash;T4 Exam Prep</h1>
+    </div>
+    <nav id="t14Nav">
+      <div class="t14-group">
+        <button type="button" class="group-label t14-group-toggle" aria-expanded="false" aria-controls="t14g-source-water">Source Water<span class="caret" aria-hidden="true">&#9662;</span></button>
+        <div class="t14-group-body" id="t14g-source-water" hidden>
+          <button type="button" class="navlink" data-t14-target="surface-water">Surface Water &amp; Reservoirs</button>
+          <button type="button" class="navlink" data-t14-target="groundwater">Wells &amp; Groundwater</button>
+          <button type="button" class="navlink" data-t14-target="watershed">Watershed Protection</button>
+          <button type="button" class="navlink" data-t14-target="storage">Raw Water &amp; Clearwell Storage</button>
+        </div>
+      </div>
+      <div class="t14-group">
+        <button type="button" class="group-label t14-group-toggle" aria-expanded="false" aria-controls="t14g-treatment">Water Treatment Processes<span class="caret" aria-hidden="true">&#9662;</span></button>
+        <div class="t14-group-body" id="t14g-treatment" hidden>
+          <button type="button" class="navlink" data-t14-target="coagfloc">Coagulation, Flocculation &amp; Sedimentation</button>
+          <button type="button" class="navlink" data-t14-target="filtration">Filtration</button>
+          <button type="button" class="navlink" data-t14-target="disinfection">Disinfection</button>
+          <button type="button" class="navlink" data-t14-target="corrosion">Corrosion Control</button>
+          <button type="button" class="navlink" data-t14-target="taste-odor">Taste &amp; Odor</button>
+          <button type="button" class="navlink" data-t14-target="iron-manganese">Iron &amp; Manganese Removal</button>
+          <button type="button" class="navlink" data-t14-target="fluoridation">Fluoridation</button>
+          <button type="button" class="navlink" data-t14-target="bat">Best Available Technology (BAT)</button>
+        </div>
+      </div>
+      <div class="t14-group">
+        <button type="button" class="group-label t14-group-toggle" aria-expanded="false" aria-controls="t14g-om">Operation &amp; Maintenance<span class="caret" aria-hidden="true">&#9662;</span></button>
+        <div class="t14-group-body" id="t14g-om" hidden>
+          <button type="button" class="navlink" data-t14-target="chem-feeders">Chemical Feeders</button>
+          <button type="button" class="navlink" data-t14-target="pumps">Pumps, Motors &amp; Gearboxes</button>
+          <button type="button" class="navlink" data-t14-target="blowers">Blowers &amp; Compressors</button>
+          <button type="button" class="navlink" data-t14-target="meters">Water Meters</button>
+          <button type="button" class="navlink" data-t14-target="gauges">Pressure Gauges</button>
+          <button type="button" class="navlink" data-t14-target="instrumentation">Instrumentation</button>
+          <button type="button" class="navlink" data-t14-target="generators">Electrical Generators</button>
+        </div>
+      </div>
+      <div class="t14-group">
+        <button type="button" class="group-label t14-group-toggle" aria-expanded="false" aria-controls="t14g-lab">Laboratory Procedures<span class="caret" aria-hidden="true">&#9662;</span></button>
+        <div class="t14-group-body" id="t14g-lab" hidden>
+          <button type="button" class="navlink" data-t14-target="sampling">Sampling</button>
+          <button type="button" class="navlink" data-t14-target="lab-practices">General Lab Practices</button>
+          <button type="button" class="navlink" data-t14-target="disinfectant-analysis">Disinfectant Analysis</button>
+          <button type="button" class="navlink" data-t14-target="alkalinity">Alkalinity Analysis</button>
+          <button type="button" class="navlink" data-t14-target="ph">pH Analysis</button>
+          <button type="button" class="navlink" data-t14-target="turbidity">Turbidity Analysis</button>
+          <button type="button" class="navlink" data-t14-target="conductance">Specific Conductance</button>
+          <button type="button" class="navlink" data-t14-target="hardness">Hardness</button>
+          <button type="button" class="navlink" data-t14-target="fluoride">Fluoride Analysis</button>
+          <button type="button" class="navlink" data-t14-target="color">Color Analysis</button>
+          <button type="button" class="navlink" data-t14-target="taste-odor-analysis">Taste &amp; Odor Analysis</button>
+          <button type="button" class="navlink" data-t14-target="micro">Microbiological Analysis</button>
+        </div>
+      </div>
+      <div class="t14-group">
+        <button type="button" class="group-label t14-group-toggle" aria-expanded="false" aria-controls="t14g-safety">Safety &amp; Regulations<span class="caret" aria-hidden="true">&#9662;</span></button>
+        <div class="t14-group-body" id="t14g-safety" hidden>
+          <button type="button" class="navlink" data-t14-target="safety">Safety</button>
+          <button type="button" class="navlink" data-t14-target="regulations">Regulations &amp; Administrative Duties</button>
+        </div>
+      </div>
+    </nav>
+  </aside>
+  <div class="backdrop" id="t14Backdrop"></div>
+
+  <!-- ============ T1-T4 MAIN ============ -->
+  <main>
+    <div class="topbar">
+      <button class="menu-btn" id="t14MenuBtn" aria-label="Open menu">☰ Menu</button>
+    </div>
+
+    <div class="calc-panel-wrap">
+
+      <section class="t14-panel" id="tp-home">
+        <div class="calc-head">
+          <h3 class="sec">T1&ndash;T4 Exam Prep</h3>
+        </div>
+        <p class="calc-note">Study material for California's written water treatment operator exams (T1 through T4). The topics in the menu follow the State Water Board's Expected Range of Knowledge for the Drinking Water Treatment Exam, organized by its five content categories. Pick a topic from the menu on the left to begin.</p>
+        <p class="calc-note">Content is being built out topic by topic. Anything not yet written is marked coming soon.</p>
+      </section>
+
+      <section class="t14-panel" id="tp-surface-water">
+        <div class="calc-head"><h3 class="sec">Surface Water &amp; Reservoirs</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-groundwater">
+        <div class="calc-head"><h3 class="sec">Wells &amp; Groundwater</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-watershed">
+        <div class="calc-head"><h3 class="sec">Watershed Protection</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-storage">
+        <div class="calc-head"><h3 class="sec">Raw Water &amp; Clearwell Storage</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+
+      <section class="t14-panel" id="tp-coagfloc">
+        <div class="calc-head"><h3 class="sec">Coagulation, Flocculation &amp; Sedimentation</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-filtration">
+        <div class="calc-head"><h3 class="sec">Filtration</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-disinfection">
+        <div class="calc-head"><h3 class="sec">Disinfection</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-corrosion">
+        <div class="calc-head"><h3 class="sec">Corrosion Control</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-taste-odor">
+        <div class="calc-head"><h3 class="sec">Taste &amp; Odor</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-iron-manganese">
+        <div class="calc-head"><h3 class="sec">Iron &amp; Manganese Removal</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-fluoridation">
+        <div class="calc-head"><h3 class="sec">Fluoridation</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-bat">
+        <div class="calc-head"><h3 class="sec">Best Available Technology (BAT)</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+
+      <section class="t14-panel" id="tp-chem-feeders">
+        <div class="calc-head"><h3 class="sec">Chemical Feeders</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-pumps">
+        <div class="calc-head"><h3 class="sec">Pumps, Motors &amp; Gearboxes</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-blowers">
+        <div class="calc-head"><h3 class="sec">Blowers &amp; Compressors</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-meters">
+        <div class="calc-head"><h3 class="sec">Water Meters</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-gauges">
+        <div class="calc-head"><h3 class="sec">Pressure Gauges</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-instrumentation">
+        <div class="calc-head"><h3 class="sec">Instrumentation</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-generators">
+        <div class="calc-head"><h3 class="sec">Electrical Generators</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+
+      <section class="t14-panel" id="tp-sampling">
+        <div class="calc-head"><h3 class="sec">Sampling</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-lab-practices">
+        <div class="calc-head"><h3 class="sec">General Lab Practices</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-disinfectant-analysis">
+        <div class="calc-head"><h3 class="sec">Disinfectant Analysis</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-alkalinity">
+        <div class="calc-head"><h3 class="sec">Alkalinity Analysis</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-ph">
+        <div class="calc-head"><h3 class="sec">pH Analysis</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-turbidity">
+        <div class="calc-head"><h3 class="sec">Turbidity Analysis</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-conductance">
+        <div class="calc-head"><h3 class="sec">Specific Conductance</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-hardness">
+        <div class="calc-head"><h3 class="sec">Hardness</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-fluoride">
+        <div class="calc-head"><h3 class="sec">Fluoride Analysis</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-color">
+        <div class="calc-head"><h3 class="sec">Color Analysis</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-taste-odor-analysis">
+        <div class="calc-head"><h3 class="sec">Taste &amp; Odor Analysis</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-micro">
+        <div class="calc-head"><h3 class="sec">Microbiological Analysis</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+
+      <section class="t14-panel" id="tp-safety">
+        <div class="calc-head"><h3 class="sec">Safety</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+      <section class="t14-panel" id="tp-regulations">
+        <div class="calc-head"><h3 class="sec">Regulations &amp; Administrative Duties</h3></div>
+        <p class="calc-note">Coming soon.</p>
+      </section>
+
+    </div>
+  </main>
+</div>
+</div>
 
 <!-- ---------- Calculators (under Wastewater) ---------- -->
 <div class="site-page" id="site-calculators">
@@ -712,14 +986,14 @@
       <button type="button" class="navlink" data-calc-target="chemfeed">Chemical Feed Rate</button>
       <button type="button" class="navlink" data-calc-target="removal">Percent Removal</button>
       <button type="button" class="navlink" data-calc-target="detention">Detention Time</button>
-      <p class="group-label">Secondary System</p>
-      <button type="button" class="navlink" data-calc-target="mcrt">Mean Cell Residence Time (MCRT)</button>
-      <button type="button" class="navlink" data-calc-target="fm">Food to Microorganism Ratio (F:M)</button>
-      <button type="button" class="navlink" data-calc-target="svi">Sludge Volume Index (SVI)</button>
+      <p class="group-label" data-ctx="ww">Secondary System</p>
+      <button type="button" class="navlink" data-ctx="ww" data-calc-target="mcrt">Mean Cell Residence Time (MCRT)</button>
+      <button type="button" class="navlink" data-ctx="ww" data-calc-target="fm">Food to Microorganism Ratio (F:M)</button>
+      <button type="button" class="navlink" data-ctx="ww" data-calc-target="svi">Sludge Volume Index (SVI)</button>
       <p class="group-label">Disinfection</p>
       <button type="button" class="navlink" data-calc-target="chlorine">Chlorine Dose, Demand &amp; Residual</button>
-      <p class="group-label">Laboratory Analysis</p>
-      <button type="button" class="navlink" data-calc-target="bod">Biochemical Oxygen Demand (BOD)</button>
+      <p class="group-label" data-ctx="ww">Laboratory Analysis</p>
+      <button type="button" class="navlink" data-ctx="ww" data-calc-target="bod">Biochemical Oxygen Demand (BOD)</button>
     </nav>
   </aside>
   <div class="backdrop" id="calcBackdrop"></div>
@@ -757,7 +1031,7 @@
       <section class="calc calc-panel" id="cp-pounds">
         <div class="calc-head">
           <h3 class="sec">The Pounds Formula</h3>
-          <p class="calc-sub">The pounds formula is very likely the single most important formula you will use in your career. It is used to calculate data such as chemical use, Solids Retention Time (SRT), organic loading rates, F:M, wasting rates, and more.</p>
+          <p class="calc-sub">The pounds formula is very likely the single most important formula you will use in your career. It is used to calculate data such as <span data-ctx="ww">chemical use, Solids Retention Time (SRT), organic loading rates, F:M, wasting rates,</span><span data-ctx="w" style="display:none">chemical use, chlorine dosages, contaminant loading rates,</span> and more.</p>
 
           <p class="calc-note">The constant this formula uses is <span class="v-const">8.34</span> pounds per gallon which turns a concentration in ppm (or mg/L) into pounds when your flow is in million gallons per day (MGD or MG). One ppm in one million gallons weighs 8.34 pounds.</p>
 
@@ -831,7 +1105,7 @@
 
           <p class="calc-note">The formula utilizes a new input called specific gravity. Specific gravity is used as a multiplier to establish the chemicals weight per gallon. A specific gravity of 1.5 means the chemical is one-and-a-half times heavier than water (8.34 lbs/gal x 1.5 = 12.51 lbs/gal), since 8.34 lbs/gal is only accurate for water itself. A chemicals specific gravity is often located in that chemicals Safety Data Sheet (SDS). If a specific gravity is not given, use a value of 1.0 which yields 8.34 lbs/gal.</p>
 
-          <p class="calc-note">On more advanced exams (Grade III and up) you may be required to use both the pounds formula and the chemical feed formula in one problem.</p>
+          <p class="calc-note">On more advanced exams (<span data-ctx="ww">Grade III</span><span data-ctx="w" style="display:none">T3</span> and up) you may be required to use both the pounds formula and the chemical feed formula in one problem.</p>
 
           <p class="calc-note">The pounds formula gives you the amount of chemical needed at 100% strength. But chemicals are often diluted to a much lower concentration. For example, household bleach is only about 6% chlorine. That's where the chemical feed formula comes in. It figures out how much of your actual, diluted chemical is needed to deliver that same 100%-strength dose.</p>
 
@@ -899,7 +1173,7 @@
       <section class="calc calc-panel" id="cp-removal">
         <div class="calc-head">
           <h3 class="sec">Percent Removal</h3>
-          <p class="calc-sub">Percent removal tells you how much of something a treatment process took out, by comparing what came in to what went out. Use it for BOD, TSS, or any constituent measured before and after a process.</p>
+          <p class="calc-sub">Percent removal tells you how much of something a treatment process took out, by comparing what came in to what went out. Use it for <span data-ctx="ww">BOD, TSS,</span><span data-ctx="w" style="display:none">turbidity, TOC,</span> or any constituent measured before and after a process.</p>
         </div>
 
         <div class="calc-eq-static calc-eq-frac">
@@ -974,7 +1248,7 @@
         <div class="calc-head">
           <h3 class="sec">Volume</h3>
           <p class="calc-sub">How much a given shape can hold. Every volume is a base area times its height. All units in this calculator use feet (ft).</p>
-          <p class="calc-note">Finding volumes is a crucial step in determining how much water or sludge is within a defined space, such as a tank, basin, channel, or digester. Determining volumes will show up frequently under all exam levels.</p>
+          <p class="calc-note">Finding volumes is a crucial step in determining <span data-ctx="ww">how much water or sludge is within a defined space, such as a tank, basin, channel, or digester.</span><span data-ctx="w" style="display:none">how much water is within a defined space, such as a tank, basin, channel, or clearwell.</span> Determining volumes will show up frequently under all exam levels.</p>
           <p class="calc-note">Select the desired shape from the dropdown menu below, then enter that shape's dimensions. As an additional step, you can select whether the desired output is in ft³ or gallons.</p>
         </div>
 
@@ -1005,7 +1279,7 @@
       <section class="calc calc-panel" id="cp-detention">
         <div class="calc-head">
           <h3 class="sec">Detention Time</h3>
-          <p class="calc-sub">Detention time is the average length of time a given volume of water or wastewater stays inside a tank, basin, or clarifier before it flows back out. It's what gives solids time to settle, chemicals time to react, or disinfectant time to do its job.</p>
+          <p class="calc-sub">Detention time is the average length of time a given volume of <span data-ctx="ww">water or wastewater</span><span data-ctx="w" style="display:none">water</span> stays inside a tank, basin, or clarifier before it flows back out. It's what gives solids time to settle, chemicals time to react, or disinfectant time to do its job.</p>
           <p class="calc-note">Dividing what's inside the tank (Volume) by what's moving through it each day (Flow) gives you an answer in days. If the question asks for hours instead, that result just needs one more multiplication by 24 hr/day &mdash; pick your desired output below.</p>
         </div>
 
@@ -4908,7 +5182,7 @@ H - Health (potential health effects and vulnerable peoples)`},
     a.addEventListener('click', function(e){
       e.preventDefault();
       if(window.__t5ShowPanel){ window.__t5ShowPanel('home'); }   // reset dashboard to home
-      go('#/water');
+      go('#/water/t5');
       a.blur(); // drop focus so :focus-within no longer holds the dropdown open
     });
   });
@@ -4926,11 +5200,31 @@ H - Health (potential health effects and vulnerable peoples)`},
   // calculators script loads after this one and registers window.__t5ShowCalcPanel
   // late, so it re-runs window.__t5Route() itself once that hook exists — otherwise a
   // direct load of #/wastewater/calculators/mcrt would resolve to Home.
-  var SECTIONS = ['home','about','wastewater','calculators','math','water','more'];
+  var SECTIONS = ['home','about','wastewater','calculators','math','more'];
 
   // Legacy bare calculator aliases from an earlier #MCRT/#lbs-style scheme — kept only
   // so old links still resolve; canonicalHash() below always emits the new nested form.
   var CALC_ALIASES = { MCRT:'mcrt', lbs:'pounds', FM:'fm' };
+  // Calculator context: the one physical Calculators page serves both menus.
+  // 'ww' = #/wastewater/calculators (all calculators); 'w' = #/water/calculators
+  // (wastewater-only calculators hidden, water wording shown). Single source of
+  // truth: formulas exist once; only prose fragments swap.
+  var currentCalcCtx = 'ww';
+  var WW_ONLY_CALCS = ['mcrt','fm','svi','bod'];
+  function setCalcContext(ctx){
+    currentCalcCtx = ctx;
+    var page = document.getElementById('site-calculators');
+    if(!page) return;
+    page.querySelectorAll('[data-ctx]').forEach(function(el){
+      el.style.display = (el.getAttribute('data-ctx') === ctx) ? '' : 'none';
+    });
+    var brand = document.getElementById('calcBrandHome');
+    if(brand){ brand.textContent = (ctx === 'w') ? 'Water Calculators' : 'Wastewater Calculators'; }
+    var cp = currentCalcPanel();
+    if(ctx === 'w' && cp && WW_ONLY_CALCS.indexOf(cp) !== -1 && window.__t5ShowCalcPanel){
+      window.__t5ShowCalcPanel('home');   // wastewater-only calc can't stay on screen in water context
+    }
+  }
   function calcPanelIdFor(token){
     if(CALC_ALIASES.hasOwnProperty(token)) return CALC_ALIASES[token];
     return document.getElementById('cp-' + token) ? token : null;
@@ -4957,6 +5251,10 @@ H - Health (potential health effects and vulnerable peoples)`},
     var el = document.querySelector('.calc-panel.active');
     return el ? el.id.replace(/^cp-/, '') : null;
   }
+  function currentT14Panel(){
+    var el = document.querySelector('.t14-panel.active');
+    return el ? el.id.replace(/^tp-/, '') : null;
+  }
   function currentMathPanel(){
     var el = document.querySelector('.math-panel.active');
     if(!el) return null;
@@ -4969,13 +5267,19 @@ H - Health (potential health effects and vulnerable peoples)`},
   function canonicalHash(){
     var sec = activeSection();
     if(sec === 'home') return '';
+    if(sec === 'waterhome') return '#/water';
+    if(sec === 't1t4'){
+      var tp = currentT14Panel();
+      return (tp && tp !== 'home') ? '#/water/t1-t4/' + tp : '#/water/t1-t4';
+    }
     if(sec === 'water'){
       var p = currentPanel();
-      return (p && p !== 'home') ? '#/water/' + p : '#/water';
+      return (p && p !== 'home') ? '#/water/t5/' + p : '#/water/t5';
     }
     if(sec === 'calculators'){
       var cp = currentCalcPanel();
-      return (cp && cp !== 'home') ? '#/wastewater/calculators/' + cp : '#/wastewater/calculators';
+      var base = (currentCalcCtx === 'w') ? '#/water/calculators' : '#/wastewater/calculators';
+      return (cp && cp !== 'home') ? base + '/' + cp : base;
     }
     if(sec === 'math'){
       var mp = currentMathPanel();
@@ -4996,18 +5300,32 @@ H - Health (potential health effects and vulnerable peoples)`},
   function route(){
     var raw = (location.hash || '').replace(/^#\/?/, '');   // drop '#' and one leading '/'
     var parts = raw ? raw.split('/') : [];
-    var section, panel = null, calcPanel = null, mathPanel = null;
+    var section, panel = null, calcPanel = null, mathPanel = null, calcCtxWanted = null, t14Panel = null;
     if(parts.length === 0){
       section = 'home';
     } else if(parts[0] === 'wastewater' && parts[1] === 'calculators'){
       section = 'calculators';    // #/wastewater/calculators[/panel] — nested under Wastewater
+      calcCtxWanted = 'ww';
       if(parts[2]){ calcPanel = calcPanelIdFor(parts[2]); }
     } else if(parts[0] === 'wastewater' && parts[1] === 'math'){
       section = 'math';           // #/wastewater/math[/panel] — nested under Wastewater
       if(parts[2]){ mathPanel = mathPanelIdFor(parts[2]); }
+    } else if(parts[0] === 'water'){
+      // #/water = landing | #/water/t5[/panel] = T5 dashboard | #/water/t1-t4 = T1-T4 prep.
+      // Legacy #/water/<panel> bookmarks (pre-split scheme) still resolve to the T5
+      // panel; canonicalHash() rewrites the address bar to #/water/t5/<panel>.
+      if(!parts[1]){ section = 'waterhome'; }
+      else if(parts[1] === 't5'){ section = 'water'; if(parts[2]){ panel = parts[2]; } }
+      else if(parts[1] === 't1-t4'){ section = 't1t4'; if(parts[2] && document.getElementById('tp-' + parts[2])){ t14Panel = parts[2]; } }
+      else if(parts[1] === 'calculators'){
+        section = 'calculators'; calcCtxWanted = 'w';
+        if(parts[2]){ calcPanel = calcPanelIdFor(parts[2]); }
+        if(calcPanel && WW_ONLY_CALCS.indexOf(calcPanel) !== -1){ calcPanel = 'home'; }
+      }
+      else if(document.getElementById('p-' + parts[1])){ section = 'water'; panel = parts[1]; }
+      else { section = 'waterhome'; }   // unknown child token -> Water landing
     } else if(SECTIONS.indexOf(parts[0]) !== -1){
       section = parts[0];
-      if(section === 'water' && parts[1]){ panel = parts[1]; }
     } else if(document.getElementById('p-' + parts[0])){
       section = 'water';          // bare panel token (internal link or old bookmark)
       panel = parts[0];
@@ -5021,6 +5339,7 @@ H - Health (potential health effects and vulnerable peoples)`},
       section = 'home';           // unknown fragment -> Home
     }
     showSite(section);
+    if(section === 'calculators'){ setCalcContext(calcCtxWanted || currentCalcCtx); }
     if(section === 'water' && panel && document.getElementById('p-' + panel) && window.__t5ShowPanel){
       window.__t5ShowPanel(panel);
     }
@@ -5029,6 +5348,9 @@ H - Health (potential health effects and vulnerable peoples)`},
     }
     if(section === 'math' && mathPanel && window.__t5ShowMathPanel){
       window.__t5ShowMathPanel(mathPanel);
+    }
+    if(section === 't1t4' && t14Panel && window.__t5ShowT14Panel){
+      window.__t5ShowT14Panel(t14Panel);
     }
     syncUrl();
   }
@@ -6673,6 +6995,76 @@ H - Health (potential health effects and vulnerable peoples)`},
   showMath('home');   // default panel
   window.__t5ShowMathPanel = showMath;   // hook: lets the top-level router drive math panels by token (#/wastewater/math/grade1)
   if(window.__t5Route){ window.__t5Route(); }   // re-apply the URL now that the hook exists, in case it named a math panel
+})();
+</script>
+
+<script>
+(function(){
+  // ---- T1-T4 Exam Prep: flat topic panels (mirrors the Calculators section — no
+  // rail, one panel visible at a time, own class since the Calculators script's
+  // showCalc() does an unscoped document.querySelectorAll('.calc-panel')). ----
+  var t14Panels = document.querySelectorAll('.t14-panel');
+  var t14Links = document.querySelectorAll('#t14Nav .navlink');
+  var t14GroupToggles = document.querySelectorAll('.t14-group-toggle');
+
+  // Collapsible sidebar groups: each group starts closed; clicking its header
+  // toggles the matching .t14-group-body via the [hidden] attribute (the
+  // caret's rotation is driven off aria-expanded in CSS, not a separate class).
+  function setT14GroupOpen(toggle, open){
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    var body = document.getElementById(toggle.getAttribute('aria-controls'));
+    if(body){ body.hidden = !open; }
+  }
+  t14GroupToggles.forEach(function(toggle){
+    toggle.addEventListener('click', function(){
+      setT14GroupOpen(toggle, toggle.getAttribute('aria-expanded') !== 'true');
+    });
+  });
+
+  // A deep link or nav click can land on a topic whose group is currently
+  // collapsed — open that one group (leaving the others as the user left them)
+  // so the active link is actually visible and its .active highlight shows.
+  function revealT14ActiveGroup(target){
+    var link = document.querySelector('#t14Nav .navlink[data-t14-target="' + target + '"]');
+    var body = link ? link.closest('.t14-group-body') : null;
+    if(!body || !body.hidden) return;
+    var toggle = document.querySelector('.t14-group-toggle[aria-controls="' + body.id + '"]');
+    if(toggle){ setT14GroupOpen(toggle, true); }
+  }
+
+  function showT14(id){
+    var target = document.getElementById('tp-' + id) ? id : 'home';
+    t14Panels.forEach(function(p){ p.classList.toggle('active', p.id === 'tp-' + target); });
+    t14Links.forEach(function(l){ l.classList.toggle('active', l.getAttribute('data-t14-target') === target); });
+    revealT14ActiveGroup(target);
+    closeT14Menu();
+  }
+
+  t14Links.forEach(function(l){
+    l.addEventListener('click', function(){
+      showT14(l.getAttribute('data-t14-target'));
+      if(window.__t5SyncUrl){ window.__t5SyncUrl(); }
+    });
+  });
+
+  var t14Brand = document.getElementById('t14BrandHome');
+  if(t14Brand){
+    t14Brand.addEventListener('click', function(){ showT14('home'); if(window.__t5SyncUrl){ window.__t5SyncUrl(); } });
+    t14Brand.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); showT14('home'); if(window.__t5SyncUrl){ window.__t5SyncUrl(); } } });
+  }
+
+  // Mobile menu (reuses dashboard sidebar classes, same as Calculators/Math).
+  var t14Sidebar = document.getElementById('t14Sidebar');
+  var t14Backdrop = document.getElementById('t14Backdrop');
+  var t14MenuBtn = document.getElementById('t14MenuBtn');
+  function openT14Menu(){ t14Sidebar.classList.add('open'); t14Backdrop.classList.add('show'); }
+  function closeT14Menu(){ t14Sidebar.classList.remove('open'); t14Backdrop.classList.remove('show'); }
+  if(t14MenuBtn){ t14MenuBtn.addEventListener('click', openT14Menu); }
+  if(t14Backdrop){ t14Backdrop.addEventListener('click', closeT14Menu); }
+
+  showT14('home');   // default panel
+  window.__t5ShowT14Panel = showT14;   // hook: lets the top-level router drive T1-T4 panels by token (#/water/t1-t4/<topic>)
+  if(window.__t5Route){ window.__t5Route(); }   // re-apply the URL now that the hook exists, in case it named a topic panel
 })();
 </script>
 </body>
